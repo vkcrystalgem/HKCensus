@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hong Kong Census Trend Monitor</title>
+  <style>
+    :root {
+      --bg: #f2ecdf;
+      --paper: #fffaf1;
+      --ink: #1d1d1b;
+      --muted: #625f57;
+      --line: #d9cfbd;
+      --shadow: 0 18px 40px rgba(40, 33, 23, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, 0.10), transparent 28%),
+        radial-gradient(circle at top right, rgba(194, 65, 12, 0.10), transparent 24%),
+        linear-gradient(180deg, #fbf7ef 0%, var(--bg) 100%);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    a { color: inherit; }
+    .shell {
+      width: min(1180px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 26px 0 72px;
+    }
+    .hero, .section {
+      background: rgba(255, 251, 242, 0.96);
+      border: 1px solid rgba(98, 95, 87, 0.16);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+    .hero { padding: 28px; }
+    .eyebrow {
+      margin: 0 0 12px;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    h1 {
+      margin: 0;
+      max-width: 9ch;
+      font-size: clamp(36px, 6vw, 68px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+    .hero-copy {
+      max-width: 70ch;
+      margin: 14px 0 0;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    .top-grid, .summary-grid, .stats-grid, .supplement-grid, .source-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .top-grid {
+      margin-top: 18px;
+      grid-template-columns: 1.2fr 1fr;
+    }
+    .summary-grid {
+      margin-top: 18px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .summary-card, .hero-note, .stat-card, .supplement-card, .source-card, .commentary-card {
+      background: var(--paper);
+      border: 1px solid rgba(98, 95, 87, 0.14);
+      border-radius: 20px;
+      padding: 16px;
+    }
+    .summary-card span, .stat-card span, .source-card span, .hero-note strong, .commentary-card span {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .summary-card strong, .stat-card strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 24px;
+      line-height: 1.05;
+    }
+    .hero-note p, .source-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .section {
+      margin-top: 18px;
+      padding: 22px;
+    }
+    .section-index {
+      margin: 0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+    .section-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: end;
+      margin-top: 8px;
+    }
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+    }
+    .main-series {
+      border: 1px solid rgba(98, 95, 87, 0.16);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .headline {
+      margin: 10px 0 6px;
+      color: #0f766e;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .insight, .chart-note {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .chart-stage {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(249, 241, 227, 0.85));
+      border: 1px solid rgba(98, 95, 87, 0.12);
+    }
+    .stats-grid {
+      margin-top: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .supplement-grid {
+      margin-top: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .supplement-card h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .supplement-meta {
+      margin: 6px 0 10px;
+      color: #0f766e;
+      font-weight: 700;
+    }
+    .supplement-subtext {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .mini-svg, .main-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .source-grid {
+      margin-top: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .source-card a {
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .commentary-card {
+      margin-top: 14px;
+      border-left: 4px solid #0f766e;
+    }
+    .commentary-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    @media (max-width: 920px) {
+      .top-grid, .summary-grid, .stats-grid, .supplement-grid, .source-grid, .section-header {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">Hong Kong C&amp;SD Historical Monitor</p>
+      <h1>Ten sections, each plotted as a local infographic.</h1>
+      <p class="hero-copy">Every chart on this page is rendered locally into inline SVG during the build step. Each section leads with the longest available historical series and then adds smaller supporting visuals for context.</p>
+
+      <div class="summary-grid">
+        <div class="summary-card"><span>Analyses</span><strong>10</strong></div>
+        <div class="summary-card"><span>Latest source date</span><strong>2026-03-26</strong></div>
+        <div class="summary-card"><span>Built at</span><strong>2026-03-28 14:16 UTC</strong></div>
+      </div>
+
+      <div class="top-grid">
+        <div class="hero-note">
+          <strong>Scope</strong>
+          <p>The report uses official Hong Kong Census and Statistics Department web-table metadata and backing CSV files. The raw cache is local, the rendering is local, and rerunning the build will fold in any newly released values for the configured tables.</p>
+        </div>
+        <div class="hero-note">
+          <strong>Update check</strong>
+          <p>No source-date changes were detected in the configured table set during this run.</p>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section">
+      <p class="section-index">Section 01</p>
+      <div class="section-header">
+        <h2>Population level</h2>
+        <div class="main-series">Primary history: Population</div>
+      </div>
+      <p class="headline">2025 Year-end: 7,510.8 thousand</p>
+      <p class="insight">Year-end population moved from 3,195.3 thousand in 1961 Year-end to 7,510.8 thousand in 2025 Year-end. The historical peak was 7,527.9 thousand in 2023 Year-end.</p>
+
+      <div class="chart-stage">
+        <svg viewBox="0 0 760 310" class="main-svg" role="img" aria-label="Population">
+  <rect x="0" y="0" width="760" height="310" rx="24" fill="#fffaf1"/>
+  <line x1="58" y1="258.00" x2="740" y2="258.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="262.00" text-anchor="end" font-size="11" fill="#625f57">3.2k</text><line x1="58" y1="179.33" x2="740" y2="179.33" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="183.33" text-anchor="end" font-size="11" fill="#625f57">4.6k</text><line x1="58" y1="100.67" x2="740" y2="100.67" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="104.67" text-anchor="end" font-size="11" fill="#625f57">6.1k</text><line x1="58" y1="22.00" x2="740" y2="22.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="26.00" text-anchor="end" font-size="11" fill="#625f57">7.5k</text>
+  <line x1="437.16" y1="22.00" x2="437.16" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="442.16" y="36.00" font-size="10" fill="#7f1d1d">1997 Asian crisis</text><line x1="465.84" y1="22.00" x2="465.84" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="470.84" y="50.00" font-size="10" fill="#7f1d1d">2000 tech bubble</text><line x1="497.93" y1="22.00" x2="497.93" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="502.93" y="36.00" font-size="10" fill="#7f1d1d">2003 SARS</text><line x1="556.60" y1="22.00" x2="556.60" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="561.60" y="50.00" font-size="10" fill="#7f1d1d">2008 GFC</text><line x1="678.99" y1="22.00" x2="678.99" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="683.99" y="36.00" font-size="10" fill="#7f1d1d">2020 COVID</text>
+  <path d="M 58.00,258.00 L 58.00,258.00 68.65,248.58 79.30,243.48 89.98,238.95 100.62,234.57 111.27,231.63 121.92,227.21 132.60,222.64 143.25,219.28 153.90,214.42 164.55,208.97 175.23,204.13 185.88,195.96 196.52,190.28 207.17,186.89 217.85,184.15 228.50,179.77 239.15,172.23 249.80,158.35 260.48,151.79 271.12,146.71 281.77,142.29 292.42,139.14 303.10,136.23 313.75,132.44 324.40,128.88 335.05,126.18 345.73,123.11 356.38,120.12 367.02,118.73 377.67,115.29 388.35,111.35 399.00,105.33 409.65,98.73 420.30,90.52 430.98,79.81 441.62,77.08 452.27,73.45 462.92,70.50 473.60,66.47 484.25,65.45 494.90,65.69 505.55,63.60 516.23,61.77 526.88,59.59 537.52,55.97 548.17,54.11 558.85,52.72 569.50,50.95 580.15,47.92 590.80,44.79 601.48,41.44 612.12,39.27 622.77,36.98 633.42,33.89 644.10,30.16 654.75,28.16 665.40,24.19 676.05,22.40 686.73,27.51 697.38,28.89 708.02,25.01 718.67,22.00 729.35,23.49 740.00,22.93 L 740.00,258.00 L 58.00,258.00 Z" fill="#0f766e" opacity="0.10"/>
+  <polyline fill="none" stroke="#0f766e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="58.00,258.00 68.65,248.58 79.30,243.48 89.98,238.95 100.62,234.57 111.27,231.63 121.92,227.21 132.60,222.64 143.25,219.28 153.90,214.42 164.55,208.97 175.23,204.13 185.88,195.96 196.52,190.28 207.17,186.89 217.85,184.15 228.50,179.77 239.15,172.23 249.80,158.35 260.48,151.79 271.12,146.71 281.77,142.29 292.42,139.14 303.10,136.23 313.75,132.44 324.40,128.88 335.05,126.18 345.73,123.11 356.38,120.12 367.02,118.73 377.67,115.29 388.35,111.35 399.00,105.33 409.65,98.73 420.30,90.52 430.98,79.81 441.62,77.08 452.27,73.45 462.92,70.50 473.60,66.47 484.25,65.45 494.90,65.69 505.55,63.60 516.23,61.77 526.88,59.59 537.52,55.97 548.17,54.11 558.85,52.72 569.50,50.95 580.15,47.92 590.80,44.79 601.48,41.44 612.12,39.27 622.77,36.98 633.42,33.89 644.10,30.16 654.75,28.16 665.40,24.19 676.05,22.40 686.73,27.51 697.38,28.89 708.02,25.01 718.67,22.00 729.35,23.49 740.00,22.93"/>
+  <circle cx="718.67" cy="22.00" r="4.5" fill="#0f766e"/>
+  <text x="718.67" y="11.00" text-anchor="middle" font-size="11" fill="#1d1d1b">Peak 7.5k</text>
+  <line x1="144.15" y1="258.00" x2="144.15" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="144.15" y="292" text-anchor="middle" font-size="11" fill="#625f57">1970s</text><line x1="250.70" y1="258.00" x2="250.70" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="250.70" y="292" text-anchor="middle" font-size="11" fill="#625f57">1980s</text><line x1="357.28" y1="258.00" x2="357.28" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="357.28" y="292" text-anchor="middle" font-size="11" fill="#625f57">1990s</text><line x1="463.83" y1="258.00" x2="463.83" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="463.83" y="292" text-anchor="middle" font-size="11" fill="#625f57">2000s</text><line x1="570.40" y1="258.00" x2="570.40" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="570.40" y="292" text-anchor="middle" font-size="11" fill="#625f57">2010s</text><line x1="676.95" y1="258.00" x2="676.95" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="676.95" y="292" text-anchor="middle" font-size="11" fill="#625f57">2020s</text>
+  <text x="58" y="18" font-size="13" font-weight="700" fill="#0f766e">Population</text>
+</svg>
+        <p class="chart-note">Year-end population, both sexes, all ages. Event lines mark major external shocks where they fall within the time range.</p>
+      </div>
+
+      <div class="stats-grid">
+        
+        <div class="stat-card">
+          <span>Coverage</span>
+          <strong>1961 Year-end to 2025 Year-end</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Latest</span>
+          <strong>7.5k</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Change</span>
+          <strong>135.1%</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Peak</span>
+          <strong>7.5k | 2023 Year-end</strong>
+        </div>
+        
+      </div>
+
+      <div class="supplement-grid">
+        
+        <article class="supplement-card">
+          <h3>Decade change</h3>
+          <p class="supplement-meta">Population delta by decade</p>
+          <svg viewBox="0 0 240 126" class="mini-svg" role="img" aria-label="bar chart">
+  <rect x="0" y="0" width="240" height="126" rx="16" fill="#fff"/>
+  <line x1="20" y1="92.00" x2="222" y2="92.00" stroke="rgba(98,95,87,0.16)" stroke-width="1"/><rect x="20.00" y="18.00" width="32.40" height="74.00" rx="8" fill="#0f766e" opacity="0.80"/><text x="36.20" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">1.1k</text><text x="36.20" y="116" text-anchor="middle" font-size="10" fill="#625f57">1970s</text><rect x="62.40" y="45.57" width="32.40" height="46.43" rx="8" fill="#0f766e" opacity="0.80"/><text x="78.60" y="39.57" text-anchor="middle" font-size="10" fill="#1d1d1b">701.8</text><text x="78.60" y="116" text-anchor="middle" font-size="10" fill="#625f57">1980s</text><rect x="104.80" y="31.73" width="32.40" height="60.27" rx="8" fill="#0f766e" opacity="0.80"/><text x="121.00" y="25.73" text-anchor="middle" font-size="10" fill="#1d1d1b">911.1</text><text x="121.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">1990s</text><rect x="147.20" y="68.26" width="32.40" height="23.74" rx="8" fill="#0f766e" opacity="0.80"/><text x="163.40" y="62.26" text-anchor="middle" font-size="10" fill="#1d1d1b">358.8</text><text x="163.40" y="116" text-anchor="middle" font-size="10" fill="#625f57">2000s</text><rect x="189.60" y="57.33" width="32.40" height="34.67" rx="8" fill="#0f766e" opacity="0.80"/><text x="205.80" y="51.33" text-anchor="middle" font-size="10" fill="#1d1d1b">524.1</text><text x="205.80" y="116" text-anchor="middle" font-size="10" fill="#625f57">2010s</text>
+</svg>
+          <p class="supplement-subtext">Absolute change versus the prior decade anchor.</p>
+        </article>
+        
+        <article class="supplement-card">
+          <h3>Recent slope</h3>
+          <p class="supplement-meta">2025 Year-end</p>
+          <svg viewBox="0 0 240 80" class="mini-svg" role="img" aria-label="Population">
+  <rect x="0" y="0" width="240" height="80" rx="16" fill="#fff"/>
+  <polyline fill="none" stroke="#0f766e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="8.00,72.00 25.23,64.85 42.46,57.31 59.69,47.13 76.92,34.86 94.15,28.28 111.38,15.21 128.62,9.33 145.85,26.15 163.08,30.67 180.31,17.92 197.54,8.00 214.77,12.90 232.00,11.07"/>
+  <circle cx="232.00" cy="11.07" r="3.5" fill="#0f766e"/>
+</svg>
+          <p class="supplement-subtext">The last 14 annual observations, isolated from the long history.</p>
+        </article>
+        
+      </div>
+
+      <div class="source-grid">
+        
+        <div class="source-card">
+          <span>Source 110-01001</span>
+          <a href="https://www.censtatd.gov.hk/en/web_table.html?id=110-01001" target="_blank" rel="noreferrer">Population by Sex and Age Group</a>
+          <p>Official C&amp;SD web table. Last modified on 2026-02-12.</p>
+        </div>
+        
+      </div>
+
+      <div class="commentary-card">
+        <span>Commentary</span>
+        <p>The long history still trends upward, but the late-series slope is flatter than in the earlier expansion decades.</p>
+      </div>
+    </section>
+    
+    <section class="section">
+      <p class="section-index">Section 02</p>
+      <div class="section-header">
+        <h2>Population growth components</h2>
+        <div class="main-series">Primary history: Population growth</div>
+      </div>
+      <p class="headline">2025 Year-end: growth 10.2 thousand, net movement 29.1 thousand</p>
+      <p class="insight">Population growth peaked at 254.8 thousand in 1979 Year-end. In the latest year, births were 31.1 thousand and deaths were 50.0 thousand.</p>
+
+      <div class="chart-stage">
+        <svg viewBox="0 0 760 310" class="main-svg" role="img" aria-label="Population growth">
+  <rect x="0" y="0" width="760" height="310" rx="24" fill="#fffaf1"/>
+  <line x1="58" y1="258.00" x2="740" y2="258.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="262.00" text-anchor="end" font-size="11" fill="#625f57">-93.9</text><line x1="58" y1="194.45" x2="740" y2="194.45" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="198.45" text-anchor="end" font-size="11" fill="#625f57">0.0</text><line x1="58" y1="179.33" x2="740" y2="179.33" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="183.33" text-anchor="end" font-size="11" fill="#625f57">22.3</text><line x1="58" y1="100.67" x2="740" y2="100.67" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="104.67" text-anchor="end" font-size="11" fill="#625f57">138.6</text><line x1="58" y1="22.00" x2="740" y2="22.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="26.00" text-anchor="end" font-size="11" fill="#625f57">254.8</text>
+  <line x1="437.16" y1="22.00" x2="437.16" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="442.16" y="36.00" font-size="10" fill="#7f1d1d">1997 Asian crisis</text><line x1="465.84" y1="22.00" x2="465.84" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="470.84" y="50.00" font-size="10" fill="#7f1d1d">2000 tech bubble</text><line x1="497.93" y1="22.00" x2="497.93" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="502.93" y="36.00" font-size="10" fill="#7f1d1d">2003 SARS</text><line x1="556.60" y1="22.00" x2="556.60" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="561.60" y="50.00" font-size="10" fill="#7f1d1d">2008 GFC</text><line x1="678.99" y1="22.00" x2="678.99" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="683.99" y="36.00" font-size="10" fill="#7f1d1d">2020 COVID</text>
+  <path d="M 58.00,149.04 L 58.00,149.04 68.65,77.43 79.30,131.10 89.98,138.07 100.62,140.10 111.27,157.90 121.92,139.49 132.60,137.67 143.25,152.76 153.90,134.01 164.55,126.70 175.23,134.35 185.88,93.00 196.52,123.79 207.17,152.35 217.85,160.47 228.50,139.97 239.15,100.78 249.80,22.00 260.48,112.96 271.12,131.24 281.77,139.63 292.42,155.26 303.10,158.24 313.75,147.41 324.40,150.25 335.05,160.88 345.73,156.34 356.38,157.29 367.02,177.19 377.67,151.61 388.35,145.52 399.00,119.73 409.65,112.35 420.30,92.45 441.62,160.54 452.27,149.31 462.92,157.77 473.60,144.43 484.25,181.72 494.90,197.49 505.55,168.46 516.23,171.78 526.88,167.31 537.52,149.44 548.17,171.37 558.85,177.19 569.50,172.45 580.15,156.75 590.80,155.60 601.48,152.83 612.12,167.44 622.77,165.96 633.42,156.01 644.10,148.16 654.75,169.54 665.40,145.18 676.05,172.18 686.73,258.00 697.38,211.44 708.02,146.40 718.67,157.02 729.35,212.86 740.00,187.55 L 740.00,258.00 L 58.00,258.00 Z" fill="#334155" opacity="0.10"/>
+  <polyline fill="none" stroke="#334155" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="58.00,149.04 68.65,77.43 79.30,131.10 89.98,138.07 100.62,140.10 111.27,157.90 121.92,139.49 132.60,137.67 143.25,152.76 153.90,134.01 164.55,126.70 175.23,134.35 185.88,93.00 196.52,123.79 207.17,152.35 217.85,160.47 228.50,139.97 239.15,100.78 249.80,22.00 260.48,112.96 271.12,131.24 281.77,139.63 292.42,155.26 303.10,158.24 313.75,147.41 324.40,150.25 335.05,160.88 345.73,156.34 356.38,157.29 367.02,177.19 377.67,151.61 388.35,145.52 399.00,119.73 409.65,112.35 420.30,92.45 441.62,160.54 452.27,149.31 462.92,157.77 473.60,144.43 484.25,181.72 494.90,197.49 505.55,168.46 516.23,171.78 526.88,167.31 537.52,149.44 548.17,171.37 558.85,177.19 569.50,172.45 580.15,156.75 590.80,155.60 601.48,152.83 612.12,167.44 622.77,165.96 633.42,156.01 644.10,148.16 654.75,169.54 665.40,145.18 676.05,172.18 686.73,258.00 697.38,211.44 708.02,146.40 718.67,157.02 729.35,212.86 740.00,187.55"/>
+  <circle cx="249.80" cy="22.00" r="4.5" fill="#334155"/>
+  <text x="249.80" y="11.00" text-anchor="middle" font-size="11" fill="#1d1d1b">Peak 254.8</text>
+  <line x1="144.15" y1="258.00" x2="144.15" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="144.15" y="292" text-anchor="middle" font-size="11" fill="#625f57">1970s</text><line x1="250.70" y1="258.00" x2="250.70" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="250.70" y="292" text-anchor="middle" font-size="11" fill="#625f57">1980s</text><line x1="357.28" y1="258.00" x2="357.28" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="357.28" y="292" text-anchor="middle" font-size="11" fill="#625f57">1990s</text><line x1="463.83" y1="258.00" x2="463.83" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="463.83" y="292" text-anchor="middle" font-size="11" fill="#625f57">2000s</text><line x1="570.40" y1="258.00" x2="570.40" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="570.40" y="292" text-anchor="middle" font-size="11" fill="#625f57">2010s</text><line x1="676.95" y1="258.00" x2="676.95" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="676.95" y="292" text-anchor="middle" font-size="11" fill="#625f57">2020s</text>
+  <text x="58" y="18" font-size="13" font-weight="700" fill="#334155">Population growth</text>
+</svg>
+        <p class="chart-note">Annual year-end population growth history. Event lines provide timing context for shocks and recoveries.</p>
+      </div>
+
+      <div class="stats-grid">
+        
+        <div class="stat-card">
+          <span>Coverage</span>
+          <strong>1961 Year-end to 2025 Year-end</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Latest</span>
+          <strong>10.2</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Change</span>
+          <strong>-84.8%</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Peak</span>
+          <strong>254.8 | 1979 Year-end</strong>
+        </div>
+        
+      </div>
+
+      <div class="supplement-grid">
+        
+        <article class="supplement-card">
+          <h3>Natural increase</h3>
+          <p class="supplement-meta">-18.9</p>
+          <svg viewBox="0 0 240 80" class="mini-svg" role="img" aria-label="Natural increase">
+  <rect x="0" y="0" width="240" height="80" rx="16" fill="#fff"/>
+  <polyline fill="none" stroke="#15803d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="8.00,9.39 11.56,9.39 15.11,8.00 18.67,10.79 22.22,13.89 25.78,19.26 29.33,21.59 32.89,24.01 36.44,24.06 40.00,26.18 43.56,26.03 47.11,26.29 50.67,25.20 54.22,24.84 57.78,26.65 61.33,27.84 64.89,27.42 68.44,27.16 72.00,27.32 75.56,25.56 79.11,24.68 82.67,25.36 86.22,27.37 89.78,29.95 93.33,30.47 96.89,33.10 100.44,34.45 104.00,32.07 107.56,35.58 111.11,36.77 114.67,36.10 118.22,35.89 121.78,36.10 125.33,35.17 128.89,37.55 132.44,42.45 136.00,46.28 139.56,47.41 143.11,46.22 146.67,49.07 150.22,49.53 153.78,51.54 157.33,50.05 160.89,47.26 164.44,42.20 168.00,40.49 171.56,37.60 175.11,35.58 178.67,32.74 182.22,29.23 185.78,32.07 189.33,49.63 192.89,47.83 196.44,49.58 200.00,49.48 203.56,51.70 207.11,53.46 210.67,54.70 214.22,60.69 217.78,64.05 221.33,72.00 224.89,67.66 228.44,64.30 232.00,66.47"/>
+  <circle cx="232.00" cy="66.47" r="3.5" fill="#15803d"/>
+</svg>
+          <p class="supplement-subtext">Births minus deaths across the full series.</p>
+        </article>
+        
+        <article class="supplement-card">
+          <h3>Latest drivers</h3>
+          <p class="supplement-meta">2025 Year-end</p>
+          <svg viewBox="0 0 240 126" class="mini-svg" role="img" aria-label="bar chart">
+  <rect x="0" y="0" width="240" height="126" rx="16" fill="#fff"/>
+  <line x1="20" y1="92.00" x2="222" y2="92.00" stroke="rgba(98,95,87,0.16)" stroke-width="1"/><rect x="22.00" y="45.97" width="42.00" height="46.03" rx="8" fill="#334155" opacity="0.80"/><text x="43.00" y="39.97" text-anchor="middle" font-size="10" fill="#1d1d1b">31.1</text><text x="43.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Births</text><rect x="74.00" y="18.00" width="42.00" height="74.00" rx="8" fill="#334155" opacity="0.80"/><text x="95.00" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">50.0</text><text x="95.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Deaths</text><rect x="126.00" y="48.93" width="42.00" height="43.07" rx="8" fill="#334155" opacity="0.80"/><text x="147.00" y="42.93" text-anchor="middle" font-size="10" fill="#1d1d1b">29.1</text><text x="147.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Net movement</text><rect x="178.00" y="76.90" width="42.00" height="15.10" rx="8" fill="#334155" opacity="0.80"/><text x="199.00" y="70.90" text-anchor="middle" font-size="10" fill="#1d1d1b">10.2</text><text x="199.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Population gro</text>
+</svg>
+          <p class="supplement-subtext">Latest year comparison across the main growth drivers.</p>
+        </article>
+        
+      </div>
+
+      <div class="source-grid">
+        
+        <div class="source-card">
+          <span>Source 110-01003</span>
+          <a href="https://www.censtatd.gov.hk/en/web_table.html?id=110-01003" target="_blank" rel="noreferrer">Population Growth by Component</a>
+          <p>Official C&amp;SD web table. Last modified on 2026-02-12.</p>
+        </div>
+        
+      </div>
+
+      <div class="commentary-card">
+        <span>Commentary</span>
+        <p>Natural increase has weakened over time, so swings in net movement now have a much larger influence on the headline growth result.</p>
+      </div>
+    </section>
+    
+    <section class="section">
+      <p class="section-index">Section 03</p>
+      <div class="section-header">
+        <h2>Ageing and dependency</h2>
+        <div class="main-series">Primary history: Median age</div>
+      </div>
+      <p class="headline">2025: median age 49.4, dependency ratio 535.0</p>
+      <p class="insight">Median age rose by 22.7 years over the series, while the total dependency ratio increased from 455.0 to 535.0.</p>
+
+      <div class="chart-stage">
+        <svg viewBox="0 0 760 310" class="main-svg" role="img" aria-label="Median age">
+  <rect x="0" y="0" width="760" height="310" rx="24" fill="#fffaf1"/>
+  <line x1="58" y1="258.00" x2="740" y2="258.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="262.00" text-anchor="end" font-size="11" fill="#625f57">26.7</text><line x1="58" y1="179.33" x2="740" y2="179.33" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="183.33" text-anchor="end" font-size="11" fill="#625f57">34.3</text><line x1="58" y1="100.67" x2="740" y2="100.67" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="104.67" text-anchor="end" font-size="11" fill="#625f57">41.8</text><line x1="58" y1="22.00" x2="740" y2="22.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="26.00" text-anchor="end" font-size="11" fill="#625f57">49.4</text>
+  <line x1="303.77" y1="22.00" x2="303.77" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="308.77" y="36.00" font-size="10" fill="#7f1d1d">1997 Asian crisis</text><line x1="346.46" y1="22.00" x2="346.46" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="351.46" y="50.00" font-size="10" fill="#7f1d1d">2000 tech bubble</text><line x1="394.22" y1="22.00" x2="394.22" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="399.22" y="36.00" font-size="10" fill="#7f1d1d">2003 SARS</text><line x1="481.55" y1="22.00" x2="481.55" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="486.55" y="50.00" font-size="10" fill="#7f1d1d">2008 GFC</text><line x1="663.71" y1="22.00" x2="663.71" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="668.71" y="36.00" font-size="10" fill="#7f1d1d">2020 COVID</text>
+  <path d="M 58.00,258.00 L 58.00,258.00 73.85,252.80 89.70,247.60 105.59,242.41 121.44,237.21 137.29,230.97 153.14,224.73 169.03,219.53 184.88,213.30 200.73,207.06 216.58,200.82 232.47,194.58 248.32,189.38 264.17,184.19 280.02,177.95 295.91,173.79 311.76,168.59 327.61,162.35 343.46,156.11 359.35,148.84 375.20,141.56 391.05,135.32 406.90,129.08 422.80,123.89 438.65,118.69 454.49,114.53 470.34,109.33 486.24,104.13 502.09,98.93 517.94,94.78 533.78,90.62 549.68,86.46 565.53,81.26 581.38,78.14 597.23,75.02 613.12,69.82 628.97,64.63 644.82,58.39 660.67,53.19 676.56,43.83 692.41,36.56 708.26,33.44 724.11,27.20 740.00,22.00 L 740.00,258.00 L 58.00,258.00 Z" fill="#a16207" opacity="0.10"/>
+  <polyline fill="none" stroke="#a16207" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="58.00,258.00 73.85,252.80 89.70,247.60 105.59,242.41 121.44,237.21 137.29,230.97 153.14,224.73 169.03,219.53 184.88,213.30 200.73,207.06 216.58,200.82 232.47,194.58 248.32,189.38 264.17,184.19 280.02,177.95 295.91,173.79 311.76,168.59 327.61,162.35 343.46,156.11 359.35,148.84 375.20,141.56 391.05,135.32 406.90,129.08 422.80,123.89 438.65,118.69 454.49,114.53 470.34,109.33 486.24,104.13 502.09,98.93 517.94,94.78 533.78,90.62 549.68,86.46 565.53,81.26 581.38,78.14 597.23,75.02 613.12,69.82 628.97,64.63 644.82,58.39 660.67,53.19 676.56,43.83 692.41,36.56 708.26,33.44 724.11,27.20 740.00,22.00"/>
+  <circle cx="740.00" cy="22.00" r="4.5" fill="#a16207"/>
+  <text x="740.00" y="11.00" text-anchor="middle" font-size="11" fill="#1d1d1b">Peak 49.4</text>
+  <line x1="105.59" y1="258.00" x2="105.59" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="105.59" y="292" text-anchor="middle" font-size="11" fill="#625f57">1985</text><line x1="184.88" y1="258.00" x2="184.88" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="184.88" y="292" text-anchor="middle" font-size="11" fill="#625f57">1990</text><line x1="264.17" y1="258.00" x2="264.17" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="264.17" y="292" text-anchor="middle" font-size="11" fill="#625f57">1995</text><line x1="343.46" y1="258.00" x2="343.46" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="343.46" y="292" text-anchor="middle" font-size="11" fill="#625f57">2000</text><line x1="422.80" y1="258.00" x2="422.80" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="422.80" y="292" text-anchor="middle" font-size="11" fill="#625f57">2005</text><line x1="502.09" y1="258.00" x2="502.09" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="502.09" y="292" text-anchor="middle" font-size="11" fill="#625f57">2010</text><line x1="581.38" y1="258.00" x2="581.38" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="581.38" y="292" text-anchor="middle" font-size="11" fill="#625f57">2015</text><line x1="660.67" y1="258.00" x2="660.67" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="660.67" y="292" text-anchor="middle" font-size="11" fill="#625f57">2020</text>
+  <text x="58" y="18" font-size="13" font-weight="700" fill="#a16207">Median age</text>
+</svg>
+        <p class="chart-note">Annual population ageing indicators, excluding foreign domestic helpers. Event lines matter less here because the shift is structural rather than cyclical.</p>
+      </div>
+
+      <div class="stats-grid">
+        
+        <div class="stat-card">
+          <span>Coverage</span>
+          <strong>1982 to 2025</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Latest</span>
+          <strong>49.4</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Change</span>
+          <strong>85.0%</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Peak</span>
+          <strong>49.4 | 2025</strong>
+        </div>
+        
+      </div>
+
+      <div class="supplement-grid">
+        
+        <article class="supplement-card">
+          <h3>Dependency ratio</h3>
+          <p class="supplement-meta">535.0</p>
+          <svg viewBox="0 0 240 80" class="mini-svg" role="img" aria-label="Dependency ratio">
+  <rect x="0" y="0" width="240" height="80" rx="16" fill="#fff"/>
+  <polyline fill="none" stroke="#4338ca" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="8.00,35.98 13.21,36.33 18.42,37.03 23.63,37.73 28.84,38.78 34.05,40.52 39.26,41.92 44.47,42.62 49.67,42.97 54.88,45.42 60.09,45.07 65.30,45.42 70.51,46.12 75.72,45.77 80.93,48.22 86.14,50.67 91.35,51.72 96.56,52.07 101.77,53.81 106.98,55.56 112.19,55.91 117.40,58.01 122.60,60.46 127.81,63.26 133.02,65.70 138.23,66.75 143.44,68.85 148.65,70.60 153.86,71.30 159.07,72.00 164.28,70.95 169.49,69.20 174.70,65.70 179.91,60.11 185.12,56.26 190.33,52.07 195.53,47.52 200.74,42.62 205.95,38.08 211.16,31.78 216.37,24.79 221.58,18.14 226.79,12.20 232.00,8.00"/>
+  <circle cx="232.00" cy="8.00" r="3.5" fill="#4338ca"/>
+</svg>
+          <p class="supplement-subtext">How many dependants are supported per 1,000 working-age people.</p>
+        </article>
+        
+        <article class="supplement-card">
+          <h3>Median age milestones</h3>
+          <p class="supplement-meta">85.0%</p>
+          <svg viewBox="0 0 240 126" class="mini-svg" role="img" aria-label="bar chart">
+  <rect x="0" y="0" width="240" height="126" rx="16" fill="#fff"/>
+  <line x1="20" y1="92.00" x2="222" y2="92.00" stroke="rgba(98,95,87,0.16)" stroke-width="1"/><rect x="48.00" y="52.00" width="42.00" height="40.00" rx="8" fill="#a16207" opacity="0.80"/><text x="69.00" y="46.00" text-anchor="middle" font-size="10" fill="#1d1d1b">26.7</text><text x="69.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Start</text><rect x="100.00" y="18.00" width="42.00" height="74.00" rx="8" fill="#a16207" opacity="0.80"/><text x="121.00" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">49.4</text><text x="121.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Latest</text><rect x="152.00" y="18.00" width="42.00" height="74.00" rx="8" fill="#a16207" opacity="0.80"/><text x="173.00" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">49.4</text><text x="173.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Peak</text>
+</svg>
+          <p class="supplement-subtext">Start, latest and peak age markers from the full history.</p>
+        </article>
+        
+      </div>
+
+      <div class="source-grid">
+        
+        <div class="source-card">
+          <span>Source 110-01004</span>
+          <a href="https://www.censtatd.gov.hk/en/web_table.html?id=110-01004" target="_blank" rel="noreferrer">Dependency ratio and median age of population</a>
+          <p>Official C&amp;SD web table. Last modified on 2026-03-26.</p>
+        </div>
+        
+      </div>
+
+      <div class="commentary-card">
+        <span>Commentary</span>
+        <p>The ageing story is persistent across shocks: short crises interrupt economic series, but they do not reverse the demographic direction of travel.</p>
+      </div>
+    </section>
+    
+    <section class="section">
+      <p class="section-index">Section 04</p>
+      <div class="section-header">
+        <h2>Fertility pressure</h2>
+        <div class="main-series">Primary history: Total fertility rate</div>
+      </div>
+      <p class="headline">2025: TFR 734.00, crude birth rate 4.1 per 1,000</p>
+      <p class="insight">Total fertility fell from a peak of 3,459.00 in 1971 to 734.00 in the latest release.</p>
+
+      <div class="chart-stage">
+        <svg viewBox="0 0 760 310" class="main-svg" role="img" aria-label="Total fertility rate">
+  <rect x="0" y="0" width="760" height="310" rx="24" fill="#fffaf1"/>
+  <line x1="58" y1="258.00" x2="740" y2="258.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="262.00" text-anchor="end" font-size="11" fill="#625f57">701.0</text><line x1="58" y1="179.33" x2="740" y2="179.33" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="183.33" text-anchor="end" font-size="11" fill="#625f57">1.6k</text><line x1="58" y1="100.67" x2="740" y2="100.67" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="104.67" text-anchor="end" font-size="11" fill="#625f57">2.5k</text><line x1="58" y1="22.00" x2="740" y2="22.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="26.00" text-anchor="end" font-size="11" fill="#625f57">3.5k</text>
+  <line x1="392.64" y1="22.00" x2="392.64" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="397.64" y="36.00" font-size="10" fill="#7f1d1d">1997 Asian crisis</text><line x1="426.63" y1="22.00" x2="426.63" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="431.63" y="50.00" font-size="10" fill="#7f1d1d">2000 tech bubble</text><line x1="464.66" y1="22.00" x2="464.66" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="469.66" y="36.00" font-size="10" fill="#7f1d1d">2003 SARS</text><line x1="534.20" y1="22.00" x2="534.20" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="539.20" y="50.00" font-size="10" fill="#7f1d1d">2008 GFC</text><line x1="679.25" y1="22.00" x2="679.25" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="684.25" y="36.00" font-size="10" fill="#7f1d1d">2020 COVID</text>
+  <path d="M 58.00,22.00 L 58.00,22.00 70.62,34.32 83.28,46.13 95.90,64.10 108.52,89.86 121.14,105.77 133.79,114.67 146.41,123.57 159.03,136.58 171.66,142.82 184.31,152.58 196.93,158.83 209.55,170.63 222.17,184.58 234.83,190.40 247.45,201.01 260.07,205.80 272.69,198.19 285.34,207.09 297.97,209.14 310.59,208.37 323.21,202.72 335.86,203.15 348.48,202.04 361.10,207.17 373.72,216.07 386.38,221.55 399.00,231.05 411.62,234.04 424.24,229.68 436.90,238.32 449.52,237.46 462.14,240.89 474.76,239.09 487.41,235.92 500.03,233.78 512.66,230.02 525.28,226.94 537.93,227.71 550.55,221.55 563.17,214.96 575.79,208.03 588.45,221.72 601.07,212.31 613.69,215.64 626.31,214.87 638.97,221.46 651.59,225.57 664.21,226.94 676.83,242.43 689.48,251.92 702.10,258.00 714.72,253.72 727.34,246.02 740.00,255.18 L 740.00,258.00 L 58.00,258.00 Z" fill="#be123c" opacity="0.10"/>
+  <polyline fill="none" stroke="#be123c" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="58.00,22.00 70.62,34.32 83.28,46.13 95.90,64.10 108.52,89.86 121.14,105.77 133.79,114.67 146.41,123.57 159.03,136.58 171.66,142.82 184.31,152.58 196.93,158.83 209.55,170.63 222.17,184.58 234.83,190.40 247.45,201.01 260.07,205.80 272.69,198.19 285.34,207.09 297.97,209.14 310.59,208.37 323.21,202.72 335.86,203.15 348.48,202.04 361.10,207.17 373.72,216.07 386.38,221.55 399.00,231.05 411.62,234.04 424.24,229.68 436.90,238.32 449.52,237.46 462.14,240.89 474.76,239.09 487.41,235.92 500.03,233.78 512.66,230.02 525.28,226.94 537.93,227.71 550.55,221.55 563.17,214.96 575.79,208.03 588.45,221.72 601.07,212.31 613.69,215.64 626.31,214.87 638.97,221.46 651.59,225.57 664.21,226.94 676.83,242.43 689.48,251.92 702.10,258.00 714.72,253.72 727.34,246.02 740.00,255.18"/>
+  <circle cx="58.00" cy="22.00" r="4.5" fill="#be123c"/>
+  <text x="58.00" y="11.00" text-anchor="middle" font-size="11" fill="#1d1d1b">Peak 3.5k</text>
+  <line x1="171.66" y1="258.00" x2="171.66" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="171.66" y="292" text-anchor="middle" font-size="11" fill="#625f57">1980s</text><line x1="297.97" y1="258.00" x2="297.97" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="297.97" y="292" text-anchor="middle" font-size="11" fill="#625f57">1990s</text><line x1="424.24" y1="258.00" x2="424.24" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="424.24" y="292" text-anchor="middle" font-size="11" fill="#625f57">2000s</text><line x1="550.55" y1="258.00" x2="550.55" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="550.55" y="292" text-anchor="middle" font-size="11" fill="#625f57">2010s</text><line x1="676.83" y1="258.00" x2="676.83" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="676.83" y="292" text-anchor="middle" font-size="11" fill="#625f57">2020s</text>
+  <text x="58" y="18" font-size="13" font-weight="700" fill="#be123c">Total fertility rate</text>
+</svg>
+        <p class="chart-note">Annual fertility indicators. Event lines are included for orientation, but the dominant pattern is the long-run downtrend.</p>
+      </div>
+
+      <div class="stats-grid">
+        
+        <div class="stat-card">
+          <span>Coverage</span>
+          <strong>1971 to 2025</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Latest</span>
+          <strong>734.0</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Change</span>
+          <strong>-78.8%</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Peak</span>
+          <strong>3.5k | 1971</strong>
+        </div>
+        
+      </div>
+
+      <div class="supplement-grid">
+        
+        <article class="supplement-card">
+          <h3>Crude birth rate</h3>
+          <p class="supplement-meta">4.1</p>
+          <svg viewBox="0 0 240 80" class="mini-svg" role="img" aria-label="Crude birth rate">
+  <rect x="0" y="0" width="240" height="80" rx="16" fill="#fff"/>
+  <polyline fill="none" stroke="#c2410c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="8.00,8.00 11.50,10.07 15.00,11.11 18.50,16.91 22.00,22.29 25.50,28.09 29.00,31.40 32.50,35.55 36.00,36.38 39.50,39.07 43.00,39.69 46.50,40.10 50.00,40.31 53.50,40.93 57.00,43.42 60.50,44.45 64.00,44.25 67.50,44.66 71.00,45.70 74.50,45.28 78.00,45.70 81.50,46.52 85.00,48.18 88.50,50.67 92.00,51.50 95.50,53.57 99.00,54.39 102.50,52.74 106.00,55.02 109.50,55.64 113.00,55.64 116.50,55.02 120.00,55.64 123.50,55.84 127.00,57.29 130.50,59.99 134.00,61.64 137.50,63.72 141.00,64.34 144.50,63.72 148.00,65.58 151.50,65.79 155.00,65.99 158.50,65.37 162.00,63.09 165.50,60.61 169.00,59.37 172.50,57.09 176.00,56.05 179.50,54.39 183.00,52.53 186.50,53.98 190.00,63.92 193.50,62.68 197.00,63.51 200.50,63.30 204.00,64.75 207.50,65.58 211.00,65.99 214.50,68.48 218.00,70.14 221.50,71.38 225.00,71.38 228.50,70.34 232.00,72.00"/>
+  <circle cx="232.00" cy="72.00" r="3.5" fill="#c2410c"/>
+</svg>
+          <p class="supplement-subtext">Births per 1,000 population across the same history.</p>
+        </article>
+        
+        <article class="supplement-card">
+          <h3>Fertility milestones</h3>
+          <p class="supplement-meta">-78.8%</p>
+          <svg viewBox="0 0 240 126" class="mini-svg" role="img" aria-label="bar chart">
+  <rect x="0" y="0" width="240" height="126" rx="16" fill="#fff"/>
+  <line x1="20" y1="92.00" x2="222" y2="92.00" stroke="rgba(98,95,87,0.16)" stroke-width="1"/><rect x="48.00" y="18.00" width="42.00" height="74.00" rx="8" fill="#be123c" opacity="0.80"/><text x="69.00" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">3.5k</text><text x="69.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Start</text><rect x="100.00" y="76.30" width="42.00" height="15.70" rx="8" fill="#be123c" opacity="0.80"/><text x="121.00" y="70.30" text-anchor="middle" font-size="10" fill="#1d1d1b">734.0</text><text x="121.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Latest</text><rect x="152.00" y="18.00" width="42.00" height="74.00" rx="8" fill="#be123c" opacity="0.80"/><text x="173.00" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">3.5k</text><text x="173.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Peak</text>
+</svg>
+          <p class="supplement-subtext">Start, latest and historical peak in the total fertility rate.</p>
+        </article>
+        
+      </div>
+
+      <div class="source-grid">
+        
+        <div class="source-card">
+          <span>Source 115-01011</span>
+          <a href="https://www.censtatd.gov.hk/en/web_table.html?id=115-01011" target="_blank" rel="noreferrer">Vital Events</a>
+          <p>Official C&amp;SD web table. Last modified on 2026-03-26.</p>
+        </div>
+        
+      </div>
+
+      <div class="commentary-card">
+        <span>Commentary</span>
+        <p>The fertility decline is much larger than any temporary rebound, which is why the ageing and household sections reinforce this one.</p>
+      </div>
+    </section>
+    
+    <section class="section">
+      <p class="section-index">Section 05</p>
+      <div class="section-header">
+        <h2>Household downsizing</h2>
+        <div class="main-series">Primary history: 1-2 person household share</div>
+      </div>
+      <p class="headline">2025: 1-2 person households = 56.0% of all households</p>
+      <p class="insight">The one-to-two-person share rose from 31.4% to 56.0% across the series.</p>
+
+      <div class="chart-stage">
+        <svg viewBox="0 0 760 310" class="main-svg" role="img" aria-label="1-2 person household share">
+  <rect x="0" y="0" width="760" height="310" rx="24" fill="#fffaf1"/>
+  <line x1="58" y1="258.00" x2="740" y2="258.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="262.00" text-anchor="end" font-size="11" fill="#625f57">31.4</text><line x1="58" y1="179.33" x2="740" y2="179.33" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="183.33" text-anchor="end" font-size="11" fill="#625f57">39.6</text><line x1="58" y1="100.67" x2="740" y2="100.67" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="104.67" text-anchor="end" font-size="11" fill="#625f57">47.8</text><line x1="58" y1="22.00" x2="740" y2="22.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="26.00" text-anchor="end" font-size="11" fill="#625f57">56.0</text>
+  <line x1="153.81" y1="22.00" x2="153.81" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="158.81" y="36.00" font-size="10" fill="#7f1d1d">1997 Asian crisis</text><line x1="211.17" y1="22.00" x2="211.17" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="216.17" y="50.00" font-size="10" fill="#7f1d1d">2000 tech bubble</text><line x1="275.36" y1="22.00" x2="275.36" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="280.36" y="36.00" font-size="10" fill="#7f1d1d">2003 SARS</text><line x1="392.70" y1="22.00" x2="392.70" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="397.70" y="50.00" font-size="10" fill="#7f1d1d">2008 GFC</text><line x1="637.48" y1="22.00" x2="637.48" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="642.48" y="36.00" font-size="10" fill="#7f1d1d">2020 COVID</text>
+  <path d="M 58.00,258.00 L 58.00,258.00 79.30,255.19 100.60,254.27 121.89,246.14 143.25,232.82 164.55,229.43 185.85,231.91 207.14,226.77 228.50,210.91 249.80,205.87 271.10,191.60 292.39,189.52 313.75,170.43 335.05,160.44 356.35,156.90 377.64,153.55 399.00,148.28 420.30,146.18 441.60,141.00 462.89,136.51 484.25,129.15 505.55,124.22 526.85,115.87 548.14,109.18 569.50,106.07 590.80,98.65 612.10,90.88 633.39,85.89 654.75,69.36 676.05,56.64 697.35,56.91 718.64,34.93 740.00,22.00 L 740.00,258.00 L 58.00,258.00 Z" fill="#334155" opacity="0.10"/>
+  <polyline fill="none" stroke="#334155" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="58.00,258.00 79.30,255.19 100.60,254.27 121.89,246.14 143.25,232.82 164.55,229.43 185.85,231.91 207.14,226.77 228.50,210.91 249.80,205.87 271.10,191.60 292.39,189.52 313.75,170.43 335.05,160.44 356.35,156.90 377.64,153.55 399.00,148.28 420.30,146.18 441.60,141.00 462.89,136.51 484.25,129.15 505.55,124.22 526.85,115.87 548.14,109.18 569.50,106.07 590.80,98.65 612.10,90.88 633.39,85.89 654.75,69.36 676.05,56.64 697.35,56.91 718.64,34.93 740.00,22.00"/>
+  <circle cx="740.00" cy="22.00" r="4.5" fill="#334155"/>
+  <text x="740.00" y="11.00" text-anchor="middle" font-size="11" fill="#1d1d1b">Peak 56.0</text>
+  <line x1="100.60" y1="258.00" x2="100.60" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="100.60" y="292" text-anchor="middle" font-size="11" fill="#625f57">1995</text><line x1="207.14" y1="258.00" x2="207.14" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="207.14" y="292" text-anchor="middle" font-size="11" fill="#625f57">2000</text><line x1="313.75" y1="258.00" x2="313.75" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="313.75" y="292" text-anchor="middle" font-size="11" fill="#625f57">2005</text><line x1="420.30" y1="258.00" x2="420.30" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="420.30" y="292" text-anchor="middle" font-size="11" fill="#625f57">2010</text><line x1="526.85" y1="258.00" x2="526.85" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="526.85" y="292" text-anchor="middle" font-size="11" fill="#625f57">2015</text><line x1="633.39" y1="258.00" x2="633.39" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="633.39" y="292" text-anchor="middle" font-size="11" fill="#625f57">2020</text><line x1="740.00" y1="258.00" x2="740.00" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="740.00" y="292" text-anchor="middle" font-size="11" fill="#625f57">2025</text>
+  <text x="58" y="18" font-size="13" font-weight="700" fill="#334155">1-2 person household share</text>
+</svg>
+        <p class="chart-note">Annual share computed from Domestic households by household size (excluding foreign domestic helpers).</p>
+      </div>
+
+      <div class="stats-grid">
+        
+        <div class="stat-card">
+          <span>Coverage</span>
+          <strong>1993 to 2025</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Latest</span>
+          <strong>56.0</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Change</span>
+          <strong>78.3%</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Peak</span>
+          <strong>56.0 | 2025</strong>
+        </div>
+        
+      </div>
+
+      <div class="supplement-grid">
+        
+        <article class="supplement-card">
+          <h3>One-person households</h3>
+          <p class="supplement-meta">23.4</p>
+          <svg viewBox="0 0 240 80" class="mini-svg" role="img" aria-label="1 person household share">
+  <rect x="0" y="0" width="240" height="80" rx="16" fill="#fff"/>
+  <polyline fill="none" stroke="#c2410c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="8.00,71.87 15.00,71.78 22.00,72.00 29.00,70.83 36.00,67.31 43.00,66.03 50.00,68.09 57.00,68.60 64.00,64.94 71.00,65.21 78.00,60.85 85.00,63.40 92.00,53.10 99.00,49.20 106.00,50.58 113.00,50.64 120.00,50.28 127.00,48.91 134.00,46.61 141.00,46.02 148.00,45.70 155.00,43.41 162.00,39.43 169.00,34.51 176.00,35.37 183.00,31.71 190.00,30.99 197.00,28.45 204.00,22.83 211.00,18.70 218.00,20.95 225.00,10.58 232.00,8.00"/>
+  <circle cx="232.00" cy="8.00" r="3.5" fill="#c2410c"/>
+</svg>
+          <p class="supplement-subtext">Share of all domestic households occupied by one person.</p>
+        </article>
+        
+        <article class="supplement-card">
+          <h3>Two-person households</h3>
+          <p class="supplement-meta">32.6</p>
+          <svg viewBox="0 0 240 80" class="mini-svg" role="img" aria-label="2 person household share">
+  <rect x="0" y="0" width="240" height="80" rx="16" fill="#fff"/>
+  <polyline fill="none" stroke="#0f766e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="8.00,72.00 15.00,70.76 22.00,70.17 29.00,67.24 36.00,63.57 43.00,62.90 50.00,62.59 57.00,59.85 64.00,55.09 71.00,52.57 78.00,49.05 85.00,46.27 92.00,44.75 99.00,42.89 106.00,40.27 113.00,38.67 120.00,36.49 127.00,36.48 134.00,35.72 141.00,34.05 148.00,30.87 155.00,30.22 162.00,29.17 169.00,29.56 176.00,27.51 183.00,26.68 190.00,23.59 197.00,23.08 204.00,19.41 211.00,16.45 218.00,14.98 225.00,12.16 232.00,8.00"/>
+  <circle cx="232.00" cy="8.00" r="3.5" fill="#0f766e"/>
+</svg>
+          <p class="supplement-subtext">Share of all domestic households occupied by two people.</p>
+        </article>
+        
+      </div>
+
+      <div class="source-grid">
+        
+        <div class="source-card">
+          <span>Source 130-06601A</span>
+          <a href="https://www.censtatd.gov.hk/en/web_table.html?id=130-06601A" target="_blank" rel="noreferrer">Domestic households by household size (excluding foreign domestic helpers)</a>
+          <p>Official C&amp;SD web table. Last modified on 2026-03-18.</p>
+        </div>
+        
+      </div>
+
+      <div class="commentary-card">
+        <span>Commentary</span>
+        <p>Housing demand can keep rising even when headline population slows, because smaller household size increases the number of households that need space.</p>
+      </div>
+    </section>
+    
+    <section class="section">
+      <p class="section-index">Section 06</p>
+      <div class="section-header">
+        <h2>Household income</h2>
+        <div class="main-series">Primary history: Median monthly household income</div>
+      </div>
+      <p class="headline">2025: HK$30,000 median monthly income</p>
+      <p class="insight">Median monthly household income rose from HK$13,000 to HK$30,000, a nominal increase of 130.8%.</p>
+
+      <div class="chart-stage">
+        <svg viewBox="0 0 760 310" class="main-svg" role="img" aria-label="Median monthly household income">
+  <rect x="0" y="0" width="760" height="310" rx="24" fill="#fffaf1"/>
+  <line x1="58" y1="258.00" x2="740" y2="258.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="262.00" text-anchor="end" font-size="11" fill="#625f57">13.0k</text><line x1="58" y1="179.33" x2="740" y2="179.33" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="183.33" text-anchor="end" font-size="11" fill="#625f57">18.7k</text><line x1="58" y1="100.67" x2="740" y2="100.67" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="104.67" text-anchor="end" font-size="11" fill="#625f57">24.3k</text><line x1="58" y1="22.00" x2="740" y2="22.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="26.00" text-anchor="end" font-size="11" fill="#625f57">30.0k</text>
+  <line x1="153.81" y1="22.00" x2="153.81" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="158.81" y="36.00" font-size="10" fill="#7f1d1d">1997 Asian crisis</text><line x1="211.17" y1="22.00" x2="211.17" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="216.17" y="50.00" font-size="10" fill="#7f1d1d">2000 tech bubble</text><line x1="275.36" y1="22.00" x2="275.36" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="280.36" y="36.00" font-size="10" fill="#7f1d1d">2003 SARS</text><line x1="392.70" y1="22.00" x2="392.70" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="397.70" y="50.00" font-size="10" fill="#7f1d1d">2008 GFC</text><line x1="637.48" y1="22.00" x2="637.48" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="642.48" y="36.00" font-size="10" fill="#7f1d1d">2020 COVID</text>
+  <path d="M 58.00,258.00 L 58.00,258.00 79.30,230.24 100.60,216.35 121.89,195.53 143.25,174.71 164.55,188.59 185.85,196.92 207.14,188.59 228.50,188.59 249.80,202.47 271.10,220.52 292.39,216.35 313.75,216.35 335.05,206.64 356.35,195.53 377.64,187.20 399.00,192.75 420.30,188.59 441.60,166.38 462.89,149.72 484.25,133.06 505.55,119.18 526.85,98.35 548.14,91.41 569.50,73.36 590.80,48.38 612.10,35.88 633.39,60.87 654.75,62.26 676.05,49.76 697.35,23.39 718.64,24.78 740.00,22.00 L 740.00,258.00 L 58.00,258.00 Z" fill="#15803d" opacity="0.10"/>
+  <polyline fill="none" stroke="#15803d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="58.00,258.00 79.30,230.24 100.60,216.35 121.89,195.53 143.25,174.71 164.55,188.59 185.85,196.92 207.14,188.59 228.50,188.59 249.80,202.47 271.10,220.52 292.39,216.35 313.75,216.35 335.05,206.64 356.35,195.53 377.64,187.20 399.00,192.75 420.30,188.59 441.60,166.38 462.89,149.72 484.25,133.06 505.55,119.18 526.85,98.35 548.14,91.41 569.50,73.36 590.80,48.38 612.10,35.88 633.39,60.87 654.75,62.26 676.05,49.76 697.35,23.39 718.64,24.78 740.00,22.00"/>
+  <circle cx="740.00" cy="22.00" r="4.5" fill="#15803d"/>
+  <text x="740.00" y="11.00" text-anchor="middle" font-size="11" fill="#1d1d1b">Peak 30.0k</text>
+  <line x1="100.60" y1="258.00" x2="100.60" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="100.60" y="292" text-anchor="middle" font-size="11" fill="#625f57">1995</text><line x1="207.14" y1="258.00" x2="207.14" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="207.14" y="292" text-anchor="middle" font-size="11" fill="#625f57">2000</text><line x1="313.75" y1="258.00" x2="313.75" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="313.75" y="292" text-anchor="middle" font-size="11" fill="#625f57">2005</text><line x1="420.30" y1="258.00" x2="420.30" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="420.30" y="292" text-anchor="middle" font-size="11" fill="#625f57">2010</text><line x1="526.85" y1="258.00" x2="526.85" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="526.85" y="292" text-anchor="middle" font-size="11" fill="#625f57">2015</text><line x1="633.39" y1="258.00" x2="633.39" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="633.39" y="292" text-anchor="middle" font-size="11" fill="#625f57">2020</text><line x1="740.00" y1="258.00" x2="740.00" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="740.00" y="292" text-anchor="middle" font-size="11" fill="#625f57">2025</text>
+  <text x="58" y="18" font-size="13" font-weight="700" fill="#15803d">Median monthly household income</text>
+</svg>
+        <p class="chart-note">Annual overall median, excluding foreign domestic helpers. This section uses the income level as the main history and the year-on-year rate as a supporting read.</p>
+      </div>
+
+      <div class="stats-grid">
+        
+        <div class="stat-card">
+          <span>Coverage</span>
+          <strong>1993 to 2025</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Latest</span>
+          <strong>30.0k</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Change</span>
+          <strong>130.8%</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Peak</span>
+          <strong>30.0k | 2025</strong>
+        </div>
+        
+      </div>
+
+      <div class="supplement-grid">
+        
+        <article class="supplement-card">
+          <h3>Income growth rate</h3>
+          <p class="supplement-meta">+0.7%</p>
+          <svg viewBox="0 0 240 80" class="mini-svg" role="img" aria-label="Income YoY change">
+  <rect x="0" y="0" width="240" height="80" rx="16" fill="#fff"/>
+  <polyline fill="none" stroke="#a16207" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="8.00,8.00 15.23,32.23 22.45,24.70 29.68,26.93 36.90,65.38 44.13,60.01 51.35,41.17 58.58,50.75 65.81,66.19 73.03,72.00 80.26,45.44 87.48,50.75 94.71,38.59 101.94,37.44 109.16,41.22 116.39,56.89 123.61,46.04 130.84,26.05 138.06,33.74 145.29,34.72 152.52,38.12 159.74,32.63 166.97,45.08 174.19,36.30 181.42,31.73 188.65,41.85 195.87,68.00 203.10,51.77 210.32,41.52 217.55,31.89 224.77,51.68 232.00,48.89"/>
+  <circle cx="232.00" cy="48.89" r="3.5" fill="#a16207"/>
+</svg>
+          <p class="supplement-subtext">Year-on-year change in the annual median household income series.</p>
+        </article>
+        
+        <article class="supplement-card">
+          <h3>Income milestones</h3>
+          <p class="supplement-meta">130.8%</p>
+          <svg viewBox="0 0 240 126" class="mini-svg" role="img" aria-label="bar chart">
+  <rect x="0" y="0" width="240" height="126" rx="16" fill="#fff"/>
+  <line x1="20" y1="92.00" x2="222" y2="92.00" stroke="rgba(98,95,87,0.16)" stroke-width="1"/><rect x="48.00" y="59.93" width="42.00" height="32.07" rx="8" fill="#15803d" opacity="0.80"/><text x="69.00" y="53.93" text-anchor="middle" font-size="10" fill="#1d1d1b">13.0k</text><text x="69.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Start</text><rect x="100.00" y="18.00" width="42.00" height="74.00" rx="8" fill="#15803d" opacity="0.80"/><text x="121.00" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">30.0k</text><text x="121.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Latest</text><rect x="152.00" y="18.00" width="42.00" height="74.00" rx="8" fill="#15803d" opacity="0.80"/><text x="173.00" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">30.0k</text><text x="173.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Peak</text>
+</svg>
+          <p class="supplement-subtext">Start, latest and peak income levels in nominal HK dollars.</p>
+        </article>
+        
+      </div>
+
+      <div class="source-grid">
+        
+        <div class="source-card">
+          <span>Source 130-06606A</span>
+          <a href="https://www.censtatd.gov.hk/en/web_table.html?id=130-06606A" target="_blank" rel="noreferrer">Median monthly household income by household size (excluding foreign domestic helpers)</a>
+          <p>Official C&amp;SD web table. Last modified on 2026-03-18.</p>
+        </div>
+        
+      </div>
+
+      <div class="commentary-card">
+        <span>Commentary</span>
+        <p>The long-run rise is clear, but this is a nominal series, so it should be read alongside the inflation section rather than on its own.</p>
+      </div>
+    </section>
+    
+    <section class="section">
+      <p class="section-index">Section 07</p>
+      <div class="section-header">
+        <h2>Labour force participation</h2>
+        <div class="main-series">Primary history: Labour force participation rate</div>
+      </div>
+      <p class="headline">2025: participation 57.0%, labour force 3,811.3 thousand</p>
+      <p class="insight">Participation peaked at 65.1% in 1986 and now sits at 57.0%.</p>
+
+      <div class="chart-stage">
+        <svg viewBox="0 0 760 310" class="main-svg" role="img" aria-label="Labour force participation rate">
+  <rect x="0" y="0" width="760" height="310" rx="24" fill="#fffaf1"/>
+  <line x1="58" y1="258.00" x2="740" y2="258.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="262.00" text-anchor="end" font-size="11" fill="#625f57">57.0</text><line x1="58" y1="179.33" x2="740" y2="179.33" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="183.33" text-anchor="end" font-size="11" fill="#625f57">59.7</text><line x1="58" y1="100.67" x2="740" y2="100.67" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="104.67" text-anchor="end" font-size="11" fill="#625f57">62.4</text><line x1="58" y1="22.00" x2="740" y2="22.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="26.00" text-anchor="end" font-size="11" fill="#625f57">65.1</text>
+  <line x1="271.05" y1="22.00" x2="271.05" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="276.05" y="36.00" font-size="10" fill="#7f1d1d">1997 Asian crisis</text><line x1="316.94" y1="22.00" x2="316.94" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="321.94" y="50.00" font-size="10" fill="#7f1d1d">2000 tech bubble</text><line x1="368.28" y1="22.00" x2="368.28" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="373.28" y="36.00" font-size="10" fill="#7f1d1d">2003 SARS</text><line x1="462.16" y1="22.00" x2="462.16" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="467.16" y="50.00" font-size="10" fill="#7f1d1d">2008 GFC</text><line x1="657.98" y1="22.00" x2="657.98" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="662.98" y="36.00" font-size="10" fill="#7f1d1d">2020 COVID</text>
+  <path d="M 58.00,30.74 L 58.00,30.74 75.04,22.00 92.08,27.83 109.11,33.65 126.20,62.79 143.24,77.36 160.28,68.62 177.31,100.67 194.40,103.58 211.44,112.32 228.48,112.32 245.51,123.98 262.60,132.72 279.64,132.72 296.68,132.72 313.71,129.80 330.80,126.89 347.84,121.06 364.88,129.80 381.91,132.72 399.00,144.37 416.04,135.63 433.08,135.63 450.11,144.37 467.20,147.28 484.24,182.25 501.28,167.68 518.31,156.02 535.40,135.63 552.44,138.54 569.48,138.54 586.51,138.54 603.60,138.54 620.64,132.72 637.68,150.20 654.71,179.33 671.80,188.07 688.84,223.04 705.88,249.26 722.91,258.00 740.00,258.00 L 740.00,258.00 L 58.00,258.00 Z" fill="#1d4ed8" opacity="0.10"/>
+  <polyline fill="none" stroke="#1d4ed8" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="58.00,30.74 75.04,22.00 92.08,27.83 109.11,33.65 126.20,62.79 143.24,77.36 160.28,68.62 177.31,100.67 194.40,103.58 211.44,112.32 228.48,112.32 245.51,123.98 262.60,132.72 279.64,132.72 296.68,132.72 313.71,129.80 330.80,126.89 347.84,121.06 364.88,129.80 381.91,132.72 399.00,144.37 416.04,135.63 433.08,135.63 450.11,144.37 467.20,147.28 484.24,182.25 501.28,167.68 518.31,156.02 535.40,135.63 552.44,138.54 569.48,138.54 586.51,138.54 603.60,138.54 620.64,132.72 637.68,150.20 654.71,179.33 671.80,188.07 688.84,223.04 705.88,249.26 722.91,258.00 740.00,258.00"/>
+  <circle cx="75.04" cy="22.00" r="4.5" fill="#1d4ed8"/>
+  <text x="75.04" y="11.00" text-anchor="middle" font-size="11" fill="#1d1d1b">Peak 65.1</text>
+  <line x1="143.24" y1="258.00" x2="143.24" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="143.24" y="292" text-anchor="middle" font-size="11" fill="#625f57">1990</text><line x1="228.48" y1="258.00" x2="228.48" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="228.48" y="292" text-anchor="middle" font-size="11" fill="#625f57">1995</text><line x1="313.71" y1="258.00" x2="313.71" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="313.71" y="292" text-anchor="middle" font-size="11" fill="#625f57">2000</text><line x1="399.00" y1="258.00" x2="399.00" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="399.00" y="292" text-anchor="middle" font-size="11" fill="#625f57">2005</text><line x1="484.24" y1="258.00" x2="484.24" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="484.24" y="292" text-anchor="middle" font-size="11" fill="#625f57">2010</text><line x1="569.48" y1="258.00" x2="569.48" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="569.48" y="292" text-anchor="middle" font-size="11" fill="#625f57">2015</text><line x1="654.71" y1="258.00" x2="654.71" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="654.71" y="292" text-anchor="middle" font-size="11" fill="#625f57">2020</text><line x1="740.00" y1="258.00" x2="740.00" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="740.00" y="292" text-anchor="middle" font-size="11" fill="#625f57">2025</text>
+  <text x="58" y="18" font-size="13" font-weight="700" fill="#1d4ed8">Labour force participation rate</text>
+</svg>
+        <p class="chart-note">Annual averages for both sexes. The participation rate is the cleaner structural signal, while labour force size is kept as a supporting graphic.</p>
+      </div>
+
+      <div class="stats-grid">
+        
+        <div class="stat-card">
+          <span>Coverage</span>
+          <strong>1985 to 2025</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Latest</span>
+          <strong>57.0</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Change</span>
+          <strong>-12.0%</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Peak</span>
+          <strong>65.1 | 1986</strong>
+        </div>
+        
+      </div>
+
+      <div class="supplement-grid">
+        
+        <article class="supplement-card">
+          <h3>Labour force count</h3>
+          <p class="supplement-meta">3.8k</p>
+          <svg viewBox="0 0 240 80" class="mini-svg" role="img" aria-label="Labour force">
+  <rect x="0" y="0" width="240" height="80" rx="16" fill="#fff"/>
+  <polyline fill="none" stroke="#0f766e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="8.00,72.00 13.60,68.60 19.20,67.27 24.80,65.65 30.40,66.12 36.00,66.34 41.60,63.72 47.20,64.27 52.80,61.28 58.40,57.89 64.00,54.54 69.60,47.06 75.20,43.60 80.80,41.67 86.40,39.64 92.00,37.09 97.60,34.61 103.20,32.49 108.80,32.81 114.40,30.61 120.00,29.61 125.60,27.86 131.20,25.50 136.80,24.80 142.40,23.72 148.00,25.08 153.60,21.72 159.20,18.03 164.80,14.62 170.40,13.87 176.00,12.37 181.60,11.58 187.20,9.91 192.80,8.00 198.40,8.42 204.00,11.66 209.60,13.91 215.20,18.30 220.80,16.15 226.40,16.85 232.00,16.67"/>
+  <circle cx="232.00" cy="16.67" r="3.5" fill="#0f766e"/>
+</svg>
+          <p class="supplement-subtext">Absolute labour force size in thousands.</p>
+        </article>
+        
+        <article class="supplement-card">
+          <h3>Participation milestones</h3>
+          <p class="supplement-meta">-12.0%</p>
+          <svg viewBox="0 0 240 126" class="mini-svg" role="img" aria-label="bar chart">
+  <rect x="0" y="0" width="240" height="126" rx="16" fill="#fff"/>
+  <line x1="20" y1="92.00" x2="222" y2="92.00" stroke="rgba(98,95,87,0.16)" stroke-width="1"/><rect x="48.00" y="18.34" width="42.00" height="73.66" rx="8" fill="#1d4ed8" opacity="0.80"/><text x="69.00" y="12.34" text-anchor="middle" font-size="10" fill="#1d1d1b">64.8</text><text x="69.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Start</text><rect x="100.00" y="27.21" width="42.00" height="64.79" rx="8" fill="#1d4ed8" opacity="0.80"/><text x="121.00" y="21.21" text-anchor="middle" font-size="10" fill="#1d1d1b">57.0</text><text x="121.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Latest</text><rect x="152.00" y="18.00" width="42.00" height="74.00" rx="8" fill="#1d4ed8" opacity="0.80"/><text x="173.00" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">65.1</text><text x="173.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">Peak</text>
+</svg>
+          <p class="supplement-subtext">Start, latest and peak participation readings.</p>
+        </article>
+        
+      </div>
+
+      <div class="source-grid">
+        
+        <div class="source-card">
+          <span>Source 210-06101</span>
+          <a href="https://www.censtatd.gov.hk/en/web_table.html?id=210-06101" target="_blank" rel="noreferrer">Statistics on labour force, employment, unemployment and underemployment</a>
+          <p>Official C&amp;SD web table. Last modified on 2026-03-18.</p>
+        </div>
+        
+      </div>
+
+      <div class="commentary-card">
+        <span>Commentary</span>
+        <p>A large labour-force headcount does not fully offset a softer participation rate, which is why ageing pressure matters for labour supply.</p>
+      </div>
+    </section>
+    
+    <section class="section">
+      <p class="section-index">Section 08</p>
+      <div class="section-header">
+        <h2>Unemployment cycle</h2>
+        <div class="main-series">Primary history: Seasonally adjusted unemployment rate</div>
+      </div>
+      <p class="headline">2026-02: 3.8% seasonally adjusted</p>
+      <p class="insight">The seasonally adjusted unemployment rate ranged from 1.0% in 1989-12 to 8.5% in 2003-06.</p>
+
+      <div class="chart-stage">
+        <svg viewBox="0 0 760 310" class="main-svg" role="img" aria-label="Seasonally adjusted unemployment rate">
+  <rect x="0" y="0" width="760" height="310" rx="24" fill="#fffaf1"/>
+  <line x1="58" y1="258.00" x2="740" y2="258.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="262.00" text-anchor="end" font-size="11" fill="#625f57">1.0</text><line x1="58" y1="179.33" x2="740" y2="179.33" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="183.33" text-anchor="end" font-size="11" fill="#625f57">3.5</text><line x1="58" y1="100.67" x2="740" y2="100.67" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="104.67" text-anchor="end" font-size="11" fill="#625f57">6.0</text><line x1="58" y1="22.00" x2="740" y2="22.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="26.00" text-anchor="end" font-size="11" fill="#625f57">8.5</text>
+  <line x1="263.55" y1="22.00" x2="263.55" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="268.55" y="36.00" font-size="10" fill="#7f1d1d">1997 Asian crisis</text><line x1="308.41" y1="22.00" x2="308.41" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="313.41" y="50.00" font-size="10" fill="#7f1d1d">2000 tech bubble</text><line x1="358.60" y1="22.00" x2="358.60" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="363.60" y="36.00" font-size="10" fill="#7f1d1d">2003 SARS</text><line x1="450.35" y1="22.00" x2="450.35" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="455.35" y="50.00" font-size="10" fill="#7f1d1d">2008 GFC</text><line x1="641.76" y1="22.00" x2="641.76" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="646.76" y="36.00" font-size="10" fill="#7f1d1d">2020 COVID</text>
+  <path d="M 58.00,198.21 L 58.00,198.21 62.20,191.92 66.40,179.33 70.55,185.63 74.65,191.92 78.85,188.77 83.05,198.21 87.20,223.39 91.31,226.53 95.51,235.97 99.70,239.12 103.86,235.97 108.01,245.41 112.21,235.97 116.40,248.56 120.56,254.85 124.66,254.85 128.86,254.85 133.06,254.85 137.21,258.00 141.32,242.27 145.51,248.56 149.71,245.41 153.86,251.71 157.97,239.12 162.17,229.68 166.37,232.83 170.52,229.68 174.67,220.24 178.87,229.68 183.07,239.12 187.22,213.95 191.32,223.39 192.74,229.68 194.11,232.83 195.52,232.83 196.89,229.68 198.31,229.68 199.72,229.68 201.09,226.53 202.50,223.39 203.87,223.39 205.29,226.53 206.70,232.83 207.98,229.68 209.39,235.97 210.76,235.97 212.18,242.27 213.55,235.97 214.96,229.68 216.37,217.09 217.74,220.24 219.16,220.24 220.53,226.53 221.94,220.24 223.36,213.95 224.63,210.80 226.05,207.65 227.42,210.80 228.83,198.21 230.20,185.63 231.61,176.19 233.03,173.04 234.40,176.19 235.81,173.04 237.18,173.04 238.60,182.48 240.01,191.92 241.33,198.21 242.75,198.21 244.12,195.07 245.53,198.21 246.90,198.21 248.31,204.51 249.73,207.65 251.10,210.80 252.51,207.65 253.88,210.80 255.29,210.80 256.71,217.09 257.99,217.09 259.40,217.09 260.77,220.24 262.18,220.24 263.55,220.24 264.97,223.39 266.38,223.39 267.75,220.24 269.17,220.24 270.53,220.24 271.95,213.95 273.36,195.07 274.64,185.63 276.06,176.19 277.42,166.75 278.84,154.16 280.21,138.43 281.62,135.28 283.04,125.84 284.41,119.55 285.82,116.40 287.19,103.81 288.60,88.08 290.02,88.08 291.30,91.23 292.71,94.37 294.08,94.37 295.49,97.52 296.86,97.52 298.28,97.52 299.69,91.23 301.06,91.23 302.47,91.23 303.84,91.23 305.26,100.67 306.67,103.81 308.00,113.25 309.41,122.69 310.78,128.99 312.19,128.99 313.56,132.13 314.98,135.28 316.39,138.43 317.76,141.57 319.17,147.87 320.54,151.01 321.96,151.01 323.37,147.87 324.65,147.87 326.06,147.87 327.43,147.87 328.85,147.87 330.22,147.87 331.63,138.43 333.04,125.84 334.41,116.40 335.83,100.67 337.20,91.23 338.61,78.64 340.03,75.49 341.30,69.20 342.72,66.05 344.09,59.76 345.50,53.47 346.87,53.47 348.28,56.61 349.70,59.76 351.07,59.76 352.48,59.76 353.85,56.61 355.27,56.61 356.68,50.32 357.96,53.47 359.37,44.03 360.74,31.44 362.16,22.00 363.52,25.15 364.94,25.15 366.35,31.44 367.72,37.73 369.14,50.32 370.51,53.47 371.92,53.47 373.33,59.76 374.66,62.91 376.07,66.05 377.44,72.35 378.86,78.64 380.22,81.79 381.64,81.79 383.05,78.64 384.42,78.64 385.84,78.64 387.21,81.79 388.62,88.08 390.03,97.52 391.31,100.67 392.73,103.81 394.10,110.11 395.51,110.11 396.88,110.11 398.29,113.25 399.71,119.55 401.08,122.69 402.49,119.55 403.86,125.84 405.27,125.84 406.69,128.99 407.97,128.99 409.38,132.13 410.75,135.28 412.16,135.28 413.53,135.28 414.95,138.43 416.36,144.72 417.73,144.72 419.14,147.87 420.51,147.87 421.93,147.87 423.34,154.16 424.62,154.16 426.03,154.16 427.40,154.16 428.82,157.31 430.19,160.45 431.60,157.31 433.02,160.45 434.38,163.60 435.80,173.04 437.17,182.48 438.58,182.48 440.00,185.63 441.32,185.63 442.73,185.63 444.10,185.63 445.52,188.77 446.89,188.77 448.30,185.63 449.72,179.33 451.08,176.19 452.50,166.75 453.87,160.45 455.28,144.72 456.70,128.99 457.97,125.84 459.39,122.69 460.76,122.69 462.17,122.69 463.54,119.55 464.96,116.40 466.37,119.55 467.74,125.84 469.15,128.99 470.52,132.13 471.94,135.28 473.35,141.57 474.63,144.72 476.04,147.87 477.41,144.72 478.83,144.72 480.19,154.16 481.61,154.16 483.02,157.31 484.39,157.31 485.81,163.60 487.18,166.75 488.59,169.89 490.00,176.19 491.28,179.33 492.70,176.19 494.07,176.19 495.48,176.19 496.85,179.33 498.26,185.63 499.68,185.63 501.05,185.63 502.46,185.63 503.83,185.63 505.24,188.77 506.66,182.48 507.98,185.63 509.40,185.63 510.77,188.77 512.18,185.63 513.55,188.77 514.96,185.63 516.38,182.48 517.75,182.48 519.16,182.48 520.53,188.77 521.94,179.33 523.36,179.33 524.64,179.33 526.05,179.33 527.42,179.33 528.83,182.48 530.20,185.63 531.62,185.63 533.03,185.63 534.40,185.63 535.82,185.63 537.18,188.77 538.60,188.77 540.01,191.92 541.29,188.77 542.71,188.77 544.07,188.77 545.49,188.77 546.86,185.63 548.27,185.63 549.69,185.63 551.05,185.63 552.47,185.63 553.84,185.63 555.25,185.63 556.67,185.63 557.94,185.63 559.36,185.63 560.73,185.63 562.14,185.63 563.51,185.63 564.93,185.63 566.34,185.63 567.71,185.63 569.12,185.63 570.49,185.63 571.91,182.48 573.32,182.48 574.64,182.48 576.06,182.48 577.43,182.48 578.84,182.48 580.21,182.48 581.63,182.48 583.04,182.48 584.41,182.48 585.82,185.63 587.19,185.63 588.61,185.63 590.02,185.63 591.30,185.63 592.71,188.77 594.08,188.77 595.50,191.92 596.87,188.77 598.28,191.92 599.69,191.92 601.06,195.07 602.48,195.07 603.85,198.21 605.26,198.21 606.68,198.21 607.95,201.36 609.37,201.36 610.74,201.36 612.15,201.36 613.52,201.36 614.93,201.36 616.35,201.36 617.72,201.36 619.13,201.36 620.50,201.36 621.92,201.36 623.33,201.36 624.61,201.36 626.02,201.36 627.39,201.36 628.80,201.36 630.17,201.36 631.59,198.21 633.00,198.21 634.37,195.07 635.79,191.92 637.15,185.63 638.57,182.48 639.98,169.89 641.31,154.16 642.72,125.84 644.09,103.81 645.50,97.52 646.87,100.67 648.29,97.52 649.70,94.37 651.07,91.23 652.49,94.37 653.85,81.79 655.27,69.20 656.68,62.91 657.96,75.49 659.38,88.08 660.74,100.67 662.16,119.55 663.53,135.28 664.94,144.72 666.36,147.87 667.73,154.16 669.14,157.31 670.51,163.60 671.92,166.75 673.34,147.87 674.62,128.99 676.03,116.40 677.40,128.99 678.81,141.57 680.18,154.16 681.60,160.45 683.01,163.60 684.38,169.89 685.79,176.19 687.16,179.33 688.58,182.48 689.99,185.63 691.27,191.92 692.68,195.07 694.05,195.07 695.47,195.07 696.84,201.36 698.25,201.36 699.66,201.36 701.03,198.21 702.45,198.21 703.82,198.21 705.23,198.21 706.65,198.21 707.97,195.07 709.38,195.07 710.75,195.07 712.17,195.07 713.54,195.07 714.95,195.07 716.36,195.07 717.73,191.92 719.15,191.92 720.52,191.92 721.93,191.92 723.35,188.77 724.62,188.77 726.04,182.48 727.41,179.33 728.82,179.33 730.19,173.04 731.60,173.04 733.02,166.75 734.39,169.89 735.80,169.89 737.17,169.89 738.59,166.75 740.00,169.89 L 740.00,258.00 L 58.00,258.00 Z" fill="#b91c1c" opacity="0.10"/>
+  <polyline fill="none" stroke="#b91c1c" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="58.00,198.21 62.20,191.92 66.40,179.33 70.55,185.63 74.65,191.92 78.85,188.77 83.05,198.21 87.20,223.39 91.31,226.53 95.51,235.97 99.70,239.12 103.86,235.97 108.01,245.41 112.21,235.97 116.40,248.56 120.56,254.85 124.66,254.85 128.86,254.85 133.06,254.85 137.21,258.00 141.32,242.27 145.51,248.56 149.71,245.41 153.86,251.71 157.97,239.12 162.17,229.68 166.37,232.83 170.52,229.68 174.67,220.24 178.87,229.68 183.07,239.12 187.22,213.95 191.32,223.39 192.74,229.68 194.11,232.83 195.52,232.83 196.89,229.68 198.31,229.68 199.72,229.68 201.09,226.53 202.50,223.39 203.87,223.39 205.29,226.53 206.70,232.83 207.98,229.68 209.39,235.97 210.76,235.97 212.18,242.27 213.55,235.97 214.96,229.68 216.37,217.09 217.74,220.24 219.16,220.24 220.53,226.53 221.94,220.24 223.36,213.95 224.63,210.80 226.05,207.65 227.42,210.80 228.83,198.21 230.20,185.63 231.61,176.19 233.03,173.04 234.40,176.19 235.81,173.04 237.18,173.04 238.60,182.48 240.01,191.92 241.33,198.21 242.75,198.21 244.12,195.07 245.53,198.21 246.90,198.21 248.31,204.51 249.73,207.65 251.10,210.80 252.51,207.65 253.88,210.80 255.29,210.80 256.71,217.09 257.99,217.09 259.40,217.09 260.77,220.24 262.18,220.24 263.55,220.24 264.97,223.39 266.38,223.39 267.75,220.24 269.17,220.24 270.53,220.24 271.95,213.95 273.36,195.07 274.64,185.63 276.06,176.19 277.42,166.75 278.84,154.16 280.21,138.43 281.62,135.28 283.04,125.84 284.41,119.55 285.82,116.40 287.19,103.81 288.60,88.08 290.02,88.08 291.30,91.23 292.71,94.37 294.08,94.37 295.49,97.52 296.86,97.52 298.28,97.52 299.69,91.23 301.06,91.23 302.47,91.23 303.84,91.23 305.26,100.67 306.67,103.81 308.00,113.25 309.41,122.69 310.78,128.99 312.19,128.99 313.56,132.13 314.98,135.28 316.39,138.43 317.76,141.57 319.17,147.87 320.54,151.01 321.96,151.01 323.37,147.87 324.65,147.87 326.06,147.87 327.43,147.87 328.85,147.87 330.22,147.87 331.63,138.43 333.04,125.84 334.41,116.40 335.83,100.67 337.20,91.23 338.61,78.64 340.03,75.49 341.30,69.20 342.72,66.05 344.09,59.76 345.50,53.47 346.87,53.47 348.28,56.61 349.70,59.76 351.07,59.76 352.48,59.76 353.85,56.61 355.27,56.61 356.68,50.32 357.96,53.47 359.37,44.03 360.74,31.44 362.16,22.00 363.52,25.15 364.94,25.15 366.35,31.44 367.72,37.73 369.14,50.32 370.51,53.47 371.92,53.47 373.33,59.76 374.66,62.91 376.07,66.05 377.44,72.35 378.86,78.64 380.22,81.79 381.64,81.79 383.05,78.64 384.42,78.64 385.84,78.64 387.21,81.79 388.62,88.08 390.03,97.52 391.31,100.67 392.73,103.81 394.10,110.11 395.51,110.11 396.88,110.11 398.29,113.25 399.71,119.55 401.08,122.69 402.49,119.55 403.86,125.84 405.27,125.84 406.69,128.99 407.97,128.99 409.38,132.13 410.75,135.28 412.16,135.28 413.53,135.28 414.95,138.43 416.36,144.72 417.73,144.72 419.14,147.87 420.51,147.87 421.93,147.87 423.34,154.16 424.62,154.16 426.03,154.16 427.40,154.16 428.82,157.31 430.19,160.45 431.60,157.31 433.02,160.45 434.38,163.60 435.80,173.04 437.17,182.48 438.58,182.48 440.00,185.63 441.32,185.63 442.73,185.63 444.10,185.63 445.52,188.77 446.89,188.77 448.30,185.63 449.72,179.33 451.08,176.19 452.50,166.75 453.87,160.45 455.28,144.72 456.70,128.99 457.97,125.84 459.39,122.69 460.76,122.69 462.17,122.69 463.54,119.55 464.96,116.40 466.37,119.55 467.74,125.84 469.15,128.99 470.52,132.13 471.94,135.28 473.35,141.57 474.63,144.72 476.04,147.87 477.41,144.72 478.83,144.72 480.19,154.16 481.61,154.16 483.02,157.31 484.39,157.31 485.81,163.60 487.18,166.75 488.59,169.89 490.00,176.19 491.28,179.33 492.70,176.19 494.07,176.19 495.48,176.19 496.85,179.33 498.26,185.63 499.68,185.63 501.05,185.63 502.46,185.63 503.83,185.63 505.24,188.77 506.66,182.48 507.98,185.63 509.40,185.63 510.77,188.77 512.18,185.63 513.55,188.77 514.96,185.63 516.38,182.48 517.75,182.48 519.16,182.48 520.53,188.77 521.94,179.33 523.36,179.33 524.64,179.33 526.05,179.33 527.42,179.33 528.83,182.48 530.20,185.63 531.62,185.63 533.03,185.63 534.40,185.63 535.82,185.63 537.18,188.77 538.60,188.77 540.01,191.92 541.29,188.77 542.71,188.77 544.07,188.77 545.49,188.77 546.86,185.63 548.27,185.63 549.69,185.63 551.05,185.63 552.47,185.63 553.84,185.63 555.25,185.63 556.67,185.63 557.94,185.63 559.36,185.63 560.73,185.63 562.14,185.63 563.51,185.63 564.93,185.63 566.34,185.63 567.71,185.63 569.12,185.63 570.49,185.63 571.91,182.48 573.32,182.48 574.64,182.48 576.06,182.48 577.43,182.48 578.84,182.48 580.21,182.48 581.63,182.48 583.04,182.48 584.41,182.48 585.82,185.63 587.19,185.63 588.61,185.63 590.02,185.63 591.30,185.63 592.71,188.77 594.08,188.77 595.50,191.92 596.87,188.77 598.28,191.92 599.69,191.92 601.06,195.07 602.48,195.07 603.85,198.21 605.26,198.21 606.68,198.21 607.95,201.36 609.37,201.36 610.74,201.36 612.15,201.36 613.52,201.36 614.93,201.36 616.35,201.36 617.72,201.36 619.13,201.36 620.50,201.36 621.92,201.36 623.33,201.36 624.61,201.36 626.02,201.36 627.39,201.36 628.80,201.36 630.17,201.36 631.59,198.21 633.00,198.21 634.37,195.07 635.79,191.92 637.15,185.63 638.57,182.48 639.98,169.89 641.31,154.16 642.72,125.84 644.09,103.81 645.50,97.52 646.87,100.67 648.29,97.52 649.70,94.37 651.07,91.23 652.49,94.37 653.85,81.79 655.27,69.20 656.68,62.91 657.96,75.49 659.38,88.08 660.74,100.67 662.16,119.55 663.53,135.28 664.94,144.72 666.36,147.87 667.73,154.16 669.14,157.31 670.51,163.60 671.92,166.75 673.34,147.87 674.62,128.99 676.03,116.40 677.40,128.99 678.81,141.57 680.18,154.16 681.60,160.45 683.01,163.60 684.38,169.89 685.79,176.19 687.16,179.33 688.58,182.48 689.99,185.63 691.27,191.92 692.68,195.07 694.05,195.07 695.47,195.07 696.84,201.36 698.25,201.36 699.66,201.36 701.03,198.21 702.45,198.21 703.82,198.21 705.23,198.21 706.65,198.21 707.97,195.07 709.38,195.07 710.75,195.07 712.17,195.07 713.54,195.07 714.95,195.07 716.36,195.07 717.73,191.92 719.15,191.92 720.52,191.92 721.93,191.92 723.35,188.77 724.62,188.77 726.04,182.48 727.41,179.33 728.82,179.33 730.19,173.04 731.60,173.04 733.02,166.75 734.39,169.89 735.80,169.89 737.17,169.89 738.59,166.75 740.00,169.89"/>
+  <circle cx="362.16" cy="22.00" r="4.5" fill="#b91c1c"/>
+  <text x="362.16" y="11.00" text-anchor="middle" font-size="11" fill="#1d1d1b">Peak 8.5</text>
+  <line x1="138.62" y1="258.00" x2="138.62" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="138.62" y="292" text-anchor="middle" font-size="11" fill="#625f57">1990</text><line x1="221.94" y1="258.00" x2="221.94" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="221.94" y="292" text-anchor="middle" font-size="11" fill="#625f57">1995</text><line x1="305.26" y1="258.00" x2="305.26" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="305.26" y="292" text-anchor="middle" font-size="11" fill="#625f57">2000</text><line x1="388.62" y1="258.00" x2="388.62" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="388.62" y="292" text-anchor="middle" font-size="11" fill="#625f57">2005</text><line x1="471.94" y1="258.00" x2="471.94" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="471.94" y="292" text-anchor="middle" font-size="11" fill="#625f57">2010</text><line x1="555.25" y1="258.00" x2="555.25" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="555.25" y="292" text-anchor="middle" font-size="11" fill="#625f57">2015</text><line x1="638.57" y1="258.00" x2="638.57" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="638.57" y="292" text-anchor="middle" font-size="11" fill="#625f57">2020</text><line x1="721.93" y1="258.00" x2="721.93" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="721.93" y="292" text-anchor="middle" font-size="11" fill="#625f57">2025</text>
+  <text x="58" y="18" font-size="13" font-weight="700" fill="#b91c1c">Seasonally adjusted unemployment rate</text>
+</svg>
+        <p class="chart-note">Monthly moving 3-month series from the General Household Survey.</p>
+      </div>
+
+      <div class="stats-grid">
+        
+        <div class="stat-card">
+          <span>Coverage</span>
+          <strong>1985-03 to 2026-02</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Latest</span>
+          <strong>3.8</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Change</span>
+          <strong>31.0%</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Peak</span>
+          <strong>8.5 | 2003-06</strong>
+        </div>
+        
+      </div>
+
+      <div class="supplement-grid">
+        
+        <article class="supplement-card">
+          <h3>Recent cycle</h3>
+          <p class="supplement-meta">2026-02</p>
+          <svg viewBox="0 0 240 80" class="mini-svg" role="img" aria-label="Seasonally adjusted unemployment rate">
+  <rect x="0" y="0" width="240" height="80" rx="16" fill="#fff"/>
+  <polyline fill="none" stroke="#b91c1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="8.00,50.18 11.15,37.09 14.31,26.91 17.46,24.00 20.62,25.45 23.77,24.00 26.93,22.55 30.08,21.09 33.24,22.55 36.39,16.73 39.55,10.91 42.70,8.00 45.86,13.82 49.01,19.64 52.17,25.45 55.32,34.18 58.48,41.45 61.63,45.82 64.79,47.27 67.94,50.18 71.10,51.64 74.25,54.55 77.41,56.00 80.56,47.27 83.72,38.55 86.87,32.73 90.03,38.55 93.18,44.36 96.34,50.18 99.49,53.09 102.65,54.55 105.80,57.45 108.96,60.36 112.11,61.82 115.27,63.27 118.42,64.73 121.58,67.64 124.73,69.09 127.89,69.09 131.04,69.09 134.20,72.00 137.35,72.00 140.51,72.00 143.66,70.55 146.82,70.55 149.97,70.55 153.13,70.55 156.28,70.55 159.44,69.09 162.59,69.09 165.75,69.09 168.90,69.09 172.06,69.09 175.21,69.09 178.37,69.09 181.52,67.64 184.68,67.64 187.83,67.64 190.99,67.64 194.14,66.18 197.30,66.18 200.45,63.27 203.61,61.82 206.76,61.82 209.92,58.91 213.07,58.91 216.23,56.00 219.38,57.45 222.54,57.45 225.69,57.45 228.85,56.00 232.00,57.45"/>
+  <circle cx="232.00" cy="57.45" r="3.5" fill="#b91c1c"/>
+</svg>
+          <p class="supplement-subtext">A zoomed view of the last 72 monthly observations.</p>
+        </article>
+        
+        <article class="supplement-card">
+          <h3>Shock snapshots</h3>
+          <p class="supplement-meta">2026-02</p>
+          <svg viewBox="0 0 240 126" class="mini-svg" role="img" aria-label="bar chart">
+  <rect x="0" y="0" width="240" height="126" rx="16" fill="#fff"/>
+  <line x1="20" y1="92.00" x2="222" y2="92.00" stroke="rgba(98,95,87,0.16)" stroke-width="1"/><rect x="20.00" y="36.75" width="32.40" height="55.25" rx="8" fill="#b91c1c" opacity="0.80"/><text x="36.20" y="30.75" text-anchor="middle" font-size="10" fill="#1d1d1b">5.6</text><text x="36.20" y="116" text-anchor="middle" font-size="10" fill="#625f57">2000 tech</text><rect x="62.40" y="18.00" width="32.40" height="74.00" rx="8" fill="#b91c1c" opacity="0.80"/><text x="78.60" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">7.5</text><text x="78.60" y="116" text-anchor="middle" font-size="10" fill="#625f57">2003 SARS</text><rect x="104.80" y="57.47" width="32.40" height="34.53" rx="8" fill="#b91c1c" opacity="0.80"/><text x="121.00" y="51.47" text-anchor="middle" font-size="10" fill="#1d1d1b">3.5</text><text x="121.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">2008 GFC</text><rect x="147.20" y="49.57" width="32.40" height="42.43" rx="8" fill="#b91c1c" opacity="0.80"/><text x="163.40" y="43.57" text-anchor="middle" font-size="10" fill="#1d1d1b">4.3</text><text x="163.40" y="116" text-anchor="middle" font-size="10" fill="#625f57">2020 COVID</text><rect x="189.60" y="54.51" width="32.40" height="37.49" rx="8" fill="#b91c1c" opacity="0.80"/><text x="205.80" y="48.51" text-anchor="middle" font-size="10" fill="#1d1d1b">3.8</text><text x="205.80" y="116" text-anchor="middle" font-size="10" fill="#625f57">Latest</text>
+</svg>
+          <p class="supplement-subtext">Nearest readings around major event markers plus the latest point.</p>
+        </article>
+        
+      </div>
+
+      <div class="source-grid">
+        
+        <div class="source-card">
+          <span>Source 210-06101</span>
+          <a href="https://www.censtatd.gov.hk/en/web_table.html?id=210-06101" target="_blank" rel="noreferrer">Statistics on labour force, employment, unemployment and underemployment</a>
+          <p>Official C&amp;SD web table. Last modified on 2026-03-18.</p>
+        </div>
+        
+      </div>
+
+      <div class="commentary-card">
+        <span>Commentary</span>
+        <p>Unlike ageing or fertility, unemployment is sharply cyclical. The event markers matter here because labour-market stress tends to cluster around shocks.</p>
+      </div>
+    </section>
+    
+    <section class="section">
+      <p class="section-index">Section 09</p>
+      <div class="section-header">
+        <h2>Real GDP per capita</h2>
+        <div class="main-series">Primary history: Real GDP per capita</div>
+      </div>
+      <p class="headline">2025: HK$422,236 per person in chained dollars</p>
+      <p class="insight">Real GDP per capita climbed from HK$35,960 to HK$422,236. The series high is HK$422,236 in 2025.</p>
+
+      <div class="chart-stage">
+        <svg viewBox="0 0 760 310" class="main-svg" role="img" aria-label="Real GDP per capita">
+  <rect x="0" y="0" width="760" height="310" rx="24" fill="#fffaf1"/>
+  <line x1="58" y1="258.00" x2="740" y2="258.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="262.00" text-anchor="end" font-size="11" fill="#625f57">36.0k</text><line x1="58" y1="179.33" x2="740" y2="179.33" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="183.33" text-anchor="end" font-size="11" fill="#625f57">164.7k</text><line x1="58" y1="100.67" x2="740" y2="100.67" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="104.67" text-anchor="end" font-size="11" fill="#625f57">293.5k</text><line x1="58" y1="22.00" x2="740" y2="22.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="26.00" text-anchor="end" font-size="11" fill="#625f57">422.2k</text>
+  <line x1="446.91" y1="22.00" x2="446.91" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="451.91" y="36.00" font-size="10" fill="#7f1d1d">1997 Asian crisis</text><line x1="475.58" y1="22.00" x2="475.58" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="480.58" y="50.00" font-size="10" fill="#7f1d1d">2000 tech bubble</text><line x1="507.68" y1="22.00" x2="507.68" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="512.68" y="36.00" font-size="10" fill="#7f1d1d">2003 SARS</text><line x1="566.35" y1="22.00" x2="566.35" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="571.35" y="50.00" font-size="10" fill="#7f1d1d">2008 GFC</text><line x1="688.74" y1="22.00" x2="688.74" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="693.74" y="36.00" font-size="10" fill="#7f1d1d">2020 COVID</text>
+  <path d="M 58.00,258.00 L 58.00,258.00 68.65,255.90 79.30,253.05 89.95,251.43 100.62,248.09 111.27,247.81 121.92,248.11 132.57,247.72 143.25,244.63 153.90,242.30 164.55,240.42 175.20,237.05 185.88,233.12 196.52,233.48 207.17,234.13 217.82,227.39 228.50,222.06 239.15,218.40 249.80,214.94 260.45,210.25 271.12,205.57 281.77,204.55 292.42,201.25 303.07,194.24 313.75,194.52 324.40,186.24 335.05,174.75 345.70,166.75 356.38,165.37 367.02,161.36 377.67,155.63 388.32,148.98 399.00,143.23 409.65,138.20 420.30,137.68 430.95,138.07 441.62,132.07 452.27,141.92 462.92,139.81 473.57,130.39 484.25,130.66 494.90,128.85 505.55,123.93 516.20,111.67 526.88,100.02 537.52,88.60 548.17,77.97 558.82,74.91 569.50,80.38 580.15,68.43 590.80,59.73 601.45,58.45 612.12,52.49 622.77,47.84 633.42,44.31 644.07,40.68 654.75,33.49 665.40,28.50 676.05,34.52 686.70,49.76 697.38,32.66 708.02,39.60 718.67,38.28 729.32,31.53 740.00,22.00 L 740.00,258.00 L 58.00,258.00 Z" fill="#4338ca" opacity="0.10"/>
+  <polyline fill="none" stroke="#4338ca" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="58.00,258.00 68.65,255.90 79.30,253.05 89.95,251.43 100.62,248.09 111.27,247.81 121.92,248.11 132.57,247.72 143.25,244.63 153.90,242.30 164.55,240.42 175.20,237.05 185.88,233.12 196.52,233.48 207.17,234.13 217.82,227.39 228.50,222.06 239.15,218.40 249.80,214.94 260.45,210.25 271.12,205.57 281.77,204.55 292.42,201.25 303.07,194.24 313.75,194.52 324.40,186.24 335.05,174.75 345.70,166.75 356.38,165.37 367.02,161.36 377.67,155.63 388.32,148.98 399.00,143.23 409.65,138.20 420.30,137.68 430.95,138.07 441.62,132.07 452.27,141.92 462.92,139.81 473.57,130.39 484.25,130.66 494.90,128.85 505.55,123.93 516.20,111.67 526.88,100.02 537.52,88.60 548.17,77.97 558.82,74.91 569.50,80.38 580.15,68.43 590.80,59.73 601.45,58.45 612.12,52.49 622.77,47.84 633.42,44.31 644.07,40.68 654.75,33.49 665.40,28.50 676.05,34.52 686.70,49.76 697.38,32.66 708.02,39.60 718.67,38.28 729.32,31.53 740.00,22.00"/>
+  <circle cx="740.00" cy="22.00" r="4.5" fill="#4338ca"/>
+  <text x="740.00" y="11.00" text-anchor="middle" font-size="11" fill="#1d1d1b">Peak 422.2k</text>
+  <line x1="153.90" y1="258.00" x2="153.90" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="153.90" y="292" text-anchor="middle" font-size="11" fill="#625f57">1970s</text><line x1="260.45" y1="258.00" x2="260.45" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="260.45" y="292" text-anchor="middle" font-size="11" fill="#625f57">1980s</text><line x1="367.02" y1="258.00" x2="367.02" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="367.02" y="292" text-anchor="middle" font-size="11" fill="#625f57">1990s</text><line x1="473.57" y1="258.00" x2="473.57" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="473.57" y="292" text-anchor="middle" font-size="11" fill="#625f57">2000s</text><line x1="580.15" y1="258.00" x2="580.15" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="580.15" y="292" text-anchor="middle" font-size="11" fill="#625f57">2010s</text><line x1="686.70" y1="258.00" x2="686.70" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="686.70" y="292" text-anchor="middle" font-size="11" fill="#625f57">2020s</text>
+  <text x="58" y="18" font-size="13" font-weight="700" fill="#4338ca">Real GDP per capita</text>
+</svg>
+        <p class="chart-note">Annual chained-dollar GDP and real GDP per capita. Event lines are especially useful here because external crises show up clearly in the macro cycle.</p>
+      </div>
+
+      <div class="stats-grid">
+        
+        <div class="stat-card">
+          <span>Coverage</span>
+          <strong>1961 to 2025</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Latest</span>
+          <strong>422.2k</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Change</span>
+          <strong>1,074.2%</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Peak</span>
+          <strong>422.2k | 2025</strong>
+        </div>
+        
+      </div>
+
+      <div class="supplement-grid">
+        
+        <article class="supplement-card">
+          <h3>Real GDP level</h3>
+          <p class="supplement-meta">3.2m</p>
+          <svg viewBox="0 0 240 80" class="mini-svg" role="img" aria-label="Real GDP">
+  <rect x="0" y="0" width="240" height="80" rx="16" fill="#fff"/>
+  <polyline fill="none" stroke="#a16207" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="8.00,72.00 11.50,71.66 15.00,71.23 18.50,70.96 22.00,70.45 25.50,70.38 29.00,70.32 32.50,70.18 36.00,69.70 39.50,69.27 43.00,68.90 46.50,68.31 50.00,67.57 53.50,67.40 57.00,67.37 60.50,66.24 64.00,65.28 67.50,64.53 71.00,63.39 74.50,62.28 78.00,61.15 81.50,60.76 85.00,59.95 88.50,58.51 92.00,58.39 95.50,56.62 99.00,54.24 102.50,52.52 106.00,52.02 109.50,51.17 113.00,49.84 116.50,48.31 120.00,46.70 123.50,45.03 127.00,44.33 130.50,43.05 134.00,41.45 137.50,43.39 141.00,42.61 144.50,40.18 148.00,39.98 151.50,39.41 155.00,38.34 158.50,35.21 162.00,32.31 165.50,29.35 169.00,26.44 172.50,25.42 176.00,26.63 179.50,23.39 183.00,20.94 186.50,20.03 190.00,18.35 193.50,16.80 197.00,15.42 200.50,14.14 204.00,11.85 207.50,10.07 211.00,11.15 214.50,15.29 218.00,11.47 221.50,13.79 225.00,11.88 228.50,10.24 232.00,8.00"/>
+  <circle cx="232.00" cy="8.00" r="3.5" fill="#a16207"/>
+</svg>
+          <p class="supplement-subtext">Chained-dollar GDP level in HK$ million.</p>
+        </article>
+        
+        <article class="supplement-card">
+          <h3>Decade growth</h3>
+          <p class="supplement-meta">Per-capita growth by decade</p>
+          <svg viewBox="0 0 240 126" class="mini-svg" role="img" aria-label="bar chart">
+  <rect x="0" y="0" width="240" height="126" rx="16" fill="#fff"/>
+  <line x1="20" y1="92.00" x2="222" y2="92.00" stroke="rgba(98,95,87,0.16)" stroke-width="1"/><rect x="20.00" y="18.00" width="32.40" height="74.00" rx="8" fill="#4338ca" opacity="0.80"/><text x="36.20" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">+85.1%</text><text x="36.20" y="116" text-anchor="middle" font-size="10" fill="#625f57">1970s</text><rect x="62.40" y="31.00" width="32.40" height="61.00" rx="8" fill="#4338ca" opacity="0.80"/><text x="78.60" y="25.00" text-anchor="middle" font-size="10" fill="#1d1d1b">+70.1%</text><text x="78.60" y="116" text-anchor="middle" font-size="10" fill="#625f57">1980s</text><rect x="104.80" y="69.29" width="32.40" height="22.71" rx="8" fill="#4338ca" opacity="0.80"/><text x="121.00" y="63.29" text-anchor="middle" font-size="10" fill="#1d1d1b">+26.1%</text><text x="121.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">1990s</text><rect x="147.20" y="55.97" width="32.40" height="36.03" rx="8" fill="#4338ca" opacity="0.80"/><text x="163.40" y="49.97" text-anchor="middle" font-size="10" fill="#1d1d1b">+41.4%</text><text x="163.40" y="116" text-anchor="middle" font-size="10" fill="#625f57">2000s</text><rect x="189.60" y="84.32" width="32.40" height="7.68" rx="8" fill="#4338ca" opacity="0.80"/><text x="205.80" y="78.32" text-anchor="middle" font-size="10" fill="#1d1d1b">+8.8%</text><text x="205.80" y="116" text-anchor="middle" font-size="10" fill="#625f57">2010s</text>
+</svg>
+          <p class="supplement-subtext">Percentage change versus the previous decade anchor.</p>
+        </article>
+        
+      </div>
+
+      <div class="source-grid">
+        
+        <div class="source-card">
+          <span>Source 310-31001</span>
+          <a href="https://www.censtatd.gov.hk/en/web_table.html?id=310-31001" target="_blank" rel="noreferrer">Gross Domestic Product (GDP), implicit price deflator of GDP and per capita GDP</a>
+          <p>Official C&amp;SD web table. Last modified on 2026-02-25.</p>
+        </div>
+        
+      </div>
+
+      <div class="commentary-card">
+        <span>Commentary</span>
+        <p>Per-capita output trends upward over the long run, but the distance between event markers and the line makes clear how exposed Hong Kong is to external shocks.</p>
+      </div>
+    </section>
+    
+    <section class="section">
+      <p class="section-index">Section 10</p>
+      <div class="section-header">
+        <h2>Inflation regime</h2>
+        <div class="main-series">Primary history: Composite CPI YoY</div>
+      </div>
+      <p class="headline">2026-02: 1.7% CPI inflation</p>
+      <p class="insight">Composite CPI inflation ranged from -6.1% in 1999-08 to 16.0% in 1981-10.</p>
+
+      <div class="chart-stage">
+        <svg viewBox="0 0 760 310" class="main-svg" role="img" aria-label="Composite CPI YoY">
+  <rect x="0" y="0" width="760" height="310" rx="24" fill="#fffaf1"/>
+  <line x1="58" y1="258.00" x2="740" y2="258.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="262.00" text-anchor="end" font-size="11" fill="#625f57">-6.1</text><line x1="58" y1="192.86" x2="740" y2="192.86" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="196.86" text-anchor="end" font-size="11" fill="#625f57">0.0</text><line x1="58" y1="179.33" x2="740" y2="179.33" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="183.33" text-anchor="end" font-size="11" fill="#625f57">1.3</text><line x1="58" y1="100.67" x2="740" y2="100.67" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="104.67" text-anchor="end" font-size="11" fill="#625f57">8.6</text><line x1="58" y1="22.00" x2="740" y2="22.00" stroke="rgba(98,95,87,0.14)" stroke-width="1"/><text x="50" y="26.00" text-anchor="end" font-size="11" fill="#625f57">16.0</text>
+  <line x1="300.24" y1="22.00" x2="300.24" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="305.24" y="36.00" font-size="10" fill="#7f1d1d">1997 Asian crisis</text><line x1="341.64" y1="22.00" x2="341.64" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="346.64" y="50.00" font-size="10" fill="#7f1d1d">2000 tech bubble</text><line x1="387.97" y1="22.00" x2="387.97" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="392.97" y="36.00" font-size="10" fill="#7f1d1d">2003 SARS</text><line x1="472.66" y1="22.00" x2="472.66" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="477.66" y="50.00" font-size="10" fill="#7f1d1d">2008 GFC</text><line x1="649.33" y1="22.00" x2="649.33" y2="258.00" stroke="#7f1d1d" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 4"/><text x="654.33" y="36.00" font-size="10" fill="#7f1d1d">2020 COVID</text>
+  <path d="M 58.00,22.00 L 58.00,22.00 59.31,36.95 60.57,49.76 61.87,45.49 63.18,57.24 64.36,71.12 65.66,71.12 66.93,64.71 68.23,68.99 69.50,80.73 70.80,88.21 72.11,87.14 73.37,97.82 74.68,92.48 75.94,83.94 77.25,103.16 78.55,91.41 79.73,77.53 81.04,72.19 82.30,99.95 83.61,95.68 84.87,98.89 86.17,99.95 87.48,81.80 88.74,64.71 90.05,72.19 91.31,76.46 92.62,66.85 93.92,76.46 95.14,92.48 96.45,93.55 97.71,83.94 99.02,87.14 100.28,90.34 101.59,92.48 102.89,109.57 104.16,142.67 105.46,138.40 106.73,136.26 108.03,148.01 109.34,155.48 110.52,145.87 111.82,149.08 113.09,155.48 114.39,159.76 115.65,160.82 116.96,161.89 118.27,152.28 119.53,156.55 120.83,158.69 122.10,159.76 123.40,158.69 124.71,151.21 125.89,159.76 127.19,159.76 128.46,155.48 129.76,151.21 131.03,146.94 132.33,151.21 133.64,160.82 134.90,146.94 136.21,142.67 137.47,143.74 138.78,141.60 140.08,146.94 141.26,142.67 142.57,137.33 143.83,133.06 145.13,129.86 146.40,138.40 147.70,125.58 149.01,127.72 150.27,124.52 151.58,125.58 152.84,113.84 154.15,122.38 155.45,115.97 156.67,114.90 157.98,110.63 159.24,112.77 160.55,115.97 161.81,105.29 163.12,106.36 164.42,98.89 165.69,107.43 166.99,97.82 168.26,104.23 169.56,89.28 170.87,80.73 172.05,88.21 173.35,87.14 174.61,79.67 175.92,77.53 177.18,80.73 178.49,85.00 179.79,82.87 181.06,79.67 182.36,87.14 183.63,85.00 184.93,85.00 186.24,97.82 187.42,83.94 188.72,88.21 189.99,87.14 191.29,87.14 192.56,86.07 193.86,85.00 195.17,82.87 196.43,76.46 197.74,73.26 199.00,72.19 200.30,74.33 201.61,62.58 202.79,59.38 204.09,54.04 205.36,60.44 206.66,67.92 207.93,65.78 209.23,65.78 210.54,75.39 211.80,81.80 213.11,82.87 214.37,87.14 215.68,83.94 216.98,85.00 218.20,89.28 219.51,94.62 220.77,95.68 222.08,90.34 223.34,93.55 224.65,96.75 225.95,85.00 227.22,89.28 228.52,92.48 229.78,90.34 231.09,83.94 232.40,97.82 233.57,103.16 234.88,102.09 236.14,97.82 237.45,98.89 238.71,101.02 240.02,99.95 241.32,104.23 242.59,96.75 243.89,99.95 245.16,96.75 246.46,115.97 247.77,103.16 248.95,103.16 250.25,103.16 251.52,101.02 252.82,103.16 254.08,97.82 255.39,88.21 256.70,94.62 257.96,96.75 259.26,91.41 260.53,91.41 261.83,82.87 263.14,92.48 264.32,88.21 265.62,88.21 266.89,93.55 268.19,92.48 269.46,94.62 270.76,96.75 272.07,94.62 273.33,98.89 274.64,103.16 275.90,115.97 277.21,123.45 278.51,119.18 279.73,118.11 281.04,118.11 282.30,123.45 283.61,124.52 284.87,126.65 286.18,135.19 287.48,133.06 288.74,131.99 290.05,129.86 291.31,122.38 292.62,125.58 293.92,125.58 295.10,129.86 296.41,133.06 297.67,130.92 298.98,133.06 300.24,124.52 301.55,125.58 302.85,133.06 304.12,131.99 305.42,135.19 306.69,137.33 307.99,135.19 309.30,142.67 310.48,141.60 311.78,142.67 313.04,144.81 314.35,150.14 315.61,158.69 316.92,164.03 318.22,166.16 319.49,191.79 320.79,200.33 322.06,209.95 323.36,204.61 324.67,211.01 325.85,220.62 327.15,233.44 328.42,235.57 329.72,236.64 330.99,251.59 332.29,258.00 333.60,256.93 334.86,237.71 336.17,237.71 337.43,235.57 338.73,249.46 340.04,247.32 341.26,246.25 342.57,239.85 343.83,240.91 345.14,240.91 346.40,227.03 347.70,221.69 349.01,220.62 350.27,225.96 351.58,217.42 352.84,215.29 354.15,208.88 355.45,218.49 356.63,213.15 357.94,207.81 359.20,208.88 360.51,204.61 361.77,202.47 363.08,204.61 364.38,205.67 365.65,205.67 366.95,207.81 368.21,231.30 369.52,230.24 370.83,217.42 372.00,216.35 373.31,225.96 374.57,225.96 375.88,228.10 377.14,229.17 378.45,228.10 379.75,232.37 381.02,231.30 382.32,231.30 383.59,208.88 384.89,209.95 386.20,214.22 387.38,215.29 388.68,212.08 389.95,219.56 391.25,225.96 392.51,235.57 393.82,233.44 395.13,227.03 396.39,221.69 397.69,218.49 398.96,213.15 400.26,208.88 401.57,214.22 402.79,215.29 404.10,208.88 405.36,202.47 406.66,193.93 407.93,183.25 409.23,184.32 410.54,185.38 411.80,190.72 413.11,190.72 414.37,190.72 415.68,198.20 416.98,184.32 418.16,184.32 419.47,187.52 420.73,184.32 422.04,180.05 423.30,178.98 424.61,177.91 425.91,175.77 427.17,178.98 428.48,180.05 429.74,178.98 431.05,172.57 432.35,180.05 433.53,175.77 434.84,172.57 436.10,170.43 437.41,169.37 438.67,168.30 439.98,166.16 441.28,170.43 442.55,171.50 443.85,169.37 445.12,168.30 446.42,171.50 447.73,184.32 448.91,167.23 450.21,178.98 451.47,180.05 452.78,178.98 454.04,176.84 455.35,175.77 456.65,175.77 457.92,158.69 459.22,156.55 460.49,152.28 461.79,158.69 463.10,125.58 464.32,148.01 465.62,135.19 466.89,131.99 468.19,127.72 469.46,125.58 470.76,143.74 472.07,160.82 473.33,173.64 474.64,159.76 475.90,170.43 477.21,159.76 478.51,184.32 479.69,180.05 481.00,186.45 482.26,192.86 483.57,202.47 484.83,208.88 486.13,209.95 487.44,187.52 488.70,169.37 490.01,187.52 491.27,178.98 492.58,182.18 493.88,162.96 495.06,171.50 496.37,167.23 497.63,166.16 498.94,162.96 500.20,178.98 501.51,160.82 502.81,165.10 504.08,166.16 505.38,162.96 506.64,161.89 507.95,156.55 509.26,154.42 510.43,145.87 511.74,143.74 513.00,137.33 514.31,133.06 515.57,108.50 516.88,131.99 518.18,130.92 519.45,130.92 520.75,131.99 522.02,131.99 523.32,127.72 524.63,142.67 525.85,140.53 527.15,142.67 528.42,146.94 529.72,153.35 530.99,175.77 532.29,153.35 533.60,152.28 534.86,152.28 536.17,153.35 537.43,153.35 538.74,160.82 540.04,145.87 541.22,154.42 542.53,150.14 543.79,151.21 545.09,149.08 546.36,119.18 547.66,144.81 548.97,143.74 550.23,146.94 551.54,146.94 552.80,146.94 554.11,143.74 555.41,151.21 556.59,151.21 557.90,153.35 559.16,153.35 560.47,154.42 561.73,150.14 563.04,151.21 564.34,122.38 565.60,137.33 566.91,138.40 568.17,140.53 569.48,149.08 570.78,143.74 571.96,144.81 573.27,162.96 574.53,160.82 575.84,159.76 577.10,166.16 578.41,167.23 579.71,171.50 580.98,168.30 582.28,168.30 583.55,167.23 584.85,166.16 586.16,160.82 587.38,161.89 588.68,164.03 589.95,165.10 591.25,167.23 592.52,168.30 593.82,146.94 595.13,164.03 596.39,180.05 597.70,180.05 598.96,180.05 600.26,178.98 601.57,193.93 602.75,187.52 604.05,171.50 605.32,171.50 606.62,172.57 607.89,171.50 609.19,172.57 610.50,177.91 611.76,176.84 613.07,175.77 614.33,174.71 615.64,174.71 616.94,159.76 618.12,165.10 619.43,172.57 620.69,170.43 622.00,167.23 623.26,167.23 624.56,168.30 625.87,164.03 627.13,164.03 628.44,165.10 629.70,166.16 631.01,167.23 632.31,170.43 633.49,170.43 634.80,161.89 636.06,162.96 637.37,157.62 638.63,157.62 639.94,155.48 641.24,158.69 642.51,159.76 643.81,160.82 645.07,161.89 646.38,177.91 647.69,169.37 648.91,168.30 650.21,172.57 651.48,176.84 652.78,185.38 654.04,217.42 655.35,197.13 656.66,216.35 657.92,197.13 659.22,196.06 660.49,203.54 661.79,165.10 663.10,187.52 664.28,186.45 665.58,184.32 666.85,182.18 668.15,185.38 669.42,153.35 670.72,175.77 672.03,177.91 673.29,174.71 674.60,173.64 675.86,167.23 677.17,180.05 678.47,175.77 679.65,174.71 680.96,178.98 682.22,180.05 683.52,173.64 684.79,172.57 686.09,172.57 687.40,145.87 688.66,173.64 689.97,173.64 691.23,171.50 692.54,167.23 693.84,174.71 695.02,174.71 696.33,170.43 697.59,171.50 698.90,172.57 700.16,173.64 701.47,173.64 702.77,171.50 704.03,164.03 705.34,165.10 706.60,167.23 707.91,174.71 709.21,170.43 710.44,171.50 711.74,181.11 713.00,180.05 714.31,176.84 715.57,166.16 716.88,166.16 718.18,169.37 719.45,177.91 720.75,177.91 722.02,177.91 723.32,171.50 724.63,177.91 725.81,177.91 727.11,171.50 728.38,172.57 729.68,177.91 730.95,182.18 732.25,181.11 733.56,181.11 734.82,180.05 736.13,180.05 737.39,177.91 738.69,181.11 740.00,174.71 L 740.00,258.00 L 58.00,258.00 Z" fill="#c2410c" opacity="0.10"/>
+  <polyline fill="none" stroke="#c2410c" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="58.00,22.00 59.31,36.95 60.57,49.76 61.87,45.49 63.18,57.24 64.36,71.12 65.66,71.12 66.93,64.71 68.23,68.99 69.50,80.73 70.80,88.21 72.11,87.14 73.37,97.82 74.68,92.48 75.94,83.94 77.25,103.16 78.55,91.41 79.73,77.53 81.04,72.19 82.30,99.95 83.61,95.68 84.87,98.89 86.17,99.95 87.48,81.80 88.74,64.71 90.05,72.19 91.31,76.46 92.62,66.85 93.92,76.46 95.14,92.48 96.45,93.55 97.71,83.94 99.02,87.14 100.28,90.34 101.59,92.48 102.89,109.57 104.16,142.67 105.46,138.40 106.73,136.26 108.03,148.01 109.34,155.48 110.52,145.87 111.82,149.08 113.09,155.48 114.39,159.76 115.65,160.82 116.96,161.89 118.27,152.28 119.53,156.55 120.83,158.69 122.10,159.76 123.40,158.69 124.71,151.21 125.89,159.76 127.19,159.76 128.46,155.48 129.76,151.21 131.03,146.94 132.33,151.21 133.64,160.82 134.90,146.94 136.21,142.67 137.47,143.74 138.78,141.60 140.08,146.94 141.26,142.67 142.57,137.33 143.83,133.06 145.13,129.86 146.40,138.40 147.70,125.58 149.01,127.72 150.27,124.52 151.58,125.58 152.84,113.84 154.15,122.38 155.45,115.97 156.67,114.90 157.98,110.63 159.24,112.77 160.55,115.97 161.81,105.29 163.12,106.36 164.42,98.89 165.69,107.43 166.99,97.82 168.26,104.23 169.56,89.28 170.87,80.73 172.05,88.21 173.35,87.14 174.61,79.67 175.92,77.53 177.18,80.73 178.49,85.00 179.79,82.87 181.06,79.67 182.36,87.14 183.63,85.00 184.93,85.00 186.24,97.82 187.42,83.94 188.72,88.21 189.99,87.14 191.29,87.14 192.56,86.07 193.86,85.00 195.17,82.87 196.43,76.46 197.74,73.26 199.00,72.19 200.30,74.33 201.61,62.58 202.79,59.38 204.09,54.04 205.36,60.44 206.66,67.92 207.93,65.78 209.23,65.78 210.54,75.39 211.80,81.80 213.11,82.87 214.37,87.14 215.68,83.94 216.98,85.00 218.20,89.28 219.51,94.62 220.77,95.68 222.08,90.34 223.34,93.55 224.65,96.75 225.95,85.00 227.22,89.28 228.52,92.48 229.78,90.34 231.09,83.94 232.40,97.82 233.57,103.16 234.88,102.09 236.14,97.82 237.45,98.89 238.71,101.02 240.02,99.95 241.32,104.23 242.59,96.75 243.89,99.95 245.16,96.75 246.46,115.97 247.77,103.16 248.95,103.16 250.25,103.16 251.52,101.02 252.82,103.16 254.08,97.82 255.39,88.21 256.70,94.62 257.96,96.75 259.26,91.41 260.53,91.41 261.83,82.87 263.14,92.48 264.32,88.21 265.62,88.21 266.89,93.55 268.19,92.48 269.46,94.62 270.76,96.75 272.07,94.62 273.33,98.89 274.64,103.16 275.90,115.97 277.21,123.45 278.51,119.18 279.73,118.11 281.04,118.11 282.30,123.45 283.61,124.52 284.87,126.65 286.18,135.19 287.48,133.06 288.74,131.99 290.05,129.86 291.31,122.38 292.62,125.58 293.92,125.58 295.10,129.86 296.41,133.06 297.67,130.92 298.98,133.06 300.24,124.52 301.55,125.58 302.85,133.06 304.12,131.99 305.42,135.19 306.69,137.33 307.99,135.19 309.30,142.67 310.48,141.60 311.78,142.67 313.04,144.81 314.35,150.14 315.61,158.69 316.92,164.03 318.22,166.16 319.49,191.79 320.79,200.33 322.06,209.95 323.36,204.61 324.67,211.01 325.85,220.62 327.15,233.44 328.42,235.57 329.72,236.64 330.99,251.59 332.29,258.00 333.60,256.93 334.86,237.71 336.17,237.71 337.43,235.57 338.73,249.46 340.04,247.32 341.26,246.25 342.57,239.85 343.83,240.91 345.14,240.91 346.40,227.03 347.70,221.69 349.01,220.62 350.27,225.96 351.58,217.42 352.84,215.29 354.15,208.88 355.45,218.49 356.63,213.15 357.94,207.81 359.20,208.88 360.51,204.61 361.77,202.47 363.08,204.61 364.38,205.67 365.65,205.67 366.95,207.81 368.21,231.30 369.52,230.24 370.83,217.42 372.00,216.35 373.31,225.96 374.57,225.96 375.88,228.10 377.14,229.17 378.45,228.10 379.75,232.37 381.02,231.30 382.32,231.30 383.59,208.88 384.89,209.95 386.20,214.22 387.38,215.29 388.68,212.08 389.95,219.56 391.25,225.96 392.51,235.57 393.82,233.44 395.13,227.03 396.39,221.69 397.69,218.49 398.96,213.15 400.26,208.88 401.57,214.22 402.79,215.29 404.10,208.88 405.36,202.47 406.66,193.93 407.93,183.25 409.23,184.32 410.54,185.38 411.80,190.72 413.11,190.72 414.37,190.72 415.68,198.20 416.98,184.32 418.16,184.32 419.47,187.52 420.73,184.32 422.04,180.05 423.30,178.98 424.61,177.91 425.91,175.77 427.17,178.98 428.48,180.05 429.74,178.98 431.05,172.57 432.35,180.05 433.53,175.77 434.84,172.57 436.10,170.43 437.41,169.37 438.67,168.30 439.98,166.16 441.28,170.43 442.55,171.50 443.85,169.37 445.12,168.30 446.42,171.50 447.73,184.32 448.91,167.23 450.21,178.98 451.47,180.05 452.78,178.98 454.04,176.84 455.35,175.77 456.65,175.77 457.92,158.69 459.22,156.55 460.49,152.28 461.79,158.69 463.10,125.58 464.32,148.01 465.62,135.19 466.89,131.99 468.19,127.72 469.46,125.58 470.76,143.74 472.07,160.82 473.33,173.64 474.64,159.76 475.90,170.43 477.21,159.76 478.51,184.32 479.69,180.05 481.00,186.45 482.26,192.86 483.57,202.47 484.83,208.88 486.13,209.95 487.44,187.52 488.70,169.37 490.01,187.52 491.27,178.98 492.58,182.18 493.88,162.96 495.06,171.50 496.37,167.23 497.63,166.16 498.94,162.96 500.20,178.98 501.51,160.82 502.81,165.10 504.08,166.16 505.38,162.96 506.64,161.89 507.95,156.55 509.26,154.42 510.43,145.87 511.74,143.74 513.00,137.33 514.31,133.06 515.57,108.50 516.88,131.99 518.18,130.92 519.45,130.92 520.75,131.99 522.02,131.99 523.32,127.72 524.63,142.67 525.85,140.53 527.15,142.67 528.42,146.94 529.72,153.35 530.99,175.77 532.29,153.35 533.60,152.28 534.86,152.28 536.17,153.35 537.43,153.35 538.74,160.82 540.04,145.87 541.22,154.42 542.53,150.14 543.79,151.21 545.09,149.08 546.36,119.18 547.66,144.81 548.97,143.74 550.23,146.94 551.54,146.94 552.80,146.94 554.11,143.74 555.41,151.21 556.59,151.21 557.90,153.35 559.16,153.35 560.47,154.42 561.73,150.14 563.04,151.21 564.34,122.38 565.60,137.33 566.91,138.40 568.17,140.53 569.48,149.08 570.78,143.74 571.96,144.81 573.27,162.96 574.53,160.82 575.84,159.76 577.10,166.16 578.41,167.23 579.71,171.50 580.98,168.30 582.28,168.30 583.55,167.23 584.85,166.16 586.16,160.82 587.38,161.89 588.68,164.03 589.95,165.10 591.25,167.23 592.52,168.30 593.82,146.94 595.13,164.03 596.39,180.05 597.70,180.05 598.96,180.05 600.26,178.98 601.57,193.93 602.75,187.52 604.05,171.50 605.32,171.50 606.62,172.57 607.89,171.50 609.19,172.57 610.50,177.91 611.76,176.84 613.07,175.77 614.33,174.71 615.64,174.71 616.94,159.76 618.12,165.10 619.43,172.57 620.69,170.43 622.00,167.23 623.26,167.23 624.56,168.30 625.87,164.03 627.13,164.03 628.44,165.10 629.70,166.16 631.01,167.23 632.31,170.43 633.49,170.43 634.80,161.89 636.06,162.96 637.37,157.62 638.63,157.62 639.94,155.48 641.24,158.69 642.51,159.76 643.81,160.82 645.07,161.89 646.38,177.91 647.69,169.37 648.91,168.30 650.21,172.57 651.48,176.84 652.78,185.38 654.04,217.42 655.35,197.13 656.66,216.35 657.92,197.13 659.22,196.06 660.49,203.54 661.79,165.10 663.10,187.52 664.28,186.45 665.58,184.32 666.85,182.18 668.15,185.38 669.42,153.35 670.72,175.77 672.03,177.91 673.29,174.71 674.60,173.64 675.86,167.23 677.17,180.05 678.47,175.77 679.65,174.71 680.96,178.98 682.22,180.05 683.52,173.64 684.79,172.57 686.09,172.57 687.40,145.87 688.66,173.64 689.97,173.64 691.23,171.50 692.54,167.23 693.84,174.71 695.02,174.71 696.33,170.43 697.59,171.50 698.90,172.57 700.16,173.64 701.47,173.64 702.77,171.50 704.03,164.03 705.34,165.10 706.60,167.23 707.91,174.71 709.21,170.43 710.44,171.50 711.74,181.11 713.00,180.05 714.31,176.84 715.57,166.16 716.88,166.16 718.18,169.37 719.45,177.91 720.75,177.91 722.02,177.91 723.32,171.50 724.63,177.91 725.81,177.91 727.11,171.50 728.38,172.57 729.68,177.91 730.95,182.18 732.25,181.11 733.56,181.11 734.82,180.05 736.13,180.05 737.39,177.91 738.69,181.11 740.00,174.71"/>
+  <circle cx="58.00" cy="22.00" r="4.5" fill="#c2410c"/>
+  <text x="58.00" y="11.00" text-anchor="middle" font-size="11" fill="#1d1d1b">Peak 16.0</text>
+  <line x1="108.03" y1="258.00" x2="108.03" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="108.03" y="292" text-anchor="middle" font-size="11" fill="#625f57">1985</text><line x1="184.93" y1="258.00" x2="184.93" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="184.93" y="292" text-anchor="middle" font-size="11" fill="#625f57">1990</text><line x1="261.83" y1="258.00" x2="261.83" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="261.83" y="292" text-anchor="middle" font-size="11" fill="#625f57">1995</text><line x1="338.73" y1="258.00" x2="338.73" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="338.73" y="292" text-anchor="middle" font-size="11" fill="#625f57">2000</text><line x1="415.68" y1="258.00" x2="415.68" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="415.68" y="292" text-anchor="middle" font-size="11" fill="#625f57">2005</text><line x1="492.58" y1="258.00" x2="492.58" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="492.58" y="292" text-anchor="middle" font-size="11" fill="#625f57">2010</text><line x1="569.48" y1="258.00" x2="569.48" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="569.48" y="292" text-anchor="middle" font-size="11" fill="#625f57">2015</text><line x1="646.38" y1="258.00" x2="646.38" y2="264.00" stroke="rgba(98,95,87,0.22)" stroke-width="1"/><text x="646.38" y="292" text-anchor="middle" font-size="11" fill="#625f57">2020</text>
+  <text x="58" y="18" font-size="13" font-weight="700" fill="#c2410c">Composite CPI YoY</text>
+</svg>
+        <p class="chart-note">Monthly year-on-year change in the Composite CPI.</p>
+      </div>
+
+      <div class="stats-grid">
+        
+        <div class="stat-card">
+          <span>Coverage</span>
+          <strong>1981-10 to 2026-02</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Latest</span>
+          <strong>1.7</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Change</span>
+          <strong>-89.4%</strong>
+        </div>
+        
+        <div class="stat-card">
+          <span>Peak</span>
+          <strong>16.0 | 1981-10</strong>
+        </div>
+        
+      </div>
+
+      <div class="supplement-grid">
+        
+        <article class="supplement-card">
+          <h3>Recent inflation window</h3>
+          <p class="supplement-meta">2026-02</p>
+          <svg viewBox="0 0 240 80" class="mini-svg" role="img" aria-label="Composite CPI YoY">
+  <rect x="0" y="0" width="240" height="80" rx="16" fill="#fff"/>
+  <polyline fill="none" stroke="#c2410c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="8.00,72.00 11.80,68.63 15.59,65.26 19.39,70.32 23.19,19.79 26.98,55.16 30.78,58.53 34.58,53.47 38.37,51.79 42.17,41.68 45.97,61.89 49.76,55.16 53.56,53.47 57.36,60.21 61.15,61.89 64.95,51.79 68.75,50.11 72.54,50.11 76.34,8.00 80.14,51.79 83.93,51.79 87.73,48.42 91.53,41.68 95.32,53.47 99.12,53.47 102.92,46.74 106.71,48.42 110.51,50.11 114.31,51.79 118.10,51.79 121.90,48.42 125.69,36.63 129.49,38.32 133.29,41.68 137.08,53.47 140.88,46.74 144.68,48.42 148.47,63.58 152.27,61.89 156.07,56.84 159.86,40.00 163.66,40.00 167.46,45.05 171.25,58.53 175.05,58.53 178.85,58.53 182.64,48.42 186.44,58.53 190.24,58.53 194.03,48.42 197.83,50.11 201.63,58.53 205.42,65.26 209.22,63.58 213.02,63.58 216.81,61.89 220.61,61.89 224.41,58.53 228.20,63.58 232.00,53.47"/>
+  <circle cx="232.00" cy="53.47" r="3.5" fill="#c2410c"/>
+</svg>
+          <p class="supplement-subtext">The last 60 monthly observations for a cleaner recent read.</p>
+        </article>
+        
+        <article class="supplement-card">
+          <h3>Event snapshots</h3>
+          <p class="supplement-meta">2026-02</p>
+          <svg viewBox="0 0 240 126" class="mini-svg" role="img" aria-label="bar chart">
+  <rect x="0" y="0" width="240" height="126" rx="16" fill="#fff"/>
+  <line x1="20" y1="45.75" x2="222" y2="45.75" stroke="rgba(98,95,87,0.16)" stroke-width="1"/><rect x="20.00" y="45.75" width="32.40" height="46.25" rx="8" fill="#c2410c" opacity="0.80"/><text x="36.20" y="105.00" text-anchor="middle" font-size="10" fill="#1d1d1b">-5.0</text><text x="36.20" y="116" text-anchor="middle" font-size="10" fill="#625f57">2000 tech</text><rect x="62.40" y="45.75" width="32.40" height="19.42" rx="8" fill="#c2410c" opacity="0.80"/><text x="78.60" y="78.17" text-anchor="middle" font-size="10" fill="#1d1d1b">-2.1</text><text x="78.60" y="116" text-anchor="middle" font-size="10" fill="#625f57">2003 SARS</text><rect x="104.80" y="18.00" width="32.40" height="27.75" rx="8" fill="#c2410c" opacity="0.80"/><text x="121.00" y="12.00" text-anchor="middle" font-size="10" fill="#1d1d1b">3.0</text><text x="121.00" y="116" text-anchor="middle" font-size="10" fill="#625f57">2008 GFC</text><rect x="147.20" y="24.48" width="32.40" height="21.27" rx="8" fill="#c2410c" opacity="0.80"/><text x="163.40" y="18.48" text-anchor="middle" font-size="10" fill="#1d1d1b">2.3</text><text x="163.40" y="116" text-anchor="middle" font-size="10" fill="#625f57">2020 COVID</text><rect x="189.60" y="30.02" width="32.40" height="15.73" rx="8" fill="#c2410c" opacity="0.80"/><text x="205.80" y="24.02" text-anchor="middle" font-size="10" fill="#1d1d1b">1.7</text><text x="205.80" y="116" text-anchor="middle" font-size="10" fill="#625f57">Latest</text>
+</svg>
+          <p class="supplement-subtext">Nearest inflation readings around major event markers plus the latest point.</p>
+        </article>
+        
+      </div>
+
+      <div class="source-grid">
+        
+        <div class="source-card">
+          <span>Source 510-60001</span>
+          <a href="https://www.censtatd.gov.hk/en/web_table.html?id=510-60001" target="_blank" rel="noreferrer">Consumer Price Indices (October 2019 – September 2020 = 100)</a>
+          <p>Official C&amp;SD web table. Last modified on 2026-03-20.</p>
+        </div>
+        
+      </div>
+
+      <div class="commentary-card">
+        <span>Commentary</span>
+        <p>Inflation in Hong Kong is better read as a sequence of regimes and shocks than as a smooth trend, which is why the event bars add useful context here.</p>
+      </div>
+    </section>
+    
+  </main>
+</body>
+</html>

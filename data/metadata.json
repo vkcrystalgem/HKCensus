@@ -1,0 +1,51 @@
+{
+  "tables": {
+    "110-01001": {
+      "last_modified_date": "2026-02-12",
+      "title": "Population by Sex and Age Group",
+      "source_url": "https://www.censtatd.gov.hk/en/web_table.html?id=110-01001"
+    },
+    "110-01003": {
+      "last_modified_date": "2026-02-12",
+      "title": "Population Growth by Component",
+      "source_url": "https://www.censtatd.gov.hk/en/web_table.html?id=110-01003"
+    },
+    "110-01004": {
+      "last_modified_date": "2026-03-26",
+      "title": "Dependency ratio and median age of population",
+      "source_url": "https://www.censtatd.gov.hk/en/web_table.html?id=110-01004"
+    },
+    "115-01011": {
+      "last_modified_date": "2026-03-26",
+      "title": "Vital Events",
+      "source_url": "https://www.censtatd.gov.hk/en/web_table.html?id=115-01011"
+    },
+    "130-06601A": {
+      "last_modified_date": "2026-03-18",
+      "title": "Domestic households by household size (excluding foreign domestic helpers)",
+      "source_url": "https://www.censtatd.gov.hk/en/web_table.html?id=130-06601A"
+    },
+    "130-06606A": {
+      "last_modified_date": "2026-03-18",
+      "title": "Median monthly household income by household size (excluding foreign domestic helpers)",
+      "source_url": "https://www.censtatd.gov.hk/en/web_table.html?id=130-06606A"
+    },
+    "210-06101": {
+      "last_modified_date": "2026-03-18",
+      "title": "Statistics on labour force, employment, unemployment and underemployment",
+      "source_url": "https://www.censtatd.gov.hk/en/web_table.html?id=210-06101"
+    },
+    "310-31001": {
+      "last_modified_date": "2026-02-25",
+      "title": "Gross Domestic Product (GDP), implicit price deflator of GDP and per capita GDP",
+      "source_url": "https://www.censtatd.gov.hk/en/web_table.html?id=310-31001"
+    },
+    "510-60001": {
+      "last_modified_date": "2026-03-20",
+      "title": "Consumer Price Indices (October 2019 \u2013 September 2020 = 100)",
+      "source_url": "https://www.censtatd.gov.hk/en/web_table.html?id=510-60001"
+    }
+  },
+  "checked_at_utc": "2026-03-28T14:16:37.204660+00:00",
+  "report_path": "dist\\index.html"
+}

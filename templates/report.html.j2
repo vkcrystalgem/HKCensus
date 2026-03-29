@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hong Kong Census Trend Monitor</title>
+  <style>
+    :root {
+      --bg: #f2ecdf;
+      --paper: #fffaf1;
+      --ink: #1d1d1b;
+      --muted: #625f57;
+      --line: #d9cfbd;
+      --shadow: 0 18px 40px rgba(40, 33, 23, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, 0.10), transparent 28%),
+        radial-gradient(circle at top right, rgba(194, 65, 12, 0.10), transparent 24%),
+        linear-gradient(180deg, #fbf7ef 0%, var(--bg) 100%);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    a { color: inherit; }
+    .shell {
+      width: min(1180px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 26px 0 72px;
+    }
+    .hero, .section {
+      background: rgba(255, 251, 242, 0.96);
+      border: 1px solid rgba(98, 95, 87, 0.16);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+    .hero { padding: 28px; }
+    .eyebrow {
+      margin: 0 0 12px;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    h1 {
+      margin: 0;
+      max-width: 9ch;
+      font-size: clamp(36px, 6vw, 68px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+    .hero-copy {
+      max-width: 70ch;
+      margin: 14px 0 0;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    .top-grid, .summary-grid, .stats-grid, .supplement-grid, .source-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .top-grid {
+      margin-top: 18px;
+      grid-template-columns: 1.2fr 1fr;
+    }
+    .summary-grid {
+      margin-top: 18px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .summary-card, .hero-note, .stat-card, .supplement-card, .source-card, .commentary-card {
+      background: var(--paper);
+      border: 1px solid rgba(98, 95, 87, 0.14);
+      border-radius: 20px;
+      padding: 16px;
+    }
+    .summary-card span, .stat-card span, .source-card span, .hero-note strong, .commentary-card span {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .summary-card strong, .stat-card strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 24px;
+      line-height: 1.05;
+    }
+    .hero-note p, .source-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .section {
+      margin-top: 18px;
+      padding: 22px;
+    }
+    .section-index {
+      margin: 0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+    .section-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: end;
+      margin-top: 8px;
+    }
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+    }
+    .main-series {
+      border: 1px solid rgba(98, 95, 87, 0.16);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .headline {
+      margin: 10px 0 6px;
+      color: #0f766e;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .insight, .chart-note {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .chart-stage {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(249, 241, 227, 0.85));
+      border: 1px solid rgba(98, 95, 87, 0.12);
+    }
+    .stats-grid {
+      margin-top: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .supplement-grid {
+      margin-top: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .supplement-card h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .supplement-meta {
+      margin: 6px 0 10px;
+      color: #0f766e;
+      font-weight: 700;
+    }
+    .supplement-subtext {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .mini-svg, .main-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .source-grid {
+      margin-top: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .source-card a {
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .commentary-card {
+      margin-top: 14px;
+      border-left: 4px solid #0f766e;
+    }
+    .commentary-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    @media (max-width: 920px) {
+      .top-grid, .summary-grid, .stats-grid, .supplement-grid, .source-grid, .section-header {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">Hong Kong C&amp;SD Historical Monitor</p>
+      <h1>Ten sections, each plotted as a local infographic.</h1>
+      <p class="hero-copy">Every chart on this page is rendered locally into inline SVG during the build step. Each section leads with the longest available historical series and then adds smaller supporting visuals for context.</p>
+
+      <div class="summary-grid">
+        <div class="summary-card"><span>Analyses</span><strong>{{ analysis_count }}</strong></div>
+        <div class="summary-card"><span>Latest source date</span><strong>{{ latest_release }}</strong></div>
+        <div class="summary-card"><span>Built at</span><strong>{{ generated_at }}</strong></div>
+      </div>
+
+      <div class="top-grid">
+        <div class="hero-note">
+          <strong>Scope</strong>
+          <p>The report uses official Hong Kong Census and Statistics Department web-table metadata and backing CSV files. The raw cache is local, the rendering is local, and rerunning the build will fold in any newly released values for the configured tables.</p>
+        </div>
+        <div class="hero-note">
+          <strong>Update check</strong>
+          <p>{% if changed_tables %}Newer source dates were detected for: {{ changed_tables | join(", ") }}.{% else %}No source-date changes were detected in the configured table set during this run.{% endif %}</p>
+        </div>
+      </div>
+    </section>
+
+    {% for analysis in analyses %}
+    <section class="section">
+      <p class="section-index">Section {{ "%02d"|format(loop.index) }}</p>
+      <div class="section-header">
+        <h2>{{ analysis.title }}</h2>
+        <div class="main-series">Primary history: {{ analysis.main_series_label }}</div>
+      </div>
+      <p class="headline">{{ analysis.headline }}</p>
+      <p class="insight">{{ analysis.insight }}</p>
+
+      <div class="chart-stage">
+        {{ analysis.main_chart_svg | safe }}
+        <p class="chart-note">{{ analysis.chart_note }}</p>
+      </div>
+
+      <div class="stats-grid">
+        {% for stat in analysis.stats %}
+        <div class="stat-card">
+          <span>{{ stat.label }}</span>
+          <strong>{{ stat.value }}</strong>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="supplement-grid">
+        {% for supplement in analysis.supplements %}
+        <article class="supplement-card">
+          <h3>{{ supplement.title }}</h3>
+          <p class="supplement-meta">{{ supplement.value }}</p>
+          {{ supplement.svg | safe }}
+          <p class="supplement-subtext">{{ supplement.subtext }}</p>
+        </article>
+        {% endfor %}
+      </div>
+
+      <div class="source-grid">
+        {% for source in analysis.sources %}
+        <div class="source-card">
+          <span>Source {{ source.table_id }}</span>
+          <a href="{{ source.url }}" target="_blank" rel="noreferrer">{{ source.title }}</a>
+          <p>Official C&amp;SD web table. Last modified on {{ source.last_modified_date }}.</p>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="commentary-card">
+        <span>Commentary</span>
+        <p>{{ analysis.commentary }}</p>
+      </div>
+    </section>
+    {% endfor %}
+  </main>
+</body>
+</html>

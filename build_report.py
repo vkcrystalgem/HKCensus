@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import subprocess
+import sys
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -18,6 +20,7 @@ RAW_DIR = DATA_DIR / "raw"
 DIST_DIR = ROOT / "dist"
 TEMPLATE_DIR = ROOT / "templates"
 MANIFEST_PATH = DATA_DIR / "metadata.json"
+MOBILE_EXPORT_SCRIPT = ROOT / "export_mobile_data.py"
 
 BASE_URL = "https://www.censtatd.gov.hk"
 USER_AGENT = "Mozilla/5.0 (compatible; HKCensusBot/1.0; +https://www.censtatd.gov.hk/)"
@@ -412,6 +415,66 @@ def comparison_items(dataset: dict[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
+def format_hover_value(value: float) -> str:
+    abs_value = abs(value)
+    if abs_value >= 1000:
+        return f"{value:,.0f}"
+    if abs_value >= 1:
+        return f"{value:,.1f}"
+    return f"{value:,.2f}"
+
+
+def hover_chip_position(x: float, y: float, width: int, height: int, box_w: float, box_h: float) -> tuple[float, float]:
+    preferred_x = x + 10
+    if preferred_x + box_w > width - 10:
+        preferred_x = x - box_w - 10
+    chip_x = max(10.0, preferred_x)
+
+    preferred_y = y - box_h - 10
+    if preferred_y < 10:
+        preferred_y = y + 10
+    chip_y = min(max(10.0, preferred_y), height - box_h - 10)
+    return chip_x, chip_y
+
+
+def svg_hover_markup(
+    dataset: dict[str, Any],
+    xs: list[float],
+    y_values: list[float],
+    chart_left: int,
+    chart_top: int,
+    chart_right: int,
+    chart_bottom: int,
+    width: int,
+    height: int,
+) -> str:
+    points = dataset["data"]
+    groups: list[str] = []
+    for index, point in enumerate(points):
+        x = xs[index]
+        y = y_values[index]
+        prev_x = chart_left if index == 0 else (xs[index - 1] + x) / 2
+        next_x = chart_right if index == len(points) - 1 else (x + xs[index + 1]) / 2
+        zone_w = max(next_x - prev_x, 1)
+        label_text = f"{point['label']} | {format_hover_value(float(point['y']))}"
+        box_w = min(248.0, 22.0 + len(label_text) * 5.8)
+        box_h = 28.0
+        chip_x, chip_y = hover_chip_position(x, y, width, height, box_w, box_h)
+        groups.append(
+            f'''
+  <g class="hover-zone">
+    <rect class="hover-hit" x="{prev_x:.2f}" y="{chart_top}" width="{zone_w:.2f}" height="{chart_bottom-chart_top}" fill="#ffffff" fill-opacity="0"/>
+    <line class="hover-line" x1="{x:.2f}" y1="{chart_top}" x2="{x:.2f}" y2="{chart_bottom}" stroke="{dataset["borderColor"]}" stroke-opacity="0.55" stroke-width="1.4" stroke-dasharray="4 4"/>
+    <circle class="hover-dot" cx="{x:.2f}" cy="{y:.2f}" r="5" fill="{dataset["borderColor"]}" stroke="#fffaf1" stroke-width="2"/>
+    <g class="hover-chip" transform="translate({chip_x:.2f},{chip_y:.2f})">
+      <rect width="{box_w:.2f}" height="{box_h:.2f}" rx="10" fill="rgba(255,250,241,0.98)" stroke="rgba(98,95,87,0.24)"/>
+      <text x="10" y="18" font-size="11" fill="#1d1d1b">{html.escape(label_text)}</text>
+    </g>
+  </g>'''.strip()
+        )
+    return "".join(groups)
+
+
 def svg_line_chart(dataset: dict[str, Any], width: int = 760, height: int = 310, fill: bool = True) -> str:
     points = dataset["data"]
     color = dataset["borderColor"]
@@ -436,12 +499,25 @@ def svg_line_chart(dataset: dict[str, Any], width: int = 760, height: int = 310,
     def x_at(point: dict[str, Any]) -> float:
         return x_scale(point_timestamp(point), start_ts, end_ts, padding_left, inner_w)
 
-    path_points = [f"{x_at(point):.2f},{y_at(float(point['y'])):.2f}" for point in points]
+    xs = [x_at(point) for point in points]
+    point_ys = [y_at(float(point["y"])) for point in points]
+    path_points = [f"{x:.2f},{y:.2f}" for x, y in zip(xs, point_ys, strict=True)]
     line_path = " ".join(path_points)
     area_path = f"M {path_points[0]} L {line_path} L {x_at(points[-1]):.2f},{padding_top + inner_h:.2f} L {x_at(points[0]):.2f},{padding_top + inner_h:.2f} Z"
     peak = peak_dataset_point(dataset)
     peak_x = x_at(peak)
     peak_y = y_at(float(peak["y"]))
+    hover_markup = svg_hover_markup(
+        dataset=dataset,
+        xs=xs,
+        y_values=point_ys,
+        chart_left=padding_left,
+        chart_top=padding_top,
+        chart_right=width - padding_right,
+        chart_bottom=padding_top + inner_h,
+        width=width,
+        height=height,
+    )
 
     y_tick_markup = []
     for tick in choose_y_ticks(min_y, max_y):
@@ -478,6 +554,9 @@ def svg_line_chart(dataset: dict[str, Any], width: int = 760, height: int = 310,
   <polyline fill="none" stroke="{color}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="{line_path}"/>
   <circle cx="{peak_x:.2f}" cy="{peak_y:.2f}" r="4.5" fill="{color}"/>
   <text x="{peak_x:.2f}" y="{peak_y-11:.2f}" text-anchor="middle" font-size="11" fill="#1d1d1b">Peak {html.escape(compact_number(float(peak['y'])))}</text>
+  <g class="hover-layer">
+    {hover_markup}
+  </g>
   {''.join(x_tick_markup)}
   <text x="{padding_left}" y="18" font-size="13" font-weight="700" fill="{color}">{html.escape(dataset['label'])}</text>
 </svg>
@@ -1050,7 +1129,12 @@ def update_manifest(manifest: dict[str, Any], table_meta: dict[str, tuple[dict[s
     write_manifest(manifest)
 
 
-def run(force_refresh: bool, check_only: bool) -> dict[str, Any]:
+def sync_mobile_payload() -> Path:
+    subprocess.run([sys.executable, str(MOBILE_EXPORT_SCRIPT)], check=True, cwd=ROOT)
+    return ROOT / "android" / "src" / "data" / "reportData.json"
+
+
+def run(force_refresh: bool, check_only: bool, skip_mobile_export: bool) -> dict[str, Any]:
     ensure_dirs()
     client = CenstatdClient()
     manifest = read_manifest()
@@ -1077,22 +1161,31 @@ def run(force_refresh: bool, check_only: bool) -> dict[str, Any]:
     analyses = build_analyses(series_map, table_meta)
     report_path = render_report(analyses, changed_tables, table_meta)
     update_manifest(manifest, table_meta, report_path)
-    return {"changed_tables": changed_tables, "analysis_count": len(analyses), "report_path": report_path}
+    mobile_payload_path = None if skip_mobile_export else sync_mobile_payload()
+    return {
+        "changed_tables": changed_tables,
+        "analysis_count": len(analyses),
+        "report_path": report_path,
+        "mobile_payload_path": mobile_payload_path,
+    }
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build the local HK C&SD trend report.")
     parser.add_argument("--force-refresh", action="store_true", help="Refresh all cached source files before building.")
     parser.add_argument("--check-only", action="store_true", help="Only check whether any configured source tables changed.")
+    parser.add_argument("--skip-mobile-export", action="store_true", help="Skip regenerating the Android app data payload.")
     args = parser.parse_args()
 
-    result = run(force_refresh=args.force_refresh, check_only=args.check_only)
+    result = run(force_refresh=args.force_refresh, check_only=args.check_only, skip_mobile_export=args.skip_mobile_export)
     if args.check_only:
         changed = result["changed_tables"]
         print("Updated tables available: " + ", ".join(changed) if changed else "No table updates detected.")
         return
     print(f"Built {result['analysis_count']} analyses.")
     print(f"Report: {result['report_path']}")
+    if result["mobile_payload_path"]:
+        print(f"Mobile payload: {result['mobile_payload_path']}")
     print("Updated source tables: " + ", ".join(result["changed_tables"]) if result["changed_tables"] else "No source date changes detected.")
 
 

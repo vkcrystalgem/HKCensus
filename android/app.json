@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "HK Census",
+    "slug": "hk-census",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "hkcensus",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.vkcrystalgem.hkcensus",
+      "adaptiveIcon": {
+        "backgroundColor": "#F4EFE6"
+      }
+    },
+    "plugins": [
+      "expo-asset"
+    ]
+  }
+}

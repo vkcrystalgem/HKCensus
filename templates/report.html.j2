@@ -169,6 +169,21 @@
       height: auto;
       display: block;
     }
+    .main-svg .hover-line,
+    .main-svg .hover-dot,
+    .main-svg .hover-chip {
+      opacity: 0;
+      transition: opacity 0.08s ease-out;
+      pointer-events: none;
+    }
+    .main-svg .hover-hit {
+      cursor: crosshair;
+    }
+    .main-svg .hover-zone:hover .hover-line,
+    .main-svg .hover-zone:hover .hover-dot,
+    .main-svg .hover-zone:hover .hover-chip {
+      opacity: 1;
+    }
     .source-grid {
       margin-top: 14px;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -230,7 +245,7 @@
 
       <div class="chart-stage">
         {{ analysis.main_chart_svg | safe }}
-        <p class="chart-note">{{ analysis.chart_note }}</p>
+        <p class="chart-note">{{ analysis.chart_note }} Hover over the chart to inspect the nearest point.</p>
       </div>
 
       <div class="stats-grid">

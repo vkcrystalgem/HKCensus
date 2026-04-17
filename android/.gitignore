@@ -11,3 +11,4 @@ android/
 ownership-proof/adi-registration.properties
 ownership-proof/out/
 variant-builds/out/
+publish-automation/out/

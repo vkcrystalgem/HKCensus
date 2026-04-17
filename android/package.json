@@ -20,6 +20,7 @@
     "release:bundle": "powershell -ExecutionPolicy Bypass -File .\\scripts\\build-release.ps1 -BundleOnly",
     "release:all": "powershell -ExecutionPolicy Bypass -File .\\scripts\\build-release.ps1",
     "variants:build": "powershell -ExecutionPolicy Bypass -File .\\variant-builds\\build-variants.ps1",
+    "play:release:auto": "powershell -ExecutionPolicy Bypass -File .\\publish-automation\\publish-new-release.ps1",
     "play:publish": "powershell -ExecutionPolicy Bypass -File .\\scripts\\publish-play.ps1"
   },
   "dependencies": {

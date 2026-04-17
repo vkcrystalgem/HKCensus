@@ -1,0 +1,5 @@
+Initial automated Google Play release.
+
+- Refreshes the HK Census mobile data bundle
+- Updates the Android release build and upload flow
+- Keeps signing keys and Play credentials local only

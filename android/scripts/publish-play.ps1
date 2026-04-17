@@ -3,6 +3,11 @@ param(
   [string]$ReleaseStatus,
   [string]$ReleaseName,
   [string]$AabPath,
+  [string]$ReleaseNotesFile,
+  [string]$ReleaseNotesLanguage,
+  [string]$ReceiptJson,
+  [switch]$ChangesNotSentForReview,
+  [switch]$QueryNextVersionCode,
   [switch]$Build
 )
 
@@ -18,6 +23,9 @@ Set-HKCensusReleaseEnvironment $androidRoot @{
   PLAY_RELEASE_STATUS = $ReleaseStatus
   PLAY_RELEASE_NAME = $ReleaseName
   AAB_PATH = $AabPath
+  PLAY_RELEASE_NOTES_FILE = $ReleaseNotesFile
+  PLAY_RELEASE_NOTES_LANGUAGE = $ReleaseNotesLanguage
+  PLAY_RECEIPT_JSON = $ReceiptJson
 } | Out-Null
 
 $serviceAccount = Get-HKCensusEnvValue "HKCENSUS_PLAY_SERVICE_ACCOUNT_JSON"
@@ -46,7 +54,14 @@ if (-not $python) {
   throw "Python is required to publish to Google Play. Install Python and 'pip install -r android/requirements-publish.txt'."
 }
 
-& $python.Source (Join-Path $scriptDir "publish_play.py")
+$pythonArgs = @((Join-Path $scriptDir "publish_play.py"))
+if ($QueryNextVersionCode) {
+  $pythonArgs += "--query-next-version-code"
+}
+if ($ChangesNotSentForReview) {
+  $pythonArgs += "--changes-not-sent-for-review"
+}
+& $python.Source @pythonArgs
 if ($LASTEXITCODE -ne 0) {
   throw "Google Play upload failed."
 }

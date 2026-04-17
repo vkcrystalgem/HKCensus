@@ -3,6 +3,7 @@
 This guide prepares HK Census for Google Play release without committing any private keys or service-account files to Git.
 
 For Google's package-name ownership verification flow, use the dedicated proof tooling in [ownership-proof/README.md](/c:/github/HKCensus/android/ownership-proof/README.md).
+For local-only automated Google Play publishing, use [publish-automation/README.md](/c:/github/HKCensus/android/publish-automation/README.md).
 
 ## What Gets Stored Locally Only
 
@@ -95,7 +96,40 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-release.ps1 -VersionCod
 
 ## Publish To Google Play
 
-The local publish script uploads the generated AAB to a Play track using a local service-account file.
+### Recommended automated path
+
+The recommended path is the local automation script. It follows the same build-then-upload sequence used in the local FlappyBird deployment setup, but keeps all credentials on your machine instead of GitHub.
+
+From `C:\github\HKCensus\android`:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\publish-automation\publish-new-release.ps1
+```
+
+That script will:
+
+- query Google Play for the current highest uploaded version code
+- choose the next safe version code automatically
+- run tests and typecheck unless you skip them
+- build a signed release AAB
+- upload it to the configured Play track
+- write a local JSON receipt under `publish-automation\out\`
+
+Dry-run example:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\publish-automation\publish-new-release.ps1 -DryRun
+```
+
+Track override example:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\publish-automation\publish-new-release.ps1 -Track production -ReleaseStatus completed
+```
+
+### Low-level uploader
+
+The lower-level publish script uploads an already-built AAB to a Play track using a local service-account file.
 
 From `C:\github\HKCensus\android`:
 
@@ -106,7 +140,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\publish-play.ps1
 Default values come from `android/release.properties`:
 
 - `PLAY_TRACK=internal`
-- `PLAY_RELEASE_STATUS=draft`
+- `PLAY_RELEASE_STATUS=completed`
 - `PLAY_RELEASE_NAME=HK Census 1.0.0`
 
 You can override them at runtime:
@@ -146,13 +180,13 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-release.ps1
 
 4. Install the APK locally and sanity-check the app.
 
-5. Upload the AAB to the `internal` track first:
+5. Upload the AAB to your configured Play track. If you keep `PLAY_TRACK=internal`, the automation will publish a completed internal release by default:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\publish-play.ps1 -Track internal -ReleaseStatus draft
+powershell -ExecutionPolicy Bypass -File .\publish-automation\publish-new-release.ps1
 ```
 
-6. Promote to a wider track only after validation in Play Console.
+6. If you want a different default track, update `PLAY_TRACK` in your local `android/release.properties`.
 
 ## Common Failure Modes
 
@@ -184,6 +218,7 @@ Fix:
 Symptom:
 
 - Play upload script says the service-account JSON is missing
+- or the automation script cannot query Google Play for the next version code
 
 Fix:
 
@@ -209,3 +244,5 @@ Common causes:
 - [build-release.ps1](/c:/github/HKCensus/android/scripts/build-release.ps1)
 - [publish-play.ps1](/c:/github/HKCensus/android/scripts/publish-play.ps1)
 - [publish_play.py](/c:/github/HKCensus/android/scripts/publish_play.py)
+- [publish-new-release.ps1](/c:/github/HKCensus/android/publish-automation/publish-new-release.ps1)
+- [publish-automation/README.md](/c:/github/HKCensus/android/publish-automation/README.md)

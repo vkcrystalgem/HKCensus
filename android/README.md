@@ -5,6 +5,7 @@ This folder contains a React Native app for Android that mirrors the same ten an
 For Android release packaging and Google Play publishing, see [RELEASE.md](/c:/github/HKCensus/android/RELEASE.md).
 For Google's package ownership verification APK flow, see [ownership-proof/README.md](/c:/github/HKCensus/android/ownership-proof/README.md).
 For building both debug and release APK/AAB variants with separate keys, see [variant-builds/README.md](/c:/github/HKCensus/android/variant-builds/README.md).
+For local-only automated Google Play publishing, see [publish-automation/README.md](/c:/github/HKCensus/android/publish-automation/README.md).
 
 ## Highlights
 
@@ -37,6 +38,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\new-upload-keystore.ps1
 powershell -ExecutionPolicy Bypass -File .\scripts\build-release.ps1
 python -m pip install -r .\requirements-publish.txt
 powershell -ExecutionPolicy Bypass -File .\scripts\publish-play.ps1
+powershell -ExecutionPolicy Bypass -File .\publish-automation\publish-new-release.ps1 -DryRun
 ```
 
 Or from the repo root, regenerate the web report and bundled mobile data together:
@@ -53,6 +55,7 @@ python build_report.py
 - If your machine already has a current Node 24 LTS runtime, you can use plain `npm install`, `npm test`, `npm run typecheck`, and `npm run android`.
 - For Android builds, avoid Java 25. Gradle and the Android plugin currently expect JDK 17 to 21. The launcher script automatically selects Android Studio's bundled Java 21 when it is installed.
 - Keep `release.properties`, keystores, and Play service-account JSON files local only. They are intentionally gitignored.
+- The recommended Play publishing path is the local automation script under `publish-automation/`, not GitHub Actions, so secrets do not have to be stored on GitHub. The automation now defaults to publishing a `completed` release on whatever `PLAY_TRACK` you configure locally.
 
 ## Release from environment variables
 

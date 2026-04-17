@@ -14,5 +14,9 @@ KEY_PASSWORD=change-me
 # Local Google Play upload settings.
 PLAY_SERVICE_ACCOUNT_JSON=play/service-account.json
 PLAY_TRACK=internal
-PLAY_RELEASE_STATUS=draft
+PLAY_RELEASE_STATUS=completed
 PLAY_RELEASE_NAME=HK Census 1.0.0
+PLAY_RELEASE_NOTES_LANGUAGE=en-US
+# Optional local file path, relative to android/ or absolute.
+# PLAY_RELEASE_NOTES_FILE=publish-automation/release-notes.en-US.txt
+PLAY_CHANGES_NOT_SENT_FOR_REVIEW=false

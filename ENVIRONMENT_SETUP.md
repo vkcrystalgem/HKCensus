@@ -10,6 +10,8 @@ All commands below assume Windows PowerShell and the workspace root at `C:\githu
 - Mobile payload generation for the Android app
 - React Native Android app build, test, and launch
 - Android release signing, bundle generation, and local Google Play upload
+- Local Google Play publish automation with version-code auto-increment
+- Default publish behavior uses the locally configured `PLAY_TRACK` and a `completed` release status unless you override it
 - Known environment pitfalls that were already hit in this repo
 
 ## Required Software
@@ -129,6 +131,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\new-upload-keystore.ps1
 powershell -ExecutionPolicy Bypass -File .\scripts\build-release.ps1
 python -m pip install -r .\requirements-publish.txt
 powershell -ExecutionPolicy Bypass -File .\scripts\publish-play.ps1
+powershell -ExecutionPolicy Bypass -File .\publish-automation\publish-new-release.ps1 -DryRun
 ```
 
 If you are certain your global environment already matches the repo requirements, the equivalent native commands are:
@@ -324,6 +327,24 @@ Resolution:
 - store the JSON outside Git, usually under `android/play/`
 - set `PLAY_SERVICE_ACCOUNT_JSON` in `android/release.properties`
 
+### 10. Automated Play publish cannot determine the next version code
+
+Symptom:
+
+- `publish-new-release.ps1` fails before the build step
+
+Cause:
+
+- no local Play service-account JSON is configured
+- or the service account cannot access the app in Play Console
+
+Resolution:
+
+- keep the service-account JSON locally under `android/play/` or another ignored path
+- set `PLAY_SERVICE_ACCOUNT_JSON` in `android/release.properties`
+- confirm the service account has app-level Play Console access
+- if needed, pass `-VersionCode` manually or use `-SkipVersionCodeQuery`
+
 ## Recommended Setup Order
 
 1. Install Python and Python dependencies.
@@ -355,5 +376,6 @@ Resolution:
 - [android/.nvmrc](/c:/github/HKCensus/android/.nvmrc)
 - [android/scripts/use-node.ps1](/c:/github/HKCensus/android/scripts/use-node.ps1)
 - [android/RELEASE.md](/c:/github/HKCensus/android/RELEASE.md)
+- [android/publish-automation/README.md](/c:/github/HKCensus/android/publish-automation/README.md)
 - [build_report.py](/c:/github/HKCensus/build_report.py)
 - [export_mobile_data.py](/c:/github/HKCensus/export_mobile_data.py)

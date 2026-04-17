@@ -2,6 +2,12 @@ node_modules/
 .expo/
 .idea/
 .tooling/
+keys/
+play/
+release.properties
 dist/
 web-build/
 android/
+ownership-proof/adi-registration.properties
+ownership-proof/out/
+variant-builds/out/

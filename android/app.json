@@ -9,13 +9,32 @@
       "**/*"
     ],
     "android": {
+      "versionCode": 1,
       "package": "com.vkcrystalgem.hkcensus",
+      "blockedPermissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.VIBRATE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#F4EFE6"
       }
     },
     "plugins": [
-      "expo-asset"
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "buildToolsVersion": "35.0.0",
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35
+          }
+        }
+      ],
+      "expo-asset",
+      "./ownership-proof/with-adi-registration",
+      "./plugins/with-release-build"
     ]
   }
 }

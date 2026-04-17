@@ -8,6 +8,10 @@ A React Native Android app lives under `android/` and uses the same ten-section 
 
 The Android app targets Node.js 24 LTS. A local bootstrap script is included under `android/scripts/` so the app can still be installed and tested on machines that still resolve an older global Node runtime. For Android builds it also prefers Android Studio's bundled Java 21 runtime, because Java 25 is too new for the current Gradle and Android plugin stack.
 
+The tracked source of truth for Android SDK levels is [android/app.json](/c:/github/HKCensus/android/app.json). The Expo `expo-build-properties` plugin pins Android `compileSdkVersion 35`, `targetSdkVersion 35`, and build tools `35.0.0`, so `expo prebuild` regenerates a Play-compatible native project instead of relying on hand edits under `android/android/`.
+
+Android release packaging and local Google Play publishing are documented in [android/RELEASE.md](/c:/github/HKCensus/android/RELEASE.md).
+
 ## What it covers
 
 - Population level
@@ -106,3 +110,24 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "cd C:\github\HKCensus; p
 ```
 
 That gives you a local periodic check plus automatic incorporation of newly published values in the configured source set.
+
+## Build a signed Android release
+
+For a reusable local release flow, either keep signing values in `android/release.properties` or provide them through environment variables.
+
+From `C:\github\HKCensus`:
+
+```powershell
+$env:ANDROID_KEYSTORE_FILE='C:\github\android-my-keystore\android-release.keystore'
+$env:ANDROID_KEYSTORE_PASSWORD='android'
+$env:ANDROID_KEY_ALIAS='android_release'
+$env:ANDROID_KEY_PASSWORD='android'
+powershell -ExecutionPolicy Bypass -File .\android\scripts\build-release.ps1 -VersionCode 2 -VersionName 1.0.1
+```
+
+That writes:
+
+- `android\android\app\build\outputs\apk\release\app-release.apk`
+- `android\android\app\build\outputs\bundle\release\app-release.aab`
+
+Use the `.aab` for Google Play upload. Keep keystores, `android/release.properties`, and any Play service-account JSON local only.

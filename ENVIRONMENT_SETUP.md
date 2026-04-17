@@ -9,6 +9,7 @@ All commands below assume Windows PowerShell and the workspace root at `C:\githu
 - Local web report generation from Hong Kong C&SD data
 - Mobile payload generation for the Android app
 - React Native Android app build, test, and launch
+- Android release signing, bundle generation, and local Google Play upload
 - Known environment pitfalls that were already hit in this repo
 
 ## Required Software
@@ -124,6 +125,10 @@ Other useful commands:
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\use-node.ps1 sync-data
 powershell -ExecutionPolicy Bypass -File .\scripts\use-node.ps1 start
+powershell -ExecutionPolicy Bypass -File .\scripts\new-upload-keystore.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\build-release.ps1
+python -m pip install -r .\requirements-publish.txt
+powershell -ExecutionPolicy Bypass -File .\scripts\publish-play.ps1
 ```
 
 If you are certain your global environment already matches the repo requirements, the equivalent native commands are:
@@ -165,6 +170,8 @@ Verified checks:
 - Jest unit tests passed
 - TypeScript typecheck passed
 - Android debug APK build completed
+
+Release outputs are documented in [android/RELEASE.md](/c:/github/HKCensus/android/RELEASE.md).
 
 ## Known Pitfalls and Resolutions
 
@@ -286,6 +293,37 @@ Resolution:
 - this is expected
 - keep generated native files under version control only if that matches the repo policy
 
+### 8. Release build fails because only the debug keystore exists
+
+Symptom:
+
+- `assembleRelease` or `bundleRelease` fails with a missing signing configuration message
+
+Cause:
+
+- release signing values were not provided locally
+
+Resolution:
+
+- run [new-upload-keystore.ps1](/c:/github/HKCensus/android/scripts/new-upload-keystore.ps1)
+- or copy [release.properties.example](/c:/github/HKCensus/android/release.properties.example) to a local `android/release.properties` and fill in real values
+
+### 9. Google Play upload cannot start
+
+Symptom:
+
+- local publish script exits before upload
+
+Cause:
+
+- the Play service-account JSON path is missing or the Google API Python packages are not installed
+
+Resolution:
+
+- install `python -m pip install -r .\android\requirements-publish.txt`
+- store the JSON outside Git, usually under `android/play/`
+- set `PLAY_SERVICE_ACCOUNT_JSON` in `android/release.properties`
+
 ## Recommended Setup Order
 
 1. Install Python and Python dependencies.
@@ -297,6 +335,7 @@ Resolution:
 7. Run `powershell -ExecutionPolicy Bypass -File .\scripts\use-node.ps1 test`.
 8. Run `powershell -ExecutionPolicy Bypass -File .\scripts\use-node.ps1 typecheck`.
 9. Run `powershell -ExecutionPolicy Bypass -File .\scripts\use-node.ps1 android`.
+10. For release builds, follow [android/RELEASE.md](/c:/github/HKCensus/android/RELEASE.md).
 
 ## Fast Troubleshooting Checklist
 
@@ -305,6 +344,8 @@ Resolution:
 - If Android build complains about Kotlin or Compose compatibility, verify the React Native version is `0.76.9`.
 - If Metro complains about `expo-asset`, confirm it exists in [android/package.json](/c:/github/HKCensus/android/package.json) and reinstall packages.
 - If `android` does not exit after building, check the emulator and Metro state before assuming the build failed.
+- If `bundleRelease` fails, verify that `android/release.properties` exists and points at a real local keystore.
+- If the Play upload script fails immediately, verify the local service-account JSON path and install [requirements-publish.txt](/c:/github/HKCensus/android/requirements-publish.txt).
 
 ## Reference Files
 
@@ -313,5 +354,6 @@ Resolution:
 - [android/package.json](/c:/github/HKCensus/android/package.json)
 - [android/.nvmrc](/c:/github/HKCensus/android/.nvmrc)
 - [android/scripts/use-node.ps1](/c:/github/HKCensus/android/scripts/use-node.ps1)
+- [android/RELEASE.md](/c:/github/HKCensus/android/RELEASE.md)
 - [build_report.py](/c:/github/HKCensus/build_report.py)
 - [export_mobile_data.py](/c:/github/HKCensus/export_mobile_data.py)

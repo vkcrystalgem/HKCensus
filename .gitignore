@@ -2,8 +2,13 @@ __pycache__/
 *.pyc
 .venv/
 .idea/
+*.jks
+*.keystore
 data/raw/
 android/node_modules/
 android/.expo/
 android/.tooling/
+android/keys/
+android/play/
+android/release.properties
 android/web-build/

@@ -1,0 +1,18 @@
+# Copy this file to android/release.properties and fill in the real values locally.
+# Do not commit android/release.properties, your keystore, or your Play service-account JSON.
+
+VERSION_CODE=1
+VERSION_NAME=1.0.0
+
+# The path may be absolute or relative to the android/ folder.
+# Use forward slashes in .properties files, even on Windows.
+KEYSTORE_FILE=keys/upload-keystore.jks
+KEYSTORE_PASSWORD=change-me
+KEY_ALIAS=upload
+KEY_PASSWORD=change-me
+
+# Local Google Play upload settings.
+PLAY_SERVICE_ACCOUNT_JSON=play/service-account.json
+PLAY_TRACK=internal
+PLAY_RELEASE_STATUS=draft
+PLAY_RELEASE_NAME=HK Census 1.0.0

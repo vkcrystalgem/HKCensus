@@ -121,6 +121,31 @@ jobs:
           python android/scripts/ci_play.py plan --track $env:RELEASE_TRACK
           if ($LASTEXITCODE -ne 0) { throw 'Release planning failed.' }
 
+      - name: Prepare Android project and verified Gradle distribution
+        run: |
+          $ProgressPreference = 'SilentlyContinue'
+          & ./android/scripts/use-node.ps1 prebuild-android
+          if ($LASTEXITCODE -ne 0) { throw 'Android prebuild failed.' }
+          # Use the official release API to avoid the failing web-download redirect.
+          $gradleZip = Join-Path $env:RUNNER_TEMP 'gradle-8.14.3-bin.zip'
+          $digest = 'bd71102213493060956ec229d946beee57158dbd89d0e62b91bca0fa2c5f3531'
+          Invoke-WebRequest -Uri 'https://api.github.com/repos/gradle/gradle-distributions/releases/assets/269969095' -Headers @{ Accept = 'application/octet-stream'; 'X-GitHub-Api-Version' = '2022-11-28' } -OutFile $gradleZip -MaximumRetryCount 3 -RetryIntervalSec 5
+          if ((Get-FileHash -LiteralPath $gradleZip -Algorithm SHA256).Hash.ToLowerInvariant() -ne $digest) {
+            throw 'Gradle archive differs from the officially published SHA-256 checksum.'
+          }
+          $wrapperPath = Join-Path $env:GITHUB_WORKSPACE 'android/android/gradle/wrapper/gradle-wrapper.properties'
+          $wrapper = Get-Content -LiteralPath $wrapperPath -Raw
+          if ($wrapper -notmatch 'gradle-8\.14\.3-bin\.zip') { throw 'Update the verified Gradle distribution for this Expo template.' }
+          $localUrl = ([Uri]::new($gradleZip)).AbsoluteUri
+          $wrapper = [regex]::Replace($wrapper, '(?m)^distributionUrl=.*$', "distributionUrl=$localUrl")
+          if ($wrapper -match '(?m)^distributionSha256Sum=') {
+            $wrapper = [regex]::Replace($wrapper, '(?m)^distributionSha256Sum=.*$', "distributionSha256Sum=$digest")
+          } else {
+            $wrapper += "`ndistributionSha256Sum=$digest`n"
+          }
+          [IO.File]::WriteAllText($wrapperPath, $wrapper, [Text.UTF8Encoding]::new($false))
+          Write-Output 'Official Gradle distribution downloaded and checksum verified.'
+
       - name: Build signed APK and AAB on GitHub
         env:
           HKCENSUS_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -129,7 +154,7 @@ jobs:
           VERSION_CODE: ${{ steps.release.outputs.version_code }}
           VERSION_NAME: ${{ steps.release.outputs.version_name }}
         run: |
-          & ./android/scripts/build-release.ps1 -VersionCode $env:VERSION_CODE -VersionName $env:VERSION_NAME
+          & ./android/scripts/build-release.ps1 -SkipPrebuild -VersionCode $env:VERSION_CODE -VersionName $env:VERSION_NAME
           if ($LASTEXITCODE -ne 0) { throw 'Signed release build failed.' }
 
       - name: Verify built version and target Android SDK
@@ -168,7 +193,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7.0.2
         with:
-          name: hkcensus-${{ inputs.version_name }}-${{ github.run_number }}
+          name: hkcensus-${{ inputs.version_name }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: |
             android/android/app/build/outputs/apk/release/app-release.apk
             android/android/app/build/outputs/bundle/release/app-release.aab

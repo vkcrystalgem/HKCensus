@@ -2,6 +2,8 @@
 
 [Build and publish Google Play](../.github/workflows/publish-play.yml) tests the committed app, builds signed APK/AAB files on a GitHub-hosted Windows runner, uploads the new bundle to Play, and verifies its completed track status and SHA-256 checksum through a fresh Play API query.
 
+The app uses Expo SDK 54 and targets Android 16 / API 36. The workflow reads the built APK manifest and checks the target SDK and release version before uploading the AAB.
+
 The workflow releases the data already committed in `src/data/reportData.json`. Refresh data with `python build_report.py`, review the report, and commit both generated outputs before starting a release. It does not replace the data during a release build.
 
 ## Repository secrets

@@ -1,30 +1,25 @@
 const { withAppBuildGradle } = require("@expo/config-plugins");
 
-function replaceOrThrow(contents, searchValue, replaceValue, label) {
-  if (!contents.includes(searchValue)) {
+const HELPER_START = "// HK Census release helpers";
+const PROJECT_ROOT = "def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()";
+
+function replaceRequired(contents, pattern, replacement, label) {
+  if (!pattern.test(contents)) {
     throw new Error(`with-release-build: could not find ${label}`);
   }
-  return contents.replace(searchValue, replaceValue);
+  return contents.replace(pattern, () => replacement);
 }
 
-function replaceIfNeeded(contents, searchValue, replaceValue, alreadyAppliedMarker, label) {
-  if (contents.includes(alreadyAppliedMarker)) {
-    return contents;
+function groovyLiteral(value) {
+  return `'${String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'")}'`;
+}
+
+function transformBuildGradle(contents, config) {
+  const versionCode = config.android?.versionCode ?? 1;
+  if (!Number.isInteger(versionCode) || versionCode <= 0) {
+    throw new Error("with-release-build: Android versionCode must be a positive integer");
   }
-  return replaceOrThrow(contents, searchValue, replaceValue, label);
-}
-
-module.exports = function withReleaseBuild(config) {
-  return withAppBuildGradle(config, (config) => {
-    if (config.modResults.language !== "groovy") {
-      throw new Error("with-release-build only supports Groovy build.gradle files");
-    }
-
-    let contents = config.modResults.contents;
-
-    const projectRootLine = "def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()";
-    const releaseHelpers = `${projectRootLine}
-
+  const helpers = `${HELPER_START}
 def releaseProps = new Properties()
 def releasePropsFile = new File(projectRoot, "release.properties")
 if (releasePropsFile.exists()) {
@@ -40,21 +35,10 @@ def readReleaseValue = { String key ->
     return (propValue != null && !propValue.trim().isEmpty()) ? propValue.trim() : null
 }
 
-def readDebugValue = { String key ->
-    def qualifiedKey = "DEBUG_\${key}"
-    def envValue = System.getenv("HKCENSUS_\${qualifiedKey}")
-    if (envValue != null && !envValue.trim().isEmpty()) {
-        return envValue.trim()
-    }
-    def propValue = releaseProps.getProperty(qualifiedKey)
-    return (propValue != null && !propValue.trim().isEmpty()) ? propValue.trim() : null
-}
+def readDebugValue = { String key -> readReleaseValue("DEBUG_\${key}") }
 
 def resolveReleaseFile = { String value ->
-    if (value == null || value.trim().isEmpty()) {
-        return null
-    }
-    def direct = file(value)
+    def direct = new File(value)
     return direct.isAbsolute() ? direct : new File(projectRoot, value)
 }
 
@@ -63,63 +47,34 @@ def wantsReleaseBuild = gradle.startParameter.taskNames.any { task ->
     normalized.contains("release") || normalized.contains("publish")
 }
 
-def resolvedVersionCode = Integer.parseInt(readReleaseValue("VERSION_CODE") ?: "1")
-def resolvedVersionName = readReleaseValue("VERSION_NAME") ?: "1.0.0"`;
+def resolvedVersionCode = Integer.parseInt(readReleaseValue("VERSION_CODE") ?: ${groovyLiteral(versionCode)})
+def resolvedVersionName = readReleaseValue("VERSION_NAME") ?: ${groovyLiteral(config.version ?? "1.0.0")}
+// End HK Census release helpers`;
 
-    contents = replaceIfNeeded(
-      contents,
-      projectRootLine,
-      releaseHelpers,
-      "def resolvedVersionCode = Integer.parseInt(readReleaseValue(\"VERSION_CODE\") ?: \"1\")",
-      "projectRoot definition"
-    );
-    if (!contents.includes("def readDebugValue = { String key ->")) {
-      const releaseHelperPattern = /(def readReleaseValue = \{ String key ->[\s\S]*?return \(propValue != null && !propValue.trim\(\).isEmpty\(\)\) \? propValue.trim\(\) : null\s*\})/;
-      if (!releaseHelperPattern.test(contents)) {
-        throw new Error("with-release-build: could not find readReleaseValue");
-      }
-      const debugHelper = `def readDebugValue = { String key ->
-    def qualifiedKey = "DEBUG_\${key}"
-    def envValue = System.getenv("HKCENSUS_\${qualifiedKey}")
-    if (envValue != null && !envValue.trim().isEmpty()) {
-        return envValue.trim()
+  if (contents.includes(HELPER_START)) {
+    contents = replaceRequired(contents, /\/\/ HK Census release helpers[\s\S]*?\/\/ End HK Census release helpers/, helpers, "release helpers");
+  } else if (contents.includes("def readReleaseValue = {")) {
+    contents = replaceRequired(contents,
+      /def releaseProps = new Properties\(\)[\s\S]*?def resolvedVersionName = readReleaseValue\("VERSION_NAME"\) \?: "[^"]*"/,
+      helpers, "legacy release helpers");
+  } else {
+    if (!contents.includes(PROJECT_ROOT)) {
+      throw new Error("with-release-build: could not find projectRoot definition");
     }
-    def propValue = releaseProps.getProperty(qualifiedKey)
-    return (propValue != null && !propValue.trim().isEmpty()) ? propValue.trim() : null
-}`;
-      contents = contents.replace(releaseHelperPattern, `$1\n\n${debugHelper}`);
-    }
-    contents = replaceIfNeeded(
-      contents,
-      "        versionCode 1",
-      "        versionCode resolvedVersionCode",
-      "        versionCode resolvedVersionCode",
-      "versionCode"
-    );
-    contents = replaceIfNeeded(
-      contents,
-      '        versionName "1.0.0"',
-      "        versionName resolvedVersionName",
-      "        versionName resolvedVersionName",
-      "versionName"
-    );
+    contents = contents.replace(PROJECT_ROOT, () => `${PROJECT_ROOT}\n\n${helpers}`);
+  }
 
-    const signingBlock = `    signingConfigs {
-        debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-        }
-    }`;
+  contents = replaceRequired(contents, /^\s*versionCode\s+(?:\d+|resolvedVersionCode)\s*$/m,
+    "        versionCode resolvedVersionCode", "versionCode");
+  contents = replaceRequired(contents, /^\s*versionName\s+(?:"[^"]*"|'[^']*'|resolvedVersionName)\s*$/m,
+    "        versionName resolvedVersionName", "versionName");
 
-    const releaseSigningBlock = `    signingConfigs {
+  const signingConfigs = `    signingConfigs {
         debug {
             def keystoreFile = readDebugValue("KEYSTORE_FILE")
             def keystorePassword = readDebugValue("KEYSTORE_PASSWORD")
             def keyAliasValue = readDebugValue("KEY_ALIAS")
             def keyPasswordValue = readDebugValue("KEY_PASSWORD")
-
             if (keystoreFile && keystorePassword && keyAliasValue && keyPasswordValue) {
                 storeFile resolveReleaseFile(keystoreFile)
                 storePassword keystorePassword
@@ -137,7 +92,6 @@ def resolvedVersionName = readReleaseValue("VERSION_NAME") ?: "1.0.0"`;
             def keystorePassword = readReleaseValue("KEYSTORE_PASSWORD")
             def keyAliasValue = readReleaseValue("KEY_ALIAS")
             def keyPasswordValue = readReleaseValue("KEY_PASSWORD")
-
             if (keystoreFile && keystorePassword && keyAliasValue && keyPasswordValue) {
                 storeFile resolveReleaseFile(keystoreFile)
                 storePassword keystorePassword
@@ -145,45 +99,34 @@ def resolvedVersionName = readReleaseValue("VERSION_NAME") ?: "1.0.0"`;
                 keyPassword keyPasswordValue
             }
         }
-    }`;
-    if (!contents.includes('            def keystoreFile = readDebugValue("KEYSTORE_FILE")')) {
-      const signingPattern = /    signingConfigs\s*\{[\s\S]*?    }\s*    buildTypes\s*\{/;
-      if (!signingPattern.test(contents)) {
-        throw new Error("with-release-build: could not find signingConfigs");
-      }
-      contents = contents.replace(signingPattern, `${releaseSigningBlock}\n    buildTypes {`);
     }
+    buildTypes {`;
+  contents = replaceRequired(contents, /    signingConfigs\s*\{[\s\S]*?\n    }\s*\n    buildTypes\s*\{/,
+    signingConfigs, "signingConfigs");
 
-    const releaseBuildType = `        release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
-            shrinkResources (findProperty('android.enableShrinkResourcesInReleaseBuilds')?.toBoolean() ?: false)
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            crunchPngs (findProperty('android.enablePngCrunchInReleaseBuilds')?.toBoolean() ?: true)
-        }`;
-
-    const hardenedReleaseBuildType = `        release {
+  // Keep the SDK's shrink/minify settings and replace only its release signing declaration.
+  const releaseSigning = `        release {
             if (signingConfigs.release.storeFile != null) {
                 signingConfig signingConfigs.release
             } else if (wantsReleaseBuild) {
                 throw new GradleException("Missing release signing configuration. Provide HKCENSUS_KEYSTORE_FILE, HKCENSUS_KEYSTORE_PASSWORD, HKCENSUS_KEY_ALIAS, and HKCENSUS_KEY_PASSWORD, or create android/release.properties.")
-            }
-            shrinkResources (findProperty('android.enableShrinkResourcesInReleaseBuilds')?.toBoolean() ?: false)
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            crunchPngs (findProperty('android.enablePngCrunchInReleaseBuilds')?.toBoolean() ?: true)
-        }`;
-    contents = replaceIfNeeded(
-      contents,
-      releaseBuildType,
-      hardenedReleaseBuildType,
-      '                throw new GradleException("Missing release signing configuration. Provide HKCENSUS_KEYSTORE_FILE, HKCENSUS_KEYSTORE_PASSWORD, HKCENSUS_KEY_ALIAS, and HKCENSUS_KEY_PASSWORD, or create android/release.properties.")',
-      "release buildType"
-    );
+            }`;
+  if (!contents.includes("else if (wantsReleaseBuild)")) {
+    contents = replaceRequired(contents,
+      /        release\s*\{\s*(?:\/\/[^\n]*\n\s*)*signingConfig signingConfigs\.debug/,
+      releaseSigning, "release signing declaration");
+  }
+  return contents;
+}
 
-    config.modResults.contents = contents;
-    return config;
+module.exports = function withReleaseBuild(config) {
+  return withAppBuildGradle(config, (modConfig) => {
+    if (modConfig.modResults.language !== "groovy") {
+      throw new Error("with-release-build only supports Groovy build.gradle files");
+    }
+    modConfig.modResults.contents = transformBuildGradle(modConfig.modResults.contents, modConfig);
+    return modConfig;
   });
 };
+
+module.exports.transformBuildGradle = transformBuildGradle;

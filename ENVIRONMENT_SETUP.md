@@ -149,14 +149,15 @@ Using the launcher script is safer.
 
 From [android/package.json](/c:/github/HKCensus/android/package.json):
 
-- Expo `~52.0.0`
-- `expo-asset` `~11.0.5`
-- React `18.3.1`
-- React Native `0.76.9`
-- `react-native-svg` `15.8.0`
-- TypeScript `^5.6.3`
+- Expo `~54.0.38`
+- `expo-asset` `~12.0.14`
+- React `19.1.0`
+- React Native `0.81.5`
+- `react-native-svg` `15.12.1`
+- `react-native-safe-area-context` `~5.6.0`
+- TypeScript `~5.9.2`
 - Jest `^29.7.0`
-- `jest-expo` `~52.0.4`
+- `jest-expo` `~54.0.18`
 
 Android package namespace:
 

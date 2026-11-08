@@ -1,5 +1,6 @@
 import React from "react";
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 
 import reportData from "./src/data/reportData.json";
@@ -11,46 +12,47 @@ const payload = reportData as ReportPayload;
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor={palette.bg} />
-      <ExpoStatusBar style="dark" />
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <View style={styles.hero}>
-          <Text style={styles.eyebrow}>Hong Kong C&SD Historical Monitor</Text>
-          <Text style={styles.title}>HK Census, reworked for touch interaction.</Text>
-          <Text style={styles.description}>
-            This mobile app follows the same ten-section analysis as the local web report. Each section leads with an interactive
-            historical chart and then adds smaller supporting graphics for context.
-          </Text>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.safeArea}>
+        <ExpoStatusBar style="dark" />
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          <View style={styles.hero}>
+            <Text style={styles.eyebrow}>Hong Kong C&SD Historical Monitor</Text>
+            <Text style={styles.title}>HK Census, reworked for touch interaction.</Text>
+            <Text style={styles.description}>
+              This mobile app follows the same ten-section analysis as the local web report. Each section leads with an interactive
+              historical chart and then adds smaller supporting graphics for context.
+            </Text>
 
-          <View style={styles.summaryRow}>
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryLabel}>Analyses</Text>
-              <Text style={styles.summaryValue}>{payload.sections.length}</Text>
+            <View style={styles.summaryRow}>
+              <View style={styles.summaryCard}>
+                <Text style={styles.summaryLabel}>Analyses</Text>
+                <Text style={styles.summaryValue}>{payload.sections.length}</Text>
+              </View>
+              <View style={styles.summaryCard}>
+                <Text style={styles.summaryLabel}>Latest release</Text>
+                <Text style={styles.summaryValue}>{payload.latest_release}</Text>
+              </View>
             </View>
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryLabel}>Latest release</Text>
-              <Text style={styles.summaryValue}>{payload.latest_release}</Text>
+
+            <View style={styles.summaryRow}>
+              <View style={styles.summaryCard}>
+                <Text style={styles.summaryLabel}>Generated</Text>
+                <Text style={styles.summaryValueSmall}>{payload.generated_at}</Text>
+              </View>
+              <View style={styles.summaryCard}>
+                <Text style={styles.summaryLabel}>Namespace</Text>
+                <Text style={styles.summaryValueSmall}>com.vkcrystalgem.hkcensus</Text>
+              </View>
             </View>
           </View>
 
-          <View style={styles.summaryRow}>
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryLabel}>Generated</Text>
-              <Text style={styles.summaryValueSmall}>{payload.generated_at}</Text>
-            </View>
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryLabel}>Namespace</Text>
-              <Text style={styles.summaryValueSmall}>com.vkcrystalgem.hkcensus</Text>
-            </View>
-          </View>
-        </View>
-
-        {payload.sections.map((section, index) => (
-          <SectionCard key={section.id} analysis={section} index={index} />
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+          {payload.sections.map((section, index) => (
+            <SectionCard key={section.id} analysis={section} index={index} />
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 

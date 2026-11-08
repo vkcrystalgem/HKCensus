@@ -12,7 +12,7 @@ For the preferred GitHub build and Google Play publishing workflow, see [GITHUB_
 - Interactive historical charts rendered with `react-native-svg`
 - Local bundled data generated from the repo's cached HK Census source files
 - Android package configured as `com.vkcrystalgem.hkcensus`
-- Android SDK and build tools pinned in `app.json` through `expo-build-properties`, so `expo prebuild` keeps the generated native project at API 35
+- Android SDK and build tools pinned in `app.json` through `expo-build-properties`, so `expo prebuild` keeps the generated native project at API 36
 - Jest unit tests for chart math and payload structure
 - Local Node.js 24 LTS bootstrap script for machines that still resolve an older global Node runtime or an unsupported Java runtime
 

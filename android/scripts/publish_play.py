@@ -176,68 +176,77 @@ def main() -> int:
     service = create_service(service_account_path)
     edit_id = insert_edit(service, args.package_name)
 
-    tracks = list_tracks(service, args.package_name, edit_id)
-    track_snapshot = build_track_snapshot(tracks)
-    existing_version_codes = extract_version_codes(tracks)
+    committed = False
+    try:
+        tracks = list_tracks(service, args.package_name, edit_id)
+        track_snapshot = build_track_snapshot(tracks)
+        existing_version_codes = extract_version_codes(tracks)
 
-    if args.query_next_version_code:
-      receipt = build_query_receipt(args.package_name, track_snapshot, existing_version_codes)
-      write_receipt(args.receipt_json, receipt)
-      print(receipt["nextVersionCode"])
-      return 0
+        if args.query_next_version_code:
+            receipt = build_query_receipt(args.package_name, track_snapshot, existing_version_codes)
+            write_receipt(args.receipt_json, receipt)
+            print(receipt["nextVersionCode"])
+            return 0
 
-    aab_default = Path("android") / "app" / "build" / "outputs" / "bundle" / "release" / "app-release.aab"
-    aab_path = require_path(args.aab or str(aab_default), "AAB file")
-    release_notes = load_release_notes(args.release_notes_file, args.release_notes_language)
+        aab_default = Path("android") / "app" / "build" / "outputs" / "bundle" / "release" / "app-release.aab"
+        aab_path = require_path(args.aab or str(aab_default), "AAB file")
+        release_notes = load_release_notes(args.release_notes_file, args.release_notes_language)
 
-    bundle_upload = service.edits().bundles().upload(
-        packageName=args.package_name,
-        editId=edit_id,
-        media_body=MediaFileUpload(str(aab_path), mimetype="application/octet-stream"),
-    ).execute()
+        bundle_upload = service.edits().bundles().upload(
+            packageName=args.package_name,
+            editId=edit_id,
+            media_body=MediaFileUpload(str(aab_path), mimetype="application/octet-stream"),
+        ).execute()
 
-    uploaded_version_code = int(bundle_upload["versionCode"])
-    resolved_release_name = args.release_name or f"{args.package_name} {uploaded_version_code}"
-    release_definition: Dict[str, Any] = {
-        "name": resolved_release_name,
-        "versionCodes": [str(uploaded_version_code)],
-        "status": args.release_status,
-    }
-    if release_notes:
-        release_definition["releaseNotes"] = release_notes
+        uploaded_version_code = int(bundle_upload["versionCode"])
+        resolved_release_name = args.release_name or f"{args.package_name} {uploaded_version_code}"
+        release_definition: Dict[str, Any] = {
+            "name": resolved_release_name,
+            "versionCodes": [str(uploaded_version_code)],
+            "status": args.release_status,
+        }
+        if release_notes:
+            release_definition["releaseNotes"] = release_notes
 
-    service.edits().tracks().update(
-        packageName=args.package_name,
-        editId=edit_id,
-        track=args.track,
-        body={"releases": [release_definition]},
-    ).execute()
+        service.edits().tracks().update(
+            packageName=args.package_name,
+            editId=edit_id,
+            track=args.track,
+            body={"releases": [release_definition]},
+        ).execute()
 
-    service.edits().commit(
-        packageName=args.package_name,
-        editId=edit_id,
-        changesNotSentForReview=args.changes_not_sent_for_review,
-    ).execute()
+        service.edits().commit(
+            packageName=args.package_name,
+            editId=edit_id,
+            changesNotSentForReview=args.changes_not_sent_for_review,
+        ).execute()
+        committed = True
 
-    receipt = build_upload_receipt(
-        package_name=args.package_name,
-        aab_path=aab_path,
-        track=args.track,
-        release_status=args.release_status,
-        release_name=resolved_release_name,
-        uploaded_version_code=uploaded_version_code,
-        existing_version_codes=existing_version_codes,
-        changes_not_sent_for_review=args.changes_not_sent_for_review,
-        release_notes_file=str(resolve_optional_path(args.release_notes_file)) if args.release_notes_file else None,
-        release_notes_language=args.release_notes_language,
-    )
-    write_receipt(args.receipt_json, receipt)
+        receipt = build_upload_receipt(
+            package_name=args.package_name,
+            aab_path=aab_path,
+            track=args.track,
+            release_status=args.release_status,
+            release_name=resolved_release_name,
+            uploaded_version_code=uploaded_version_code,
+            existing_version_codes=existing_version_codes,
+            changes_not_sent_for_review=args.changes_not_sent_for_review,
+            release_notes_file=str(resolve_optional_path(args.release_notes_file)) if args.release_notes_file else None,
+            release_notes_language=args.release_notes_language,
+        )
+        write_receipt(args.receipt_json, receipt)
 
-    print(
-        f"Uploaded {aab_path} to track '{args.track}' as versionCode {uploaded_version_code} "
-        f"with status '{args.release_status}'."
-    )
-    return 0
+        print(
+            f"Uploaded {aab_path} to track '{args.track}' as versionCode {uploaded_version_code} "
+            f"with status '{args.release_status}'."
+        )
+        return 0
+    finally:
+        if not committed:
+            try:
+                service.edits().delete(packageName=args.package_name, editId=edit_id).execute()
+            except Exception as cleanup_error:
+                print(f"Warning: could not remove the uncommitted Play edit ({type(cleanup_error).__name__}).", file=sys.stderr)
 
 
 if __name__ == "__main__":

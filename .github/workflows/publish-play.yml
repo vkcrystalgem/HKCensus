@@ -54,7 +54,9 @@ jobs:
       - uses: actions/setup-java@v6.2.0
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: |
+            17
+            21
           cache: gradle
           cache-dependency-path: |
             android/package-lock.json
@@ -144,6 +146,15 @@ jobs:
             $wrapper += "`ndistributionSha256Sum=$digest`n"
           }
           [IO.File]::WriteAllText($wrapperPath, $wrapper, [Text.UTF8Encoding]::new($false))
+          $gradleHome = if ($env:GRADLE_USER_HOME) { $env:GRADLE_USER_HOME } else { Join-Path $env:USERPROFILE '.gradle' }
+          New-Item -ItemType Directory -Path $gradleHome -Force | Out-Null
+          [IO.File]::AppendAllText((Join-Path $gradleHome 'gradle.properties'), "`norg.gradle.java.installations.fromEnv=JAVA_HOME_17_X64,JAVA_HOME_21_X64`norg.gradle.java.installations.auto-download=false`n", [Text.UTF8Encoding]::new($false))
+          foreach ($major in @(17, 21)) {
+            $jdkPath = [Environment]::GetEnvironmentVariable("JAVA_HOME_${major}_X64")
+            if (-not $jdkPath -or -not (Test-Path -LiteralPath (Join-Path $jdkPath 'bin/java.exe'))) {
+              throw "Required Java $major toolchain is unavailable."
+            }
+          }
           Write-Output 'Official Gradle distribution downloaded and checksum verified.'
 
       - name: Build signed APK and AAB on GitHub

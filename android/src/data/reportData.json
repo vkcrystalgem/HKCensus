@@ -1,13 +1,13 @@
 {
   "app_title": "HK Census",
-  "generated_at": "2026-04-13 11:45 UTC",
-  "latest_release": "2026-03-30",
+  "generated_at": "2026-11-08 07:43 UTC",
+  "latest_release": "2026-10-30",
   "sections": [
     {
       "id": "population-level",
       "title": "Population level",
-      "headline": "2025 Year-end: 7,510.8 thousand",
-      "insight": "Year-end population moved from 3,195.3 thousand in 1961 Year-end to 7,510.8 thousand in 2025 Year-end. The historical peak was 7,527.9 thousand in 2023 Year-end.",
+      "headline": "2025 Year-end: 7,508.7 thousand",
+      "insight": "Year-end population moved from 3,195.3 thousand in 1961 Year-end to 7,508.7 thousand in 2025 Year-end. The historical peak was 7,527.9 thousand in 2023 Year-end.",
       "chart_note": "Year-end population, both sexes, all ages. Event lines mark major external shocks where they fall within the time range.",
       "datasets": [
         {
@@ -337,7 +337,7 @@
             },
             {
               "x": "2025-12-01",
-              "y": 7510.8,
+              "y": 7508.7,
               "label": "2025 Year-end"
             }
           ]
@@ -455,7 +455,7 @@
               },
               {
                 "x": "2025-12-01",
-                "y": 7510.8,
+                "y": 7508.7,
                 "label": "2025 Year-end"
               }
             ]
@@ -466,8 +466,8 @@
       "sources": [
         {
           "table_id": "110-01001",
-          "title": "Population by Sex and Age Group",
-          "last_modified_date": "2026-02-12",
+          "title": "Population by sex and age group",
+          "last_modified_date": "2026-08-18",
           "url": "https://www.censtatd.gov.hk/en/web_table.html?id=110-01001"
         }
       ],
@@ -483,7 +483,7 @@
         },
         {
           "label": "Change",
-          "value": "135.1%"
+          "value": "135.0%"
         },
         {
           "label": "Peak",
@@ -494,7 +494,7 @@
     {
       "id": "population-growth-components",
       "title": "Population growth components",
-      "headline": "2025 Year-end: growth 10.2 thousand, net movement 29.1 thousand",
+      "headline": "2025 Year-end: growth 8.1 thousand, net movement 27.1 thousand",
       "insight": "Population growth peaked at 254.8 thousand in 1979 Year-end. In the latest year, births were 31.1 thousand and deaths were 50.0 thousand.",
       "chart_note": "Annual year-end population growth history. Event lines provide timing context for shocks and recoveries.",
       "datasets": [
@@ -820,7 +820,7 @@
             },
             {
               "x": "2025-12-01",
-              "y": 10.2,
+              "y": 8.1,
               "label": "2025 Year-end"
             }
           ]
@@ -1801,7 +1801,7 @@
             },
             {
               "x": "2025-12-01",
-              "y": 29.1,
+              "y": 27.1,
               "label": "2025 Year-end"
             }
           ]
@@ -2486,13 +2486,13 @@
             },
             {
               "label": "Net movement",
-              "value": 29.1,
-              "display": "29.1"
+              "value": 27.1,
+              "display": "27.1"
             },
             {
               "label": "Population gro",
-              "value": 10.2,
-              "display": "10.2"
+              "value": 8.1,
+              "display": "8.1"
             }
           ],
           "color": "#334155"
@@ -2502,8 +2502,8 @@
       "sources": [
         {
           "table_id": "110-01003",
-          "title": "Population Growth by Component",
-          "last_modified_date": "2026-02-12",
+          "title": "Population growth by component",
+          "last_modified_date": "2026-08-18",
           "url": "https://www.censtatd.gov.hk/en/web_table.html?id=110-01003"
         }
       ],
@@ -2515,11 +2515,11 @@
         },
         {
           "label": "Latest",
-          "value": "10.2"
+          "value": "8.1"
         },
         {
           "label": "Change",
-          "value": "-84.8%"
+          "value": "-87.9%"
         },
         {
           "label": "Peak",
@@ -2530,8 +2530,8 @@
     {
       "id": "ageing",
       "title": "Ageing and dependency",
-      "headline": "2025: median age 49.4, dependency ratio 535.0",
-      "insight": "Median age rose by 22.7 years over the series, while the total dependency ratio increased from 455.0 to 535.0.",
+      "headline": "2026: median age 49.8, dependency ratio 543.0",
+      "insight": "Median age rose by 23.1 years over the series, while the total dependency ratio increased from 455.0 to 543.0.",
       "chart_note": "Annual population ageing indicators, excluding foreign domestic helpers. Event lines matter less here because the shift is structural rather than cyclical.",
       "datasets": [
         {
@@ -2758,6 +2758,11 @@
               "x": "2025-01-01",
               "y": 49.4,
               "label": "2025"
+            },
+            {
+              "x": "2026-01-01",
+              "y": 49.8,
+              "label": "2026"
             }
           ]
         },
@@ -2985,6 +2990,11 @@
               "x": "2025-01-01",
               "y": 535.0,
               "label": "2025"
+            },
+            {
+              "x": "2026-01-01",
+              "y": 543.0,
+              "label": "2026"
             }
           ]
         }
@@ -2993,7 +3003,7 @@
         {
           "kind": "line",
           "title": "Dependency ratio",
-          "value": "535.0",
+          "value": "543.0",
           "subtext": "How many dependants are supported per 1,000 working-age people.",
           "dataset": {
             "label": "Dependency ratio",
@@ -3219,6 +3229,11 @@
                 "x": "2025-01-01",
                 "y": 535.0,
                 "label": "2025"
+              },
+              {
+                "x": "2026-01-01",
+                "y": 543.0,
+                "label": "2026"
               }
             ]
           }
@@ -3226,7 +3241,7 @@
         {
           "kind": "bars",
           "title": "Median age milestones",
-          "value": "85.0%",
+          "value": "86.5%",
           "subtext": "Start, latest and peak age markers from the full history.",
           "items": [
             {
@@ -3236,13 +3251,13 @@
             },
             {
               "label": "Latest",
-              "value": 49.4,
-              "display": "49.4"
+              "value": 49.8,
+              "display": "49.8"
             },
             {
               "label": "Peak",
-              "value": 49.4,
-              "display": "49.4"
+              "value": 49.8,
+              "display": "49.8"
             }
           ],
           "color": "#a16207"
@@ -3253,7 +3268,7 @@
         {
           "table_id": "110-01004",
           "title": "Dependency ratio and median age of population",
-          "last_modified_date": "2026-03-26",
+          "last_modified_date": "2026-10-30",
           "url": "https://www.censtatd.gov.hk/en/web_table.html?id=110-01004"
         }
       ],
@@ -3261,27 +3276,27 @@
       "stats": [
         {
           "label": "Coverage",
-          "value": "1982 to 2025"
+          "value": "1982 to 2026"
         },
         {
           "label": "Latest",
-          "value": "49.4"
+          "value": "49.8"
         },
         {
           "label": "Change",
-          "value": "85.0%"
+          "value": "86.5%"
         },
         {
           "label": "Peak",
-          "value": "49.4 | 2025"
+          "value": "49.8 | 2026"
         }
       ]
     },
     {
       "id": "fertility",
       "title": "Fertility pressure",
-      "headline": "2025: TFR 734.00, crude birth rate 4.1 per 1,000",
-      "insight": "Total fertility fell from a peak of 3,459.00 in 1971 to 734.00 in the latest release.",
+      "headline": "2025: TFR 733.00, crude birth rate 4.1 per 1,000",
+      "insight": "Total fertility fell from a peak of 3,459.00 in 1971 to 733.00 in the latest release.",
       "chart_note": "Annual fertility indicators. Event lines are included for orientation, but the dominant pattern is the long-run downtrend.",
       "datasets": [
         {
@@ -3561,7 +3576,7 @@
             },
             {
               "x": "2025-01-01",
-              "y": 734.0,
+              "y": 733.0,
               "label": "2025"
             }
           ]
@@ -4251,8 +4266,8 @@
             },
             {
               "label": "Latest",
-              "value": 734.0,
-              "display": "734.0"
+              "value": 733.0,
+              "display": "733.0"
             },
             {
               "label": "Peak",
@@ -4267,8 +4282,8 @@
       "sources": [
         {
           "table_id": "115-01011",
-          "title": "Vital Events",
-          "last_modified_date": "2026-03-26",
+          "title": "Vital events",
+          "last_modified_date": "2026-10-30",
           "url": "https://www.censtatd.gov.hk/en/web_table.html?id=115-01011"
         }
       ],
@@ -4280,7 +4295,7 @@
         },
         {
           "label": "Latest",
-          "value": "734.0"
+          "value": "733.0"
         },
         {
           "label": "Change",
@@ -5179,7 +5194,7 @@
         {
           "table_id": "130-06601A",
           "title": "Domestic households by household size (excluding foreign domestic helpers)",
-          "last_modified_date": "2026-03-18",
+          "last_modified_date": "2026-09-17",
           "url": "https://www.censtatd.gov.hk/en/web_table.html?id=130-06601A"
         }
       ],
@@ -5754,7 +5769,7 @@
         {
           "table_id": "130-06606A",
           "title": "Median monthly household income by household size (excluding foreign domestic helpers)",
-          "last_modified_date": "2026-03-18",
+          "last_modified_date": "2026-09-17",
           "url": "https://www.censtatd.gov.hk/en/web_table.html?id=130-06606A"
         }
       ],
@@ -6459,7 +6474,7 @@
         {
           "table_id": "210-06101",
           "title": "Statistics on labour force, employment, unemployment and underemployment",
-          "last_modified_date": "2026-03-18",
+          "last_modified_date": "2026-10-22",
           "url": "https://www.censtatd.gov.hk/en/web_table.html?id=210-06101"
         }
       ],
@@ -6486,7 +6501,7 @@
     {
       "id": "unemployment",
       "title": "Unemployment cycle",
-      "headline": "2026-02: 3.8% seasonally adjusted",
+      "headline": "2026-09: 3.9% seasonally adjusted",
       "insight": "The seasonally adjusted unemployment rate ranged from 1.0% in 1989-12 to 8.5% in 2003-06.",
       "chart_note": "Monthly moving 3-month series from the General Household Survey.",
       "datasets": [
@@ -8577,7 +8592,7 @@
             },
             {
               "x": "2025-03-01",
-              "y": 3.2,
+              "y": 3.3,
               "label": "2025-03"
             },
             {
@@ -8622,7 +8637,7 @@
             },
             {
               "x": "2025-12-01",
-              "y": 3.8,
+              "y": 3.9,
               "label": "2025-12"
             },
             {
@@ -8634,6 +8649,41 @@
               "x": "2026-02-01",
               "y": 3.8,
               "label": "2026-02"
+            },
+            {
+              "x": "2026-03-01",
+              "y": 3.7,
+              "label": "2026-03"
+            },
+            {
+              "x": "2026-04-01",
+              "y": 3.7,
+              "label": "2026-04"
+            },
+            {
+              "x": "2026-05-01",
+              "y": 3.7,
+              "label": "2026-05"
+            },
+            {
+              "x": "2026-06-01",
+              "y": 3.7,
+              "label": "2026-06"
+            },
+            {
+              "x": "2026-07-01",
+              "y": 3.7,
+              "label": "2026-07"
+            },
+            {
+              "x": "2026-08-01",
+              "y": 3.8,
+              "label": "2026-08"
+            },
+            {
+              "x": "2026-09-01",
+              "y": 3.9,
+              "label": "2026-09"
             }
           ]
         }
@@ -8642,48 +8692,13 @@
         {
           "kind": "line",
           "title": "Recent cycle",
-          "value": "2026-02",
+          "value": "2026-09",
           "subtext": "A zoomed view of the last 72 monthly observations.",
           "dataset": {
             "label": "Seasonally adjusted unemployment rate",
             "borderColor": "#b91c1c",
             "backgroundColor": "#b91c1c",
             "data": [
-              {
-                "x": "2020-03-01",
-                "y": 4.3,
-                "label": "2020-03"
-              },
-              {
-                "x": "2020-04-01",
-                "y": 5.2,
-                "label": "2020-04"
-              },
-              {
-                "x": "2020-05-01",
-                "y": 5.9,
-                "label": "2020-05"
-              },
-              {
-                "x": "2020-06-01",
-                "y": 6.1,
-                "label": "2020-06"
-              },
-              {
-                "x": "2020-07-01",
-                "y": 6.0,
-                "label": "2020-07"
-              },
-              {
-                "x": "2020-08-01",
-                "y": 6.1,
-                "label": "2020-08"
-              },
-              {
-                "x": "2020-09-01",
-                "y": 6.2,
-                "label": "2020-09"
-              },
               {
                 "x": "2020-10-01",
                 "y": 6.3,
@@ -8951,7 +8966,7 @@
               },
               {
                 "x": "2025-03-01",
-                "y": 3.2,
+                "y": 3.3,
                 "label": "2025-03"
               },
               {
@@ -8996,7 +9011,7 @@
               },
               {
                 "x": "2025-12-01",
-                "y": 3.8,
+                "y": 3.9,
                 "label": "2025-12"
               },
               {
@@ -9008,6 +9023,41 @@
                 "x": "2026-02-01",
                 "y": 3.8,
                 "label": "2026-02"
+              },
+              {
+                "x": "2026-03-01",
+                "y": 3.7,
+                "label": "2026-03"
+              },
+              {
+                "x": "2026-04-01",
+                "y": 3.7,
+                "label": "2026-04"
+              },
+              {
+                "x": "2026-05-01",
+                "y": 3.7,
+                "label": "2026-05"
+              },
+              {
+                "x": "2026-06-01",
+                "y": 3.7,
+                "label": "2026-06"
+              },
+              {
+                "x": "2026-07-01",
+                "y": 3.7,
+                "label": "2026-07"
+              },
+              {
+                "x": "2026-08-01",
+                "y": 3.8,
+                "label": "2026-08"
+              },
+              {
+                "x": "2026-09-01",
+                "y": 3.9,
+                "label": "2026-09"
               }
             ]
           }
@@ -9015,7 +9065,7 @@
         {
           "kind": "bars",
           "title": "Shock snapshots",
-          "value": "2026-02",
+          "value": "2026-09",
           "subtext": "Nearest readings around major event markers plus the latest point.",
           "items": [
             {
@@ -9040,8 +9090,8 @@
             },
             {
               "label": "Latest",
-              "value": 3.8,
-              "display": "3.8"
+              "value": 3.9,
+              "display": "3.9"
             }
           ],
           "color": "#b91c1c"
@@ -9052,7 +9102,7 @@
         {
           "table_id": "210-06101",
           "title": "Statistics on labour force, employment, unemployment and underemployment",
-          "last_modified_date": "2026-03-18",
+          "last_modified_date": "2026-10-22",
           "url": "https://www.censtatd.gov.hk/en/web_table.html?id=210-06101"
         }
       ],
@@ -9060,15 +9110,15 @@
       "stats": [
         {
           "label": "Coverage",
-          "value": "1985-03 to 2026-02"
+          "value": "1985-03 to 2026-09"
         },
         {
           "label": "Latest",
-          "value": "3.8"
+          "value": "3.9"
         },
         {
           "label": "Change",
-          "value": "31.0%"
+          "value": "34.5%"
         },
         {
           "label": "Peak",
@@ -9079,8 +9129,8 @@
     {
       "id": "gdp",
       "title": "Real GDP per capita",
-      "headline": "2025: HK$422,236 per person in chained dollars",
-      "insight": "Real GDP per capita climbed from HK$35,960 to HK$422,236. The series high is HK$422,236 in 2025.",
+      "headline": "2025: HK$440,261 per person in chained dollars",
+      "insight": "Real GDP per capita climbed from HK$37,449 to HK$440,261. The series high is HK$440,261 in 2025.",
       "chart_note": "Annual chained-dollar GDP and real GDP per capita. Event lines are especially useful here because external crises show up clearly in the macro cycle.",
       "datasets": [
         {
@@ -9090,327 +9140,327 @@
           "data": [
             {
               "x": "1961-01-01",
-              "y": 35960.0,
+              "y": 37449.0,
               "label": "1961"
             },
             {
               "x": "1962-01-01",
-              "y": 39395.0,
+              "y": 41025.0,
               "label": "1962"
             },
             {
               "x": "1963-01-01",
-              "y": 44062.0,
+              "y": 45886.0,
               "label": "1963"
             },
             {
               "x": "1964-01-01",
-              "y": 46721.0,
+              "y": 48655.0,
               "label": "1964"
             },
             {
               "x": "1965-01-01",
-              "y": 52173.0,
+              "y": 54333.0,
               "label": "1965"
             },
             {
               "x": "1966-01-01",
-              "y": 52641.0,
+              "y": 54820.0,
               "label": "1966"
             },
             {
               "x": "1967-01-01",
-              "y": 52150.0,
+              "y": 54309.0,
               "label": "1967"
             },
             {
               "x": "1968-01-01",
-              "y": 52789.0,
+              "y": 54974.0,
               "label": "1968"
             },
             {
               "x": "1969-01-01",
-              "y": 57846.0,
+              "y": 60241.0,
               "label": "1969"
             },
             {
               "x": "1970-01-01",
-              "y": 61654.0,
+              "y": 64207.0,
               "label": "1970"
             },
             {
               "x": "1971-01-01",
-              "y": 64740.0,
+              "y": 67420.0,
               "label": "1971"
             },
             {
               "x": "1972-01-01",
-              "y": 70250.0,
+              "y": 73158.0,
               "label": "1972"
             },
             {
               "x": "1973-01-01",
-              "y": 76682.0,
+              "y": 79857.0,
               "label": "1973"
             },
             {
               "x": "1974-01-01",
-              "y": 76091.0,
+              "y": 79241.0,
               "label": "1974"
             },
             {
               "x": "1975-01-01",
-              "y": 75029.0,
+              "y": 78135.0,
               "label": "1975"
             },
             {
               "x": "1976-01-01",
-              "y": 86069.0,
+              "y": 89632.0,
               "label": "1976"
             },
             {
               "x": "1977-01-01",
-              "y": 94783.0,
+              "y": 98707.0,
               "label": "1977"
             },
             {
               "x": "1978-01-01",
-              "y": 100771.0,
+              "y": 104942.0,
               "label": "1978"
             },
             {
               "x": "1979-01-01",
-              "y": 106437.0,
+              "y": 110843.0,
               "label": "1979"
             },
             {
               "x": "1980-01-01",
-              "y": 114108.0,
+              "y": 118832.0,
               "label": "1980"
             },
             {
               "x": "1981-01-01",
-              "y": 121782.0,
+              "y": 126823.0,
               "label": "1981"
             },
             {
               "x": "1982-01-01",
-              "y": 123443.0,
+              "y": 128553.0,
               "label": "1982"
             },
             {
               "x": "1983-01-01",
-              "y": 128849.0,
+              "y": 134182.0,
               "label": "1983"
             },
             {
               "x": "1984-01-01",
-              "y": 140314.0,
+              "y": 146122.0,
               "label": "1984"
             },
             {
               "x": "1985-01-01",
-              "y": 139866.0,
+              "y": 145655.0,
               "label": "1985"
             },
             {
               "x": "1986-01-01",
-              "y": 153406.0,
+              "y": 159756.0,
               "label": "1986"
             },
             {
               "x": "1987-01-01",
-              "y": 172218.0,
+              "y": 179346.0,
               "label": "1987"
             },
             {
               "x": "1988-01-01",
-              "y": 185312.0,
+              "y": 192983.0,
               "label": "1988"
             },
             {
               "x": "1989-01-01",
-              "y": 187579.0,
+              "y": 195343.0,
               "label": "1989"
             },
             {
               "x": "1990-01-01",
-              "y": 194139.0,
+              "y": 202175.0,
               "label": "1990"
             },
             {
               "x": "1991-01-01",
-              "y": 203514.0,
+              "y": 211938.0,
               "label": "1991"
             },
             {
               "x": "1992-01-01",
-              "y": 214395.0,
+              "y": 223269.0,
               "label": "1992"
             },
             {
               "x": "1993-01-01",
-              "y": 223813.0,
+              "y": 233076.0,
               "label": "1993"
             },
             {
               "x": "1994-01-01",
-              "y": 232037.0,
+              "y": 241641.0,
               "label": "1994"
             },
             {
               "x": "1995-01-01",
-              "y": 232888.0,
+              "y": 242527.0,
               "label": "1995"
             },
             {
               "x": "1996-01-01",
-              "y": 232264.0,
+              "y": 241877.0,
               "label": "1996"
             },
             {
               "x": "1997-01-01",
-              "y": 242085.0,
+              "y": 252105.0,
               "label": "1997"
             },
             {
               "x": "1998-01-01",
-              "y": 225950.0,
+              "y": 235302.0,
               "label": "1998"
             },
             {
               "x": "1999-01-01",
-              "y": 229412.0,
+              "y": 238907.0,
               "label": "1999"
             },
             {
               "x": "2000-01-01",
-              "y": 244825.0,
+              "y": 254958.0,
               "label": "2000"
             },
             {
               "x": "2001-01-01",
-              "y": 244390.0,
+              "y": 254505.0,
               "label": "2001"
             },
             {
               "x": "2002-01-01",
-              "y": 247342.0,
+              "y": 257578.0,
               "label": "2002"
             },
             {
               "x": "2003-01-01",
-              "y": 255405.0,
+              "y": 265975.0,
               "label": "2003"
             },
             {
               "x": "2004-01-01",
-              "y": 275468.0,
+              "y": 286869.0,
               "label": "2004"
             },
             {
               "x": "2005-01-01",
-              "y": 294531.0,
+              "y": 306721.0,
               "label": "2005"
             },
             {
               "x": "2006-01-01",
-              "y": 313226.0,
+              "y": 326189.0,
               "label": "2006"
             },
             {
               "x": "2007-01-01",
-              "y": 330621.0,
+              "y": 344304.0,
               "label": "2007"
             },
             {
               "x": "2008-01-01",
-              "y": 335643.0,
+              "y": 349534.0,
               "label": "2008"
             },
             {
               "x": "2009-01-01",
-              "y": 326685.0,
+              "y": 340205.0,
               "label": "2009"
             },
             {
               "x": "2010-01-01",
-              "y": 346241.0,
+              "y": 360571.0,
               "label": "2010"
             },
             {
               "x": "2011-01-01",
-              "y": 360479.0,
+              "y": 375398.0,
               "label": "2011"
             },
             {
               "x": "2012-01-01",
-              "y": 362583.0,
+              "y": 377589.0,
               "label": "2012"
             },
             {
               "x": "2013-01-01",
-              "y": 372329.0,
+              "y": 387739.0,
               "label": "2013"
             },
             {
               "x": "2014-01-01",
-              "y": 379937.0,
+              "y": 395661.0,
               "label": "2014"
             },
             {
               "x": "2015-01-01",
-              "y": 385712.0,
+              "y": 401675.0,
               "label": "2015"
             },
             {
               "x": "2016-01-01",
-              "y": 391669.0,
+              "y": 407879.0,
               "label": "2016"
             },
             {
               "x": "2017-01-01",
-              "y": 403425.0,
+              "y": 420121.0,
               "label": "2017"
             },
             {
               "x": "2018-01-01",
-              "y": 411603.0,
+              "y": 428638.0,
               "label": "2018"
             },
             {
               "x": "2019-01-01",
-              "y": 401739.0,
+              "y": 418365.0,
               "label": "2019"
             },
             {
               "x": "2020-01-01",
-              "y": 376796.0,
+              "y": 392390.0,
               "label": "2020"
             },
             {
               "x": "2021-01-01",
-              "y": 404790.0,
+              "y": 421542.0,
               "label": "2021"
             },
             {
               "x": "2022-01-01",
-              "y": 393428.0,
+              "y": 409710.0,
               "label": "2022"
             },
             {
               "x": "2023-01-01",
-              "y": 395591.0,
+              "y": 411962.0,
               "label": "2023"
             },
             {
               "x": "2024-01-01",
-              "y": 406640.0,
+              "y": 423509.0,
               "label": "2024"
             },
             {
               "x": "2025-01-01",
-              "y": 422236.0,
+              "y": 440261.0,
               "label": "2025"
             }
           ]
@@ -9422,327 +9472,327 @@
           "data": [
             {
               "x": "1961-01-01",
-              "y": 113926.0,
+              "y": 118642.0,
               "label": "1961"
             },
             {
               "x": "1962-01-01",
-              "y": 130207.0,
+              "y": 135597.0,
               "label": "1962"
             },
             {
               "x": "1963-01-01",
-              "y": 150732.0,
+              "y": 156972.0,
               "label": "1963"
             },
             {
               "x": "1964-01-01",
-              "y": 163737.0,
+              "y": 170516.0,
               "label": "1964"
             },
             {
               "x": "1965-01-01",
-              "y": 187712.0,
+              "y": 195483.0,
               "label": "1965"
             },
             {
               "x": "1966-01-01",
-              "y": 191081.0,
+              "y": 198991.0,
               "label": "1966"
             },
             {
               "x": "1967-01-01",
-              "y": 194145.0,
+              "y": 202182.0,
               "label": "1967"
             },
             {
               "x": "1968-01-01",
-              "y": 200741.0,
+              "y": 209051.0,
               "label": "1968"
             },
             {
               "x": "1969-01-01",
-              "y": 223512.0,
+              "y": 232765.0,
               "label": "1969"
             },
             {
               "x": "1970-01-01",
-              "y": 244090.0,
+              "y": 254195.0,
               "label": "1970"
             },
             {
               "x": "1971-01-01",
-              "y": 261891.0,
+              "y": 272733.0,
               "label": "1971"
             },
             {
               "x": "1972-01-01",
-              "y": 289683.0,
+              "y": 301675.0,
               "label": "1972"
             },
             {
               "x": "1973-01-01",
-              "y": 325255.0,
+              "y": 338720.0,
               "label": "1973"
             },
             {
               "x": "1974-01-01",
-              "y": 333111.0,
+              "y": 346901.0,
               "label": "1974"
             },
             {
               "x": "1975-01-01",
-              "y": 334750.0,
+              "y": 348608.0,
               "label": "1975"
             },
             {
               "x": "1976-01-01",
-              "y": 388860.0,
+              "y": 404958.0,
               "label": "1976"
             },
             {
               "x": "1977-01-01",
-              "y": 434457.0,
+              "y": 452442.0,
               "label": "1977"
             },
             {
               "x": "1978-01-01",
-              "y": 470347.0,
+              "y": 489817.0,
               "label": "1978"
             },
             {
               "x": "1979-01-01",
-              "y": 524704.0,
+              "y": 546424.0,
               "label": "1979"
             },
             {
               "x": "1980-01-01",
-              "y": 577742.0,
+              "y": 601658.0,
               "label": "1980"
             },
             {
               "x": "1981-01-01",
-              "y": 631246.0,
+              "y": 657376.0,
               "label": "1981"
             },
             {
               "x": "1982-01-01",
-              "y": 649867.0,
+              "y": 676767.0,
               "label": "1982"
             },
             {
               "x": "1983-01-01",
-              "y": 688710.0,
+              "y": 717217.0,
               "label": "1983"
             },
             {
               "x": "1984-01-01",
-              "y": 757401.0,
+              "y": 788751.0,
               "label": "1984"
             },
             {
               "x": "1985-01-01",
-              "y": 763135.0,
+              "y": 794723.0,
               "label": "1985"
             },
             {
               "x": "1986-01-01",
-              "y": 847508.0,
+              "y": 882588.0,
               "label": "1986"
             },
             {
               "x": "1987-01-01",
-              "y": 961061.0,
+              "y": 1000841.0,
               "label": "1987"
             },
             {
               "x": "1988-01-01",
-              "y": 1042862.0,
+              "y": 1086029.0,
               "label": "1988"
             },
             {
               "x": "1989-01-01",
-              "y": 1066609.0,
+              "y": 1110758.0,
               "label": "1989"
             },
             {
               "x": "1990-01-01",
-              "y": 1107466.0,
+              "y": 1153305.0,
               "label": "1990"
             },
             {
               "x": "1991-01-01",
-              "y": 1170613.0,
+              "y": 1219065.0,
               "label": "1991"
             },
             {
               "x": "1992-01-01",
-              "y": 1243601.0,
+              "y": 1295073.0,
               "label": "1992"
             },
             {
               "x": "1993-01-01",
-              "y": 1320719.0,
+              "y": 1375382.0,
               "label": "1993"
             },
             {
               "x": "1994-01-01",
-              "y": 1400438.0,
+              "y": 1458401.0,
               "label": "1994"
             },
             {
               "x": "1995-01-01",
-              "y": 1433682.0,
+              "y": 1493019.0,
               "label": "1995"
             },
             {
               "x": "1996-01-01",
-              "y": 1494735.0,
+              "y": 1556600.0,
               "label": "1996"
             },
             {
               "x": "1997-01-01",
-              "y": 1570962.0,
+              "y": 1635982.0,
               "label": "1997"
             },
             {
               "x": "1998-01-01",
-              "y": 1478548.0,
+              "y": 1539743.0,
               "label": "1998"
             },
             {
               "x": "1999-01-01",
-              "y": 1515611.0,
+              "y": 1578339.0,
               "label": "1999"
             },
             {
               "x": "2000-01-01",
-              "y": 1631759.0,
+              "y": 1699294.0,
               "label": "2000"
             },
             {
               "x": "2001-01-01",
-              "y": 1640911.0,
+              "y": 1708825.0,
               "label": "2001"
             },
             {
               "x": "2002-01-01",
-              "y": 1668096.0,
+              "y": 1737134.0,
               "label": "2002"
             },
             {
               "x": "2003-01-01",
-              "y": 1719079.0,
+              "y": 1790226.0,
               "label": "2003"
             },
             {
               "x": "2004-01-01",
-              "y": 1868640.0,
+              "y": 1945976.0,
               "label": "2004"
             },
             {
               "x": "2005-01-01",
-              "y": 2006698.0,
+              "y": 2089749.0,
               "label": "2005"
             },
             {
               "x": "2006-01-01",
-              "y": 2147822.0,
+              "y": 2236714.0,
               "label": "2006"
             },
             {
               "x": "2007-01-01",
-              "y": 2286675.0,
+              "y": 2381313.0,
               "label": "2007"
             },
             {
               "x": "2008-01-01",
-              "y": 2335334.0,
+              "y": 2431985.0,
               "label": "2008"
             },
             {
               "x": "2009-01-01",
-              "y": 2277906.0,
+              "y": 2372180.0,
               "label": "2009"
             },
             {
               "x": "2010-01-01",
-              "y": 2432068.0,
+              "y": 2532721.0,
               "label": "2010"
             },
             {
               "x": "2011-01-01",
-              "y": 2549164.0,
+              "y": 2654664.0,
               "label": "2011"
             },
             {
               "x": "2012-01-01",
-              "y": 2592508.0,
+              "y": 2699801.0,
               "label": "2012"
             },
             {
               "x": "2013-01-01",
-              "y": 2672916.0,
+              "y": 2783536.0,
               "label": "2013"
             },
             {
               "x": "2014-01-01",
-              "y": 2746753.0,
+              "y": 2860429.0,
               "label": "2014"
             },
             {
               "x": "2015-01-01",
-              "y": 2812340.0,
+              "y": 2928731.0,
               "label": "2015"
             },
             {
               "x": "2016-01-01",
-              "y": 2873521.0,
+              "y": 2992444.0,
               "label": "2016"
             },
             {
               "x": "2017-01-01",
-              "y": 2982603.0,
+              "y": 3106040.0,
               "label": "2017"
             },
             {
               "x": "2018-01-01",
-              "y": 3067515.0,
+              "y": 3194466.0,
               "label": "2018"
             },
             {
               "x": "2019-01-01",
-              "y": 3016213.0,
+              "y": 3141042.0,
               "label": "2019"
             },
             {
               "x": "2020-01-01",
-              "y": 2818808.0,
+              "y": 2935468.0,
               "label": "2020"
             },
             {
               "x": "2021-01-01",
-              "y": 3000746.0,
+              "y": 3124935.0,
               "label": "2021"
             },
             {
               "x": "2022-01-01",
-              "y": 2890160.0,
+              "y": 3009771.0,
               "label": "2022"
             },
             {
               "x": "2023-01-01",
-              "y": 2981210.0,
+              "y": 3104588.0,
               "label": "2023"
             },
             {
               "x": "2024-01-01",
-              "y": 3059597.0,
+              "y": 3186526.0,
               "label": "2024"
             },
             {
               "x": "2025-01-01",
-              "y": 3166305.0,
+              "y": 3301474.0,
               "label": "2025"
             }
           ]
@@ -9752,7 +9802,7 @@
         {
           "kind": "line",
           "title": "Real GDP level",
-          "value": "3.2m",
+          "value": "3.3m",
           "subtext": "Chained-dollar GDP level in HK$ million.",
           "dataset": {
             "label": "Real GDP",
@@ -9761,327 +9811,327 @@
             "data": [
               {
                 "x": "1961-01-01",
-                "y": 113926.0,
+                "y": 118642.0,
                 "label": "1961"
               },
               {
                 "x": "1962-01-01",
-                "y": 130207.0,
+                "y": 135597.0,
                 "label": "1962"
               },
               {
                 "x": "1963-01-01",
-                "y": 150732.0,
+                "y": 156972.0,
                 "label": "1963"
               },
               {
                 "x": "1964-01-01",
-                "y": 163737.0,
+                "y": 170516.0,
                 "label": "1964"
               },
               {
                 "x": "1965-01-01",
-                "y": 187712.0,
+                "y": 195483.0,
                 "label": "1965"
               },
               {
                 "x": "1966-01-01",
-                "y": 191081.0,
+                "y": 198991.0,
                 "label": "1966"
               },
               {
                 "x": "1967-01-01",
-                "y": 194145.0,
+                "y": 202182.0,
                 "label": "1967"
               },
               {
                 "x": "1968-01-01",
-                "y": 200741.0,
+                "y": 209051.0,
                 "label": "1968"
               },
               {
                 "x": "1969-01-01",
-                "y": 223512.0,
+                "y": 232765.0,
                 "label": "1969"
               },
               {
                 "x": "1970-01-01",
-                "y": 244090.0,
+                "y": 254195.0,
                 "label": "1970"
               },
               {
                 "x": "1971-01-01",
-                "y": 261891.0,
+                "y": 272733.0,
                 "label": "1971"
               },
               {
                 "x": "1972-01-01",
-                "y": 289683.0,
+                "y": 301675.0,
                 "label": "1972"
               },
               {
                 "x": "1973-01-01",
-                "y": 325255.0,
+                "y": 338720.0,
                 "label": "1973"
               },
               {
                 "x": "1974-01-01",
-                "y": 333111.0,
+                "y": 346901.0,
                 "label": "1974"
               },
               {
                 "x": "1975-01-01",
-                "y": 334750.0,
+                "y": 348608.0,
                 "label": "1975"
               },
               {
                 "x": "1976-01-01",
-                "y": 388860.0,
+                "y": 404958.0,
                 "label": "1976"
               },
               {
                 "x": "1977-01-01",
-                "y": 434457.0,
+                "y": 452442.0,
                 "label": "1977"
               },
               {
                 "x": "1978-01-01",
-                "y": 470347.0,
+                "y": 489817.0,
                 "label": "1978"
               },
               {
                 "x": "1979-01-01",
-                "y": 524704.0,
+                "y": 546424.0,
                 "label": "1979"
               },
               {
                 "x": "1980-01-01",
-                "y": 577742.0,
+                "y": 601658.0,
                 "label": "1980"
               },
               {
                 "x": "1981-01-01",
-                "y": 631246.0,
+                "y": 657376.0,
                 "label": "1981"
               },
               {
                 "x": "1982-01-01",
-                "y": 649867.0,
+                "y": 676767.0,
                 "label": "1982"
               },
               {
                 "x": "1983-01-01",
-                "y": 688710.0,
+                "y": 717217.0,
                 "label": "1983"
               },
               {
                 "x": "1984-01-01",
-                "y": 757401.0,
+                "y": 788751.0,
                 "label": "1984"
               },
               {
                 "x": "1985-01-01",
-                "y": 763135.0,
+                "y": 794723.0,
                 "label": "1985"
               },
               {
                 "x": "1986-01-01",
-                "y": 847508.0,
+                "y": 882588.0,
                 "label": "1986"
               },
               {
                 "x": "1987-01-01",
-                "y": 961061.0,
+                "y": 1000841.0,
                 "label": "1987"
               },
               {
                 "x": "1988-01-01",
-                "y": 1042862.0,
+                "y": 1086029.0,
                 "label": "1988"
               },
               {
                 "x": "1989-01-01",
-                "y": 1066609.0,
+                "y": 1110758.0,
                 "label": "1989"
               },
               {
                 "x": "1990-01-01",
-                "y": 1107466.0,
+                "y": 1153305.0,
                 "label": "1990"
               },
               {
                 "x": "1991-01-01",
-                "y": 1170613.0,
+                "y": 1219065.0,
                 "label": "1991"
               },
               {
                 "x": "1992-01-01",
-                "y": 1243601.0,
+                "y": 1295073.0,
                 "label": "1992"
               },
               {
                 "x": "1993-01-01",
-                "y": 1320719.0,
+                "y": 1375382.0,
                 "label": "1993"
               },
               {
                 "x": "1994-01-01",
-                "y": 1400438.0,
+                "y": 1458401.0,
                 "label": "1994"
               },
               {
                 "x": "1995-01-01",
-                "y": 1433682.0,
+                "y": 1493019.0,
                 "label": "1995"
               },
               {
                 "x": "1996-01-01",
-                "y": 1494735.0,
+                "y": 1556600.0,
                 "label": "1996"
               },
               {
                 "x": "1997-01-01",
-                "y": 1570962.0,
+                "y": 1635982.0,
                 "label": "1997"
               },
               {
                 "x": "1998-01-01",
-                "y": 1478548.0,
+                "y": 1539743.0,
                 "label": "1998"
               },
               {
                 "x": "1999-01-01",
-                "y": 1515611.0,
+                "y": 1578339.0,
                 "label": "1999"
               },
               {
                 "x": "2000-01-01",
-                "y": 1631759.0,
+                "y": 1699294.0,
                 "label": "2000"
               },
               {
                 "x": "2001-01-01",
-                "y": 1640911.0,
+                "y": 1708825.0,
                 "label": "2001"
               },
               {
                 "x": "2002-01-01",
-                "y": 1668096.0,
+                "y": 1737134.0,
                 "label": "2002"
               },
               {
                 "x": "2003-01-01",
-                "y": 1719079.0,
+                "y": 1790226.0,
                 "label": "2003"
               },
               {
                 "x": "2004-01-01",
-                "y": 1868640.0,
+                "y": 1945976.0,
                 "label": "2004"
               },
               {
                 "x": "2005-01-01",
-                "y": 2006698.0,
+                "y": 2089749.0,
                 "label": "2005"
               },
               {
                 "x": "2006-01-01",
-                "y": 2147822.0,
+                "y": 2236714.0,
                 "label": "2006"
               },
               {
                 "x": "2007-01-01",
-                "y": 2286675.0,
+                "y": 2381313.0,
                 "label": "2007"
               },
               {
                 "x": "2008-01-01",
-                "y": 2335334.0,
+                "y": 2431985.0,
                 "label": "2008"
               },
               {
                 "x": "2009-01-01",
-                "y": 2277906.0,
+                "y": 2372180.0,
                 "label": "2009"
               },
               {
                 "x": "2010-01-01",
-                "y": 2432068.0,
+                "y": 2532721.0,
                 "label": "2010"
               },
               {
                 "x": "2011-01-01",
-                "y": 2549164.0,
+                "y": 2654664.0,
                 "label": "2011"
               },
               {
                 "x": "2012-01-01",
-                "y": 2592508.0,
+                "y": 2699801.0,
                 "label": "2012"
               },
               {
                 "x": "2013-01-01",
-                "y": 2672916.0,
+                "y": 2783536.0,
                 "label": "2013"
               },
               {
                 "x": "2014-01-01",
-                "y": 2746753.0,
+                "y": 2860429.0,
                 "label": "2014"
               },
               {
                 "x": "2015-01-01",
-                "y": 2812340.0,
+                "y": 2928731.0,
                 "label": "2015"
               },
               {
                 "x": "2016-01-01",
-                "y": 2873521.0,
+                "y": 2992444.0,
                 "label": "2016"
               },
               {
                 "x": "2017-01-01",
-                "y": 2982603.0,
+                "y": 3106040.0,
                 "label": "2017"
               },
               {
                 "x": "2018-01-01",
-                "y": 3067515.0,
+                "y": 3194466.0,
                 "label": "2018"
               },
               {
                 "x": "2019-01-01",
-                "y": 3016213.0,
+                "y": 3141042.0,
                 "label": "2019"
               },
               {
                 "x": "2020-01-01",
-                "y": 2818808.0,
+                "y": 2935468.0,
                 "label": "2020"
               },
               {
                 "x": "2021-01-01",
-                "y": 3000746.0,
+                "y": 3124935.0,
                 "label": "2021"
               },
               {
                 "x": "2022-01-01",
-                "y": 2890160.0,
+                "y": 3009771.0,
                 "label": "2022"
               },
               {
                 "x": "2023-01-01",
-                "y": 2981210.0,
+                "y": 3104588.0,
                 "label": "2023"
               },
               {
                 "x": "2024-01-01",
-                "y": 3059597.0,
+                "y": 3186526.0,
                 "label": "2024"
               },
               {
                 "x": "2025-01-01",
-                "y": 3166305.0,
+                "y": 3301474.0,
                 "label": "2025"
               }
             ]
@@ -10095,27 +10145,27 @@
           "items": [
             {
               "label": "1970s",
-              "value": 85.07801602491323,
+              "value": 85.0763935396452,
               "display": "+85.1%"
             },
             {
               "label": "1980s",
-              "value": 70.13618677042801,
+              "value": 70.135148781473,
               "display": "+70.1%"
             },
             {
               "label": "1990s",
-              "value": 26.108097806211017,
+              "value": 26.107580066773828,
               "display": "+26.1%"
             },
             {
               "label": "2000s",
-              "value": 41.42387419585418,
+              "value": 41.42368546976365,
               "display": "+41.4%"
             },
             {
               "label": "2010s",
-              "value": 8.82477811697633,
+              "value": 8.824614292330768,
               "display": "+8.8%"
             }
           ],
@@ -10127,7 +10177,7 @@
         {
           "table_id": "310-31001",
           "title": "Gross Domestic Product (GDP), implicit price deflator of GDP and per capita GDP",
-          "last_modified_date": "2026-03-30",
+          "last_modified_date": "2026-08-14",
           "url": "https://www.censtatd.gov.hk/en/web_table.html?id=310-31001"
         }
       ],
@@ -10139,22 +10189,22 @@
         },
         {
           "label": "Latest",
-          "value": "422.2k"
+          "value": "440.3k"
         },
         {
           "label": "Change",
-          "value": "1,074.2%"
+          "value": "1,075.6%"
         },
         {
           "label": "Peak",
-          "value": "422.2k | 2025"
+          "value": "440.3k | 2025"
         }
       ]
     },
     {
       "id": "inflation",
       "title": "Inflation regime",
-      "headline": "2026-02: 1.7% CPI inflation",
+      "headline": "2026-09: 1.9% CPI inflation",
       "insight": "Composite CPI inflation ranged from -6.1% in 1999-08 to 16.0% in 1981-10.",
       "chart_note": "Monthly year-on-year change in the Composite CPI.",
       "datasets": [
@@ -12827,6 +12877,41 @@
               "x": "2026-02-01",
               "y": 1.7,
               "label": "2026-02"
+            },
+            {
+              "x": "2026-03-01",
+              "y": 1.7,
+              "label": "2026-03"
+            },
+            {
+              "x": "2026-04-01",
+              "y": 1.7,
+              "label": "2026-04"
+            },
+            {
+              "x": "2026-05-01",
+              "y": 2.0,
+              "label": "2026-05"
+            },
+            {
+              "x": "2026-06-01",
+              "y": 2.0,
+              "label": "2026-06"
+            },
+            {
+              "x": "2026-07-01",
+              "y": 1.7,
+              "label": "2026-07"
+            },
+            {
+              "x": "2026-08-01",
+              "y": 1.7,
+              "label": "2026-08"
+            },
+            {
+              "x": "2026-09-01",
+              "y": 1.9,
+              "label": "2026-09"
             }
           ]
         }
@@ -12835,48 +12920,13 @@
         {
           "kind": "line",
           "title": "Recent inflation window",
-          "value": "2026-02",
+          "value": "2026-09",
           "subtext": "The last 60 monthly observations for a cleaner recent read.",
           "dataset": {
             "label": "Composite CPI YoY",
             "borderColor": "#c2410c",
             "backgroundColor": "#c2410c",
             "data": [
-              {
-                "x": "2021-03-01",
-                "y": 0.6,
-                "label": "2021-03"
-              },
-              {
-                "x": "2021-04-01",
-                "y": 0.8,
-                "label": "2021-04"
-              },
-              {
-                "x": "2021-05-01",
-                "y": 1.0,
-                "label": "2021-05"
-              },
-              {
-                "x": "2021-06-01",
-                "y": 0.7,
-                "label": "2021-06"
-              },
-              {
-                "x": "2021-07-01",
-                "y": 3.7,
-                "label": "2021-07"
-              },
-              {
-                "x": "2021-08-01",
-                "y": 1.6,
-                "label": "2021-08"
-              },
-              {
-                "x": "2021-09-01",
-                "y": 1.4,
-                "label": "2021-09"
-              },
               {
                 "x": "2021-10-01",
                 "y": 1.7,
@@ -13141,6 +13191,41 @@
                 "x": "2026-02-01",
                 "y": 1.7,
                 "label": "2026-02"
+              },
+              {
+                "x": "2026-03-01",
+                "y": 1.7,
+                "label": "2026-03"
+              },
+              {
+                "x": "2026-04-01",
+                "y": 1.7,
+                "label": "2026-04"
+              },
+              {
+                "x": "2026-05-01",
+                "y": 2.0,
+                "label": "2026-05"
+              },
+              {
+                "x": "2026-06-01",
+                "y": 2.0,
+                "label": "2026-06"
+              },
+              {
+                "x": "2026-07-01",
+                "y": 1.7,
+                "label": "2026-07"
+              },
+              {
+                "x": "2026-08-01",
+                "y": 1.7,
+                "label": "2026-08"
+              },
+              {
+                "x": "2026-09-01",
+                "y": 1.9,
+                "label": "2026-09"
               }
             ]
           }
@@ -13148,7 +13233,7 @@
         {
           "kind": "bars",
           "title": "Event snapshots",
-          "value": "2026-02",
+          "value": "2026-09",
           "subtext": "Nearest inflation readings around major event markers plus the latest point.",
           "items": [
             {
@@ -13173,8 +13258,8 @@
             },
             {
               "label": "Latest",
-              "value": 1.7,
-              "display": "1.7"
+              "value": 1.9,
+              "display": "1.9"
             }
           ],
           "color": "#c2410c"
@@ -13185,7 +13270,7 @@
         {
           "table_id": "510-60001",
           "title": "Consumer Price Indices (October 2019 \u2013 September 2020 = 100)",
-          "last_modified_date": "2026-03-20",
+          "last_modified_date": "2026-10-22",
           "url": "https://www.censtatd.gov.hk/en/web_table.html?id=510-60001"
         }
       ],
@@ -13193,15 +13278,15 @@
       "stats": [
         {
           "label": "Coverage",
-          "value": "1981-10 to 2026-02"
+          "value": "1981-10 to 2026-09"
         },
         {
           "label": "Latest",
-          "value": "1.7"
+          "value": "1.9"
         },
         {
           "label": "Change",
-          "value": "-89.4%"
+          "value": "-88.1%"
         },
         {
           "label": "Peak",

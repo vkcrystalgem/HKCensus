@@ -5,7 +5,7 @@ This folder contains a React Native app for Android that mirrors the same ten an
 For Android release packaging and Google Play publishing, see [RELEASE.md](/c:/github/HKCensus/android/RELEASE.md).
 For Google's package ownership verification APK flow, see [ownership-proof/README.md](/c:/github/HKCensus/android/ownership-proof/README.md).
 For building both debug and release APK/AAB variants with separate keys, see [variant-builds/README.md](/c:/github/HKCensus/android/variant-builds/README.md).
-For local-only automated Google Play publishing, see [publish-automation/README.md](/c:/github/HKCensus/android/publish-automation/README.md).
+For the preferred GitHub build and Google Play publishing workflow, see [GITHUB_RELEASE.md](GITHUB_RELEASE.md). Local publishing remains available as a fallback in [publish-automation/README.md](publish-automation/README.md).
 
 ## Highlights
 
@@ -54,8 +54,8 @@ python build_report.py
 - The tracked source of truth for Android SDK levels is `app.json`, not the generated `android/build.gradle`.
 - If your machine already has a current Node 24 LTS runtime, you can use plain `npm install`, `npm test`, `npm run typecheck`, and `npm run android`.
 - For Android builds, avoid Java 25. Gradle and the Android plugin currently expect JDK 17 to 21. The launcher script automatically selects Android Studio's bundled Java 21 when it is installed.
-- Keep `release.properties`, keystores, and Play service-account JSON files local only. They are intentionally gitignored.
-- The recommended Play publishing path is the local automation script under `publish-automation/`, not GitHub Actions, so secrets do not have to be stored on GitHub. The automation now defaults to publishing a `completed` release on whatever `PLAY_TRACK` you configure locally.
+- Keep plaintext `release.properties`, keystores, and Play service-account JSON files out of Git. They are intentionally gitignored; the GitHub workflow uses encrypted repository secrets.
+- The preferred Play publishing path is the GitHub Actions workflow documented in [GITHUB_RELEASE.md](GITHUB_RELEASE.md). The local automation under `publish-automation/` remains a fallback and defaults to a `completed` release on the locally configured `PLAY_TRACK`.
 
 ## Release from environment variables
 

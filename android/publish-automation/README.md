@@ -1,6 +1,6 @@
 # Google Play Publish Automation
 
-This folder automates the local Google Play release flow for HK Census without sending any sensitive material to GitHub.
+The preferred release path builds and publishes through [GitHub Actions](../GITHUB_RELEASE.md), using encrypted repository secrets. This folder provides a local fallback that builds and uploads from the current machine.
 
 It is based on the same practical sequence used in the local `FlappyBirdClone` deploy flow:
 
@@ -8,9 +8,9 @@ It is based on the same practical sequence used in the local `FlappyBirdClone` d
 2. build a signed release AAB
 3. upload to a Play track
 
-The difference is that HK Census keeps all secrets local and adds automatic version-code selection from Play.
+This local fallback reads credentials from the local environment or ignored configuration files and adds automatic version-code selection from Play.
 
-## What stays local only
+## Local fallback files excluded from Git
 
 - `android/release.properties`
 - `android/play/service-account.json`

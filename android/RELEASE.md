@@ -3,7 +3,7 @@
 This guide prepares HK Census for Google Play release without committing any private keys or service-account files to Git.
 
 For Google's package-name ownership verification flow, use the dedicated proof tooling in [ownership-proof/README.md](/c:/github/HKCensus/android/ownership-proof/README.md).
-For local-only automated Google Play publishing, use [publish-automation/README.md](/c:/github/HKCensus/android/publish-automation/README.md).
+For the preferred GitHub build and Google Play publishing workflow, use [GITHUB_RELEASE.md](GITHUB_RELEASE.md). The [local automation](publish-automation/README.md) remains available as a fallback.
 
 ## What Gets Stored Locally Only
 
@@ -96,9 +96,13 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-release.ps1 -VersionCod
 
 ## Publish To Google Play
 
-### Recommended automated path
+### Recommended GitHub workflow
 
-The recommended path is the local automation script. It follows the same build-then-upload sequence used in the local FlappyBird deployment setup, but keeps all credentials on your machine instead of GitHub.
+Follow [GITHUB_RELEASE.md](GITHUB_RELEASE.md) to build the committed app on GitHub and publish the resulting bundle to Play. Signing and Play credentials are provided through encrypted repository secrets, and the workflow verifies the completed release and uploaded bundle checksum.
+
+### Local automation fallback
+
+The local automation script remains available for releases that need to run from this machine. It uses the signing and Play credentials in the local environment or ignored configuration files.
 
 From `C:\github\HKCensus\android`:
 
@@ -155,7 +159,7 @@ If the AAB has not been built yet:
 powershell -ExecutionPolicy Bypass -File .\scripts\publish-play.ps1 -Build
 ```
 
-## Recommended Release Sequence
+## Local Fallback Release Sequence
 
 1. Refresh the shared data payload:
 

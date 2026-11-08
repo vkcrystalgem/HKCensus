@@ -11,8 +11,8 @@ The Android app targets Node.js 24 LTS. A local bootstrap script is included und
 The tracked source of truth for Android SDK levels is [android/app.json](/c:/github/HKCensus/android/app.json). The Expo `expo-build-properties` plugin pins Android `compileSdkVersion 35`, `targetSdkVersion 35`, and build tools `35.0.0`, so `expo prebuild` regenerates a Play-compatible native project instead of relying on hand edits under `android/android/`.
 
 Android release packaging and local Google Play publishing are documented in [android/RELEASE.md](/c:/github/HKCensus/android/RELEASE.md).
-The recommended publication path is local-only automation under [android/publish-automation/README.md](/c:/github/HKCensus/android/publish-automation/README.md), not GitHub-hosted secrets.
-That automation now defaults to a `completed` release on the locally configured Play track instead of a draft release.
+The publication path is the [GitHub build and Play release workflow](android/GITHUB_RELEASE.md). It builds the committed app on GitHub, publishes to the selected Play track, and verifies the resulting release.
+Local release automation remains available under [android/publish-automation/README.md](/c:/github/HKCensus/android/publish-automation/README.md).
 
 ## What it covers
 

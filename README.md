@@ -15,6 +15,7 @@ The publication path is the [GitHub build and Play release workflow](android/GIT
 Local release automation remains available under [android/publish-automation/README.md](/c:/github/HKCensus/android/publish-automation/README.md).
 
 The [HK Census privacy policy](https://vkcrystalgem.github.io/hkcensus_privacy_policy.html) is hosted on GitHub Pages. Its source is maintained in [docs/hkcensus_privacy_policy.html](docs/hkcensus_privacy_policy.html) and published as the same-named file in [vkcrystalgem.github.io](https://github.com/vkcrystalgem/vkcrystalgem.github.io). The app links to this page from its opening screen.
+The [site root](https://vkcrystalgem.github.io/) displays the same policy using [docs/index.html](docs/index.html), so both addresses use one policy source.
 
 ## What it covers
 

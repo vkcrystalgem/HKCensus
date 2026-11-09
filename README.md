@@ -16,6 +16,8 @@ Local release automation remains available under [android/publish-automation/REA
 
 The [HK Census privacy policy](https://vkcrystalgem.github.io/hkcensus_privacy_policy.html) is hosted on GitHub Pages. Its source is maintained in [docs/hkcensus_privacy_policy.html](docs/hkcensus_privacy_policy.html) and published as the same-named file in [vkcrystalgem.github.io](https://github.com/vkcrystalgem/vkcrystalgem.github.io). The app links to this page from its opening screen.
 
+The [Google Play listing packet](store-listing/README.md) contains ready-to-paste English descriptions, the store icon and feature graphic, and native phone and tablet screenshots. Its upload guide maps each file to the matching Play Console field, and the manifest records screenshot build provenance.
+
 ## What it covers
 
 - Population level

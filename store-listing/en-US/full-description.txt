@@ -1,0 +1,44 @@
+See how Hong Kong has changed over time. HK Census brings public statistics into ten focused views, with interactive historical charts, supporting graphics and concise explanations.
+
+HK Census is an independent app. It is not affiliated with, endorsed by, or a representative of the Hong Kong Government or its Census and Statistics Department.
+
+Explore ten themes
+- Population levels
+- Population growth components
+- Ageing and dependency
+- Fertility
+- Household size
+- Household income
+- Labour force participation
+- Unemployment
+- Real GDP per capita
+- Inflation
+
+Look beyond a single number
+Touch or drag across a chart to inspect a period and its value. Read summaries of coverage, latest observations and historical peaks. Supporting line and bar charts add context, while event markers show major shocks where they fall within each series.
+
+Read offline
+The statistics are bundled with the installed app, so charts and commentary can be viewed offline without an account. Data is refreshed through app releases rather than a live feed. Coverage and source release dates vary by series and are shown in the app. Opening source websites or the privacy policy requires internet access.
+
+Check the original sources
+The app uses publicly available aggregate statistics published by the Census and Statistics Department of the Hong Kong Special Administrative Region. Each section links to the relevant official source tables. The app's charts and commentary are independently prepared.
+
+Official source website:
+https://www.censtatd.gov.hk/en/
+
+Source tables:
+Population: https://www.censtatd.gov.hk/en/web_table.html?id=110-01001
+Population growth: https://www.censtatd.gov.hk/en/web_table.html?id=110-01003
+Ageing and dependency: https://www.censtatd.gov.hk/en/web_table.html?id=110-01004
+Vital events: https://www.censtatd.gov.hk/en/web_table.html?id=115-01011
+Households: https://www.censtatd.gov.hk/en/web_table.html?id=130-06601A
+Household income: https://www.censtatd.gov.hk/en/web_table.html?id=130-06606A
+Labour statistics: https://www.censtatd.gov.hk/en/web_table.html?id=210-06101
+GDP: https://www.censtatd.gov.hk/en/web_table.html?id=310-31001
+Consumer prices: https://www.censtatd.gov.hk/en/web_table.html?id=510-60001
+
+Privacy policy:
+https://vkcrystalgem.github.io/hkcensus_privacy_policy.html
+
+Support and feedback:
+https://github.com/vkcrystalgem/HKCensus/issues

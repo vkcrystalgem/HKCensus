@@ -1,0 +1,599 @@
+{
+  "captureProvenance": {
+    "appContentAltered": false,
+    "build": {
+      "aabSha256": "a4cdb52f6b7ccb79729bbb922e049018d1d44bc8382b1db6467e11ff5eadb70c",
+      "apkSha256": "e64a995ffea4df431d17dbda9e2235f1a0bc160a2926d4173e16a2052c5f6d37",
+      "githubRun": "https://github.com/vkcrystalgem/HKCensus/actions/runs/42625483879",
+      "githubRunConclusion": "success",
+      "mode": "build-only",
+      "packageName": "com.vkcrystalgem.hkcensus",
+      "playPublishStep": "skipped",
+      "playVerificationStep": "skipped",
+      "sourceCommit": "76e317610a874694cc31eaa86330c460bdbac829",
+      "targetSdkVersion": 36,
+      "uploadedToPlay": false,
+      "versionCode": 3,
+      "versionName": "1.0.1"
+    },
+    "captureMethod": "Android SDK adb screencap on fresh, task-owned Android virtual devices",
+    "cropped": false,
+    "deviceGroups": [
+      {
+        "abi": "x86",
+        "androidApi": 28,
+        "avd": "HKCensus_StorePhone",
+        "captures": [
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "47cb4428d041dbda1e00501acb4550c3c192d73337e8aef37115a124c33555b0",
+            "file": "screenshots/phone/01-overview.png",
+            "height": 1920,
+            "rawCapture": "android/.tooling/store-listing-captures/phone/01-overview.png",
+            "rawMode": "RGBA",
+            "rawSha256": "707b20c39a48ccb6f433b9b64c232b8bd611d0c941c821ba675940da2ed83cd4",
+            "rgbPixelsIdentical": true,
+            "topic": "HK Census overview",
+            "visuallyInspected": true,
+            "width": 1080
+          },
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "22262cc0dfb94433b22b057b166e0a5003eb9f3b50842a2bd56b43c8067704f2",
+            "file": "screenshots/phone/02-population.png",
+            "height": 1920,
+            "rawCapture": "android/.tooling/store-listing-captures/phone/02-population.png",
+            "rawMode": "RGBA",
+            "rawSha256": "845da99d155480e49c381e82e01d6e413c172f2e099e77bfc1c767a84a934e6d",
+            "rgbPixelsIdentical": true,
+            "topic": "Population level",
+            "visuallyInspected": true,
+            "width": 1080
+          },
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "190a0d70fa537d4f7d2b213bb5e2e06a98cceed2540baf8237c9a8904d2b01de",
+            "file": "screenshots/phone/03-household-size.png",
+            "height": 1920,
+            "rawCapture": "android/.tooling/store-listing-captures/phone/03-household-size.png",
+            "rawMode": "RGBA",
+            "rawSha256": "a0b7ce990189e877ec147c14bda1a03bb2d5a2bb0dac3e90b2b2fdf4fea5f917",
+            "rgbPixelsIdentical": true,
+            "topic": "Household downsizing",
+            "visuallyInspected": true,
+            "width": 1080
+          },
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "f206a3b7566bdabb12002b804bb9849d1304e070baa943c28e895cf6e040f588",
+            "file": "screenshots/phone/04-household-income.png",
+            "height": 1920,
+            "rawCapture": "android/.tooling/store-listing-captures/phone/04-household-income.png",
+            "rawMode": "RGBA",
+            "rawSha256": "0430ffd145a86e5b7ee4378a0f47ade7e6f8fb20990a33f0bd2aa5d82c475d1d",
+            "rgbPixelsIdentical": true,
+            "topic": "Household income",
+            "visuallyInspected": true,
+            "width": 1080
+          },
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "c4836374a8f83045d7d9497a97361e1c6e28a5d9d26002749aa4117b885c8397",
+            "file": "screenshots/phone/05-gdp.png",
+            "height": 1920,
+            "rawCapture": "android/.tooling/store-listing-captures/phone/05-gdp.png",
+            "rawMode": "RGBA",
+            "rawSha256": "b680493d5221832d71798c72917aad803b4df9ee5ee09fae821e20ad700d2f46",
+            "rgbPixelsIdentical": true,
+            "topic": "Real GDP per capita",
+            "visuallyInspected": true,
+            "width": 1080
+          },
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "ec3ae73a8d7fde057344b52cfc1091430d0699208040552123b9f8cb5f6a64ca",
+            "file": "screenshots/phone/06-inflation.png",
+            "height": 1920,
+            "rawCapture": "android/.tooling/store-listing-captures/phone/06-inflation.png",
+            "rawMode": "RGBA",
+            "rawSha256": "ecf27f7ec56dbdd5b3c69b72bd4ba73112c21d8a9083abc601e10d5b0fb15ee2",
+            "rgbPixelsIdentical": true,
+            "topic": "Inflation regime",
+            "visuallyInspected": true,
+            "width": 1080
+          }
+        ],
+        "densityDpi": 420,
+        "deviceGroup": "phone",
+        "deviceType": "task-owned Android emulator",
+        "hardwareProfile": "Nexus 5X",
+        "serial": "emulator-5580",
+        "viewport": {
+          "height": 1920,
+          "width": 1080
+        }
+      },
+      {
+        "abi": "x86",
+        "androidApi": 28,
+        "avd": "HKCensus_Store7in",
+        "captures": [
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "265d6ab63ecb6b57601a1cce3f31db55b6048db9ff37f870e9c7626b1b9e8d5c",
+            "file": "screenshots/tablet-7inch/01-overview.png",
+            "height": 1920,
+            "rawCapture": "android/.tooling/store-listing-captures/tablet-7inch/01-overview-raw.png",
+            "rawMode": "RGBA",
+            "rawSha256": "6344d1922662658f0cf50f3758e126e149f70ce3387a293af2468653045dd30c",
+            "rgbPixelsIdentical": true,
+            "topic": "HK Census overview and population level",
+            "visuallyInspected": true,
+            "width": 1080
+          },
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "02d794dc740a84d1b566aeed47ff9fc13d7c0f8676474e75883f02b18d192713",
+            "file": "screenshots/tablet-7inch/02-population.png",
+            "height": 1920,
+            "rawCapture": "android/.tooling/store-listing-captures/tablet-7inch/02-population-raw.png",
+            "rawMode": "RGBA",
+            "rawSha256": "7542395ae789f8941b1072e0f798407423c3b51264e867ee4705a3f8fda3bb7b",
+            "rgbPixelsIdentical": true,
+            "topic": "Population level",
+            "visuallyInspected": true,
+            "width": 1080
+          },
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "bcf9916315bad0ab16baa1a4e933552438a317cb671171f6b402b86ecb533c15",
+            "file": "screenshots/tablet-7inch/03-ageing.png",
+            "height": 1920,
+            "rawCapture": "android/.tooling/store-listing-captures/tablet-7inch/03-ageing-raw.png",
+            "rawMode": "RGBA",
+            "rawSha256": "ba7a947d0eb44c56c7f254a913421c87a898f3e58e42824c846b635929928980",
+            "rgbPixelsIdentical": true,
+            "topic": "Ageing and dependency",
+            "visuallyInspected": true,
+            "width": 1080
+          },
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "9d27882321752e593bc0b76e62c0ed6f462509af10957b9aa635a2ef29be8b70",
+            "file": "screenshots/tablet-7inch/04-household-income.png",
+            "height": 1920,
+            "rawCapture": "android/.tooling/store-listing-captures/tablet-7inch/04-household-income-raw.png",
+            "rawMode": "RGBA",
+            "rawSha256": "6959cac5d191d30eace3483f4f778c15120477c5e519f6109e911938571bcf3d",
+            "rgbPixelsIdentical": true,
+            "topic": "Household income",
+            "visuallyInspected": true,
+            "width": 1080
+          }
+        ],
+        "densityDpi": 280,
+        "deviceGroup": "tablet-7inch",
+        "deviceType": "task-owned Android emulator",
+        "hardwareProfile": "Nexus 7 2013",
+        "serial": "emulator-5582",
+        "viewport": {
+          "height": 1920,
+          "width": 1080
+        }
+      },
+      {
+        "abi": "x86",
+        "androidApi": 28,
+        "avd": "HKCensus_Store10in",
+        "captures": [
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "3ad142045158a5d9bb3d3f5c7edf0b1703f0caea2624542fe6fb1f03539cd8e1",
+            "file": "screenshots/tablet-10inch/01-overview.png",
+            "height": 2560,
+            "rawCapture": "android/.tooling/store-listing-captures/tablet-10inch/01-overview-raw.png",
+            "rawMode": "RGBA",
+            "rawSha256": "1bbcd667ee9aa57367d01f99be13474768982db3c6c03dfc6d0b3528e30c33d1",
+            "rgbPixelsIdentical": true,
+            "topic": "overview",
+            "visuallyInspected": true,
+            "width": 1440
+          },
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "8d7d26e5e017bd79d26354221f483ab0dffd0f982d4c493c58de909c1454fb3e",
+            "file": "screenshots/tablet-10inch/02-population.png",
+            "height": 2560,
+            "rawCapture": "android/.tooling/store-listing-captures/tablet-10inch/02-population-raw.png",
+            "rawMode": "RGBA",
+            "rawSha256": "a549b7dbef44b42d0cd10c34f28b84c53ba401cf12a4b6031d2288034499086e",
+            "rgbPixelsIdentical": true,
+            "topic": "population",
+            "visuallyInspected": true,
+            "width": 1440
+          },
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "e40ba72659b240b3dc42cd86c146f39e75c95973cfee7ea8a4ec046094e4d5eb",
+            "file": "screenshots/tablet-10inch/03-gdp.png",
+            "height": 2560,
+            "rawCapture": "android/.tooling/store-listing-captures/tablet-10inch/03-gdp-raw.png",
+            "rawMode": "RGBA",
+            "rawSha256": "35a1e07b5259b16f5b9171b3084c59428d081d01fd55736e8f212a76db7ed2b9",
+            "rgbPixelsIdentical": true,
+            "topic": "gdp",
+            "visuallyInspected": true,
+            "width": 1440
+          },
+          {
+            "exportedMode": "RGB",
+            "exportedSha256": "b6052a86781d0ad85e3321c1c8f9f8bdde9c2b9c08ef3de1cbe46e0d35988fff",
+            "file": "screenshots/tablet-10inch/04-inflation.png",
+            "height": 2560,
+            "rawCapture": "android/.tooling/store-listing-captures/tablet-10inch/04-inflation-raw.png",
+            "rawMode": "RGBA",
+            "rawSha256": "36dccfdd00e7492981c6bdf92b0620b3a3b0551301902b5e71624906dca39877",
+            "rgbPixelsIdentical": true,
+            "topic": "inflation",
+            "visuallyInspected": true,
+            "width": 1440
+          }
+        ],
+        "densityDpi": 240,
+        "deviceGroup": "tablet-10inch",
+        "deviceType": "task-owned Android emulator",
+        "hardwareProfile": "Nexus 10",
+        "serial": "emulator-5584",
+        "viewport": {
+          "height": 2560,
+          "width": 1440
+        }
+      }
+    ],
+    "exportOperation": "Remove only fully opaque alpha; every decoded RGB pixel independently verified identical to the raw capture.",
+    "overlaysAdded": false,
+    "preparedAtUtc": "2026-11-09T14:01:36.806955+00:00",
+    "rawCaptureStorage": "Original captures and per-device metadata are retained locally under git-ignored android/.tooling/store-listing-captures; APK/AAB and raw captures are excluded from the upload packet.",
+    "resized": false,
+    "statusBarDemoMode": true,
+    "systemUiNormalization": {
+      "batteryLevel": 100,
+      "clock": "09:00",
+      "notificationsVisible": false
+    }
+  },
+  "counts": {
+    "screenshots": {
+      "phone": 6,
+      "tablet-10inch": 4,
+      "tablet-7inch": 4
+    },
+    "textCharacters": {
+      "appName": {
+        "characters": 9,
+        "limit": 30
+      },
+      "fullDescription": {
+        "characters": 2381,
+        "limit": 4000
+      },
+      "shortDescription": {
+        "characters": 72,
+        "limit": 80
+      }
+    }
+  },
+  "files": [
+    {
+      "bytes": 4574,
+      "path": "ASSET_SOURCES.md",
+      "playField": "assetAttribution",
+      "sha256": "ae51c4e344396a1071b709a716ee7c2ea8055660fb7681149bf9e6f831a7f940"
+    },
+    {
+      "bytes": 5365,
+      "path": "README.md",
+      "playField": "uploadInstructions",
+      "sha256": "b49d7791a2bef476b92f1a0c72807f0428fdf6f199dfb5547cfe02d45754f902"
+    },
+    {
+      "bytes": 5944,
+      "path": "en-US/UPLOAD_GUIDE.md",
+      "playField": "uploadInstructions",
+      "sha256": "048890ed4359a899f14a5c6de94ce1dc1f263785da1f1d00f433ad6cef1b9380"
+    },
+    {
+      "bytes": 2701,
+      "path": "en-US/alt-text-suggestions.md",
+      "playField": "uploadInstructions",
+      "sha256": "06cdba5640a88c1430a29c9320aa85fda72ceaa9e363a03aea8ae1ab787906de"
+    },
+    {
+      "bytes": 10,
+      "characterLimit": 30,
+      "characters": 9,
+      "path": "en-US/app-name.txt",
+      "playField": "appName",
+      "sha256": "813fbe16beea0687276279a9e997ec928b9b82d8774b7f777d755b04502b8e3f"
+    },
+    {
+      "bytes": 2382,
+      "characterLimit": 4000,
+      "characters": 2381,
+      "path": "en-US/full-description.txt",
+      "playField": "fullDescription",
+      "sha256": "13c1788bfd7f9e73b15216a52b2fc24fb324173c580066921025bf908ce3e724"
+    },
+    {
+      "bytes": 73,
+      "characterLimit": 80,
+      "characters": 72,
+      "path": "en-US/short-description.txt",
+      "playField": "shortDescription",
+      "sha256": "ec3121cc7c6d313b6576e18b6ac4b5bc1a2f1cc0a0b5c3053dd8eea2015ec99b"
+    },
+    {
+      "bitsPerPixel": 32,
+      "bytes": 31045,
+      "embeddedIccProfile": true,
+      "format": "PNG",
+      "height": 512,
+      "iccProfileDescription": "sRGB built-in",
+      "mode": "RGBA",
+      "opaque": true,
+      "path": "graphics/app-icon-512.png",
+      "playField": "appIcon",
+      "sha256": "e13f1ffdee57d2533fe0da33509003f769e7aafc51ea5c5c086b606cd619ad0f",
+      "width": 512
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 58952,
+      "embeddedIccProfile": true,
+      "format": "PNG",
+      "height": 500,
+      "iccProfileDescription": "sRGB built-in",
+      "mode": "RGB",
+      "opaque": true,
+      "path": "graphics/feature-graphic-1024x500.png",
+      "playField": "featureGraphic",
+      "sha256": "9541a080a815035937dcd14a0231b03acae2ca90a4faac556b1390572b3bc550",
+      "width": 1024
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 160424,
+      "deviceGroup": "phone",
+      "displayOrder": 1,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 1920,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/phone/01-overview.png",
+      "playField": "phoneScreenshots",
+      "sha256": "47cb4428d041dbda1e00501acb4550c3c192d73337e8aef37115a124c33555b0",
+      "width": 1080
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 158091,
+      "deviceGroup": "phone",
+      "displayOrder": 2,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 1920,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/phone/02-population.png",
+      "playField": "phoneScreenshots",
+      "sha256": "22262cc0dfb94433b22b057b166e0a5003eb9f3b50842a2bd56b43c8067704f2",
+      "width": 1080
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 152823,
+      "deviceGroup": "phone",
+      "displayOrder": 3,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 1920,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/phone/03-household-size.png",
+      "playField": "phoneScreenshots",
+      "sha256": "190a0d70fa537d4f7d2b213bb5e2e06a98cceed2540baf8237c9a8904d2b01de",
+      "width": 1080
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 145497,
+      "deviceGroup": "phone",
+      "displayOrder": 4,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 1920,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/phone/04-household-income.png",
+      "playField": "phoneScreenshots",
+      "sha256": "f206a3b7566bdabb12002b804bb9849d1304e070baa943c28e895cf6e040f588",
+      "width": 1080
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 153248,
+      "deviceGroup": "phone",
+      "displayOrder": 5,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 1920,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/phone/05-gdp.png",
+      "playField": "phoneScreenshots",
+      "sha256": "c4836374a8f83045d7d9497a97361e1c6e28a5d9d26002749aa4117b885c8397",
+      "width": 1080
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 161052,
+      "deviceGroup": "phone",
+      "displayOrder": 6,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 1920,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/phone/06-inflation.png",
+      "playField": "phoneScreenshots",
+      "sha256": "ec3ae73a8d7fde057344b52cfc1091430d0699208040552123b9f8cb5f6a64ca",
+      "width": 1080
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 227086,
+      "deviceGroup": "tablet-10inch",
+      "displayOrder": 1,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 2560,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/tablet-10inch/01-overview.png",
+      "playField": "tenInchScreenshots",
+      "sha256": "3ad142045158a5d9bb3d3f5c7edf0b1703f0caea2624542fe6fb1f03539cd8e1",
+      "width": 1440
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 238655,
+      "deviceGroup": "tablet-10inch",
+      "displayOrder": 2,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 2560,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/tablet-10inch/02-population.png",
+      "playField": "tenInchScreenshots",
+      "sha256": "8d7d26e5e017bd79d26354221f483ab0dffd0f982d4c493c58de909c1454fb3e",
+      "width": 1440
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 238986,
+      "deviceGroup": "tablet-10inch",
+      "displayOrder": 3,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 2560,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/tablet-10inch/03-gdp.png",
+      "playField": "tenInchScreenshots",
+      "sha256": "e40ba72659b240b3dc42cd86c146f39e75c95973cfee7ea8a4ec046094e4d5eb",
+      "width": 1440
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 248113,
+      "deviceGroup": "tablet-10inch",
+      "displayOrder": 4,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 2560,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/tablet-10inch/04-inflation.png",
+      "playField": "tenInchScreenshots",
+      "sha256": "b6052a86781d0ad85e3321c1c8f9f8bdde9c2b9c08ef3de1cbe46e0d35988fff",
+      "width": 1440
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 161675,
+      "deviceGroup": "tablet-7inch",
+      "displayOrder": 1,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 1920,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/tablet-7inch/01-overview.png",
+      "playField": "sevenInchScreenshots",
+      "sha256": "265d6ab63ecb6b57601a1cce3f31db55b6048db9ff37f870e9c7626b1b9e8d5c",
+      "width": 1080
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 169426,
+      "deviceGroup": "tablet-7inch",
+      "displayOrder": 2,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 1920,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/tablet-7inch/02-population.png",
+      "playField": "sevenInchScreenshots",
+      "sha256": "02d794dc740a84d1b566aeed47ff9fc13d7c0f8676474e75883f02b18d192713",
+      "width": 1080
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 162562,
+      "deviceGroup": "tablet-7inch",
+      "displayOrder": 3,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 1920,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/tablet-7inch/03-ageing.png",
+      "playField": "sevenInchScreenshots",
+      "sha256": "bcf9916315bad0ab16baa1a4e933552438a317cb671171f6b402b86ecb533c15",
+      "width": 1080
+    },
+    {
+      "bitsPerPixel": 24,
+      "bytes": 168783,
+      "deviceGroup": "tablet-7inch",
+      "displayOrder": 4,
+      "embeddedIccProfile": false,
+      "format": "PNG",
+      "height": 1920,
+      "iccProfileDescription": null,
+      "mode": "RGB",
+      "opaque": true,
+      "path": "screenshots/tablet-7inch/04-household-income.png",
+      "playField": "sevenInchScreenshots",
+      "sha256": "9d27882321752e593bc0b76e62c0ed6f462509af10957b9aa635a2ef29be8b70",
+      "width": 1080
+    }
+  ],
+  "locale": "en-US",
+  "omittedFields": [
+    "previewVideo",
+    "desktopScreenshots",
+    "androidXrAssets"
+  ],
+  "packageName": "com.vkcrystalgem.hkcensus",
+  "provenanceNote": "Capture origin must be verified against the installed review APK; image dimensions alone do not prove authenticity.",
+  "publishedByThisScript": false,
+  "schemaVersion": 1,
+  "status": "prepared-for-manual-upload"
+}

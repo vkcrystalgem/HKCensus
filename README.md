@@ -14,6 +14,8 @@ Android release packaging and local Google Play publishing are documented in [an
 The publication path is the [GitHub build and Play release workflow](android/GITHUB_RELEASE.md). It builds the committed app on GitHub, publishes to the selected Play track, and verifies the resulting release.
 Local release automation remains available under [android/publish-automation/README.md](/c:/github/HKCensus/android/publish-automation/README.md).
 
+The [HK Census privacy policy](https://vkcrystalgem.github.io/hkcensus_privacy_policy.html) is hosted on GitHub Pages. Its source is maintained in [docs/hkcensus_privacy_policy.html](docs/hkcensus_privacy_policy.html) and published as the same-named file in [vkcrystalgem.github.io](https://github.com/vkcrystalgem/vkcrystalgem.github.io). The app links to this page from its opening screen.
+
 ## What it covers
 
 - Population level

@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 
@@ -23,6 +23,15 @@ export default function App() {
               This mobile app follows the same ten-section analysis as the local web report. Each section leads with an interactive
               historical chart and then adds smaller supporting graphics for context.
             </Text>
+
+            <Pressable
+              accessibilityRole="link"
+              accessibilityLabel="Read the HK Census privacy policy"
+              style={styles.privacyLink}
+              onPress={() => Linking.openURL("https://vkcrystalgem.github.io/hkcensus_privacy_policy.html")}
+            >
+              <Text style={styles.privacyLinkText}>Privacy policy</Text>
+            </Pressable>
 
             <View style={styles.summaryRow}>
               <View style={styles.summaryCard}>
@@ -91,6 +100,18 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 22,
     color: palette.muted,
+  },
+  privacyLink: {
+    alignSelf: "flex-start",
+    justifyContent: "center",
+    minHeight: 44,
+    marginTop: 4,
+    paddingHorizontal: 4,
+  },
+  privacyLinkText: {
+    color: palette.teal,
+    fontSize: 14,
+    textDecorationLine: "underline",
   },
   summaryRow: {
     flexDirection: "row",

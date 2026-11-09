@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500" role="img" aria-labelledby="title">
+<title id="title">HK Census. Explore the long view. Abstract skyline and statistical trend artwork</title>
+<rect width="1024" height="500" fill="#F2ECDF"/>
+<rect x="552" y="0" width="472" height="500" fill="#0F766E"/>
+<rect x="552" y="0" width="14" height="500" fill="#0B625C"/>
+<polyline points="60,80 165,80" fill="none" stroke="#0F766E" stroke-width="5" stroke-linecap="butt" stroke-linejoin="round"/>
+<circle cx="184" cy="80" r="5" fill="#A16207"/>
+<text x="56" y="212" font-family="Segoe UI, sans-serif" font-size="66" font-weight="600" fill="#1D1D1B">HK Census</text>
+<text x="60" y="265" font-family="Segoe UI, sans-serif" font-size="25" font-weight="400" fill="#0F766E">Explore the long view</text>
+<polyline points="60,352 450,352" fill="none" stroke="#D6CFBF" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<rect x="60" y="401" width="8" height="17" fill="#0F766E"/>
+<rect x="80" y="390" width="8" height="28" fill="#0F766E"/>
+<rect x="100" y="396" width="8" height="22" fill="#0F766E"/>
+<rect x="120" y="379" width="8" height="39" fill="#0F766E"/>
+<polyline points="152,418 252,418" fill="none" stroke="#D6CFBF" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<circle cx="272" cy="418" r="3" fill="#A16207"/>
+<polyline points="593,100 992,100" fill="none" stroke="#2C8980" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="593,180 992,180" fill="none" stroke="#2C8980" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="593,260 992,260" fill="none" stroke="#2C8980" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="593,340 992,340" fill="none" stroke="#2C8980" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="593,420 992,420" fill="none" stroke="#2C8980" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="625,64 625,444" fill="none" stroke="#2C8980" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="705,64 705,444" fill="none" stroke="#2C8980" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="785,64 785,444" fill="none" stroke="#2C8980" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="865,64 865,444" fill="none" stroke="#2C8980" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="945,64 945,444" fill="none" stroke="#2C8980" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round"/>
+<polygon points="618.0,406.40000000000003 618.0,318.4 679.6,318.4 679.6,275.5 733.5,275.5 733.5,217.2 780.8,166.6 828.1,217.2 828.1,406.40000000000003" fill="#FFF8EE"/>
+<polygon points="878.7,406.40000000000003 878.7,158.9 908.4000000000001,129.2 952.4000000000001,129.2 952.4000000000001,406.40000000000003" fill="#FFF8EE"/>
+<polyline points="930.4000000000001,129.2 930.4000000000001,102.8" fill="none" stroke="#FFF8EE" stroke-width="11.0" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="733.5,221.60000000000002 828.1,315.1 733.5,406.40000000000003" fill="none" stroke="#0F766E" stroke-width="9.9" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="900.7,195.2 900.7,372.3" fill="none" stroke="#0F766E" stroke-width="8.8" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="600,420 992,420" fill="none" stroke="#FFF8EE" stroke-width="3" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="589,381 635,350 677,360 720,330 757,345 801,292 845,300 887,244 932,222 978,166" fill="none" stroke="#71B1A5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="589,368 635,339 677,351 720,303 757,316 801,263 845,278 887,220 932,202 978,146" fill="none" stroke="#0F766E" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="589,368 635,339 677,351 720,303 757,316 801,263 845,278 887,220 932,202 978,146" fill="none" stroke="#E7BD78" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="978" cy="146" r="14" fill="#0F766E"/>
+<circle cx="978" cy="146" r="10" fill="#FFF8EE"/>
+<circle cx="978" cy="146" r="6" fill="#E7BD78"/>
+</svg>

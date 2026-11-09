@@ -22,6 +22,17 @@ export function formatHoverValue(value: number): string {
   return value.toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 }
 
+export function chartTooltipBounds(x: number, y: number, width: number, height: number) {
+  const inset = Math.min(10, width / 2, height / 2);
+  const boxWidth = Math.min(168, Math.max(0, width - inset * 2));
+  const boxHeight = Math.min(42, Math.max(0, height - inset * 2));
+  const preferredLeft = x + 12 + boxWidth <= width - inset ? x + 12 : x - boxWidth - 12;
+  const preferredTop = y - boxHeight - 12 >= inset ? y - boxHeight - 12 : y + 12;
+  const left = Math.min(Math.max(preferredLeft, inset), width - inset - boxWidth);
+  const top = Math.min(Math.max(preferredTop, inset), height - inset - boxHeight);
+  return { left, top, boxWidth, boxHeight };
+}
+
 function toTimestamp(iso: string): number {
   return new Date(iso).getTime();
 }

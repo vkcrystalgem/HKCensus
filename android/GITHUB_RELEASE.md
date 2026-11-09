@@ -41,4 +41,6 @@ gh run watch <run-id> --exit-status
 
 Runs are serialized for this app to prevent simultaneous version selection and Play edits. A successful run means the release is `completed` on the selected track and the bundle in Play matches the GitHub-built AAB. A completed internal release is available to internal testers; public publication requires the production track and Play's applicable review process.
 
+For a review or screenshot build, set `publish_to_play` to `false` when starting the workflow. The build and artifact checks still run, while the Play upload and release-verification steps are skipped. The artifact includes `build-verified.json` with the source commit, APK/AAB hashes, and `uploadedToPlay: false`. The default remains `true` for ordinary releases.
+
 The workflow's artifact contains signed APK/AAB files, a release plan, upload receipt, final verification receipt, and release notes. The final receipt records the source commit and uploaded bundle checksum.

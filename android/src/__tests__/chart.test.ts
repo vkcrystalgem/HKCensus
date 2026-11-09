@@ -1,6 +1,6 @@
 import { EVENT_MARKERS } from "../data/events";
 import type { Dataset } from "../types";
-import { buildLineChartModel, compactNumber, formatHoverValue } from "../utils/chart";
+import { buildLineChartModel, chartTooltipBounds, compactNumber, formatHoverValue } from "../utils/chart";
 
 const dataset: Dataset = {
   label: "Population",
@@ -38,5 +38,27 @@ describe("chart utilities", () => {
     expect(model.events.some((event) => event.short === "2003 SARS")).toBe(true);
     expect(model.events.some((event) => event.short === "2020 COVID")).toBe(true);
     expect(model.peakIndex).toBe(7);
+  });
+
+  it.each([180, 268, 760])("keeps edge tooltips inside a %ipx chart", (width) => {
+    const height = 286;
+    for (const x of [0, 52, width - 18, width]) {
+      for (const y of [0, 18, height - 40, height]) {
+        const bounds = chartTooltipBounds(x, y, width, height);
+        expect(bounds.left).toBeGreaterThanOrEqual(10);
+        expect(bounds.top).toBeGreaterThanOrEqual(10);
+        expect(bounds.left + bounds.boxWidth).toBeLessThanOrEqual(width - 10);
+        expect(bounds.top + bounds.boxHeight).toBeLessThanOrEqual(height - 10);
+      }
+    }
+  });
+
+  it("fits the actual narrow viewport while preserving the full event context", () => {
+    const width = 238;
+    const model = buildLineChartModel(dataset, width, 286, EVENT_MARKERS);
+    expect(model.chartRight).toBeLessThan(width);
+    expect(model.points[model.peakIndex].x).toBeLessThan(width);
+    expect(model.events.map((event) => event.label)).toEqual(EVENT_MARKERS.map((event) => event.label));
+    expect(chartTooltipBounds(model.chartRight, model.chartTop, 180, 286).boxWidth).toBe(160);
   });
 });

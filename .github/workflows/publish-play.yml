@@ -1,5 +1,5 @@
 name: Build and publish Google Play
-run-name: Play ${{ inputs.version_name }} · ${{ inputs.track }}
+run-name: ${{ inputs.publish_to_play && 'Play release' || 'Build only' }} ${{ inputs.version_name }} · ${{ inputs.track }}
 
 on:
   workflow_dispatch:
@@ -22,6 +22,11 @@ on:
         description: Optional version code; blank chooses the next unused Play code
         type: string
         required: false
+      publish_to_play:
+        description: Publish the built bundle to Google Play (disable for review or screenshots)
+        type: boolean
+        default: true
+        required: true
 
 permissions:
   contents: read
@@ -185,6 +190,7 @@ jobs:
           Write-Output "Verified target API 36 and version $env:VERSION_NAME ($env:VERSION_CODE)."
 
       - name: Publish GitHub-built bundle to Play
+        if: inputs.publish_to_play
         env:
           VERSION_CODE: ${{ steps.release.outputs.version_code }}
           VERSION_NAME: ${{ steps.release.outputs.version_name }}
@@ -194,11 +200,34 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Google Play publication failed.' }
 
       - name: Verify completed Play release and bundle checksum
+        if: inputs.publish_to_play
         env:
           RELEASE_VERSION_CODE: ${{ steps.release.outputs.version_code }}
         run: |
           python android/scripts/ci_play.py verify --track $env:RELEASE_TRACK --aab android/android/app/build/outputs/bundle/release/app-release.aab
           if ($LASTEXITCODE -ne 0) { throw 'Play verification failed.' }
+
+      - name: Record build-only artifact
+        if: ${{ !inputs.publish_to_play }}
+        env:
+          VERSION_CODE: ${{ steps.release.outputs.version_code }}
+          VERSION_NAME: ${{ steps.release.outputs.version_name }}
+        run: |
+          $aab = Join-Path $env:GITHUB_WORKSPACE 'android/android/app/build/outputs/bundle/release/app-release.aab'
+          $apk = Join-Path $env:GITHUB_WORKSPACE 'android/android/app/build/outputs/apk/release/app-release.apk'
+          $receipt = [ordered]@{
+            mode = 'build-only'
+            packageName = 'com.vkcrystalgem.hkcensus'
+            versionCode = [int]$env:VERSION_CODE
+            versionName = $env:VERSION_NAME
+            sourceCommit = $env:GITHUB_SHA
+            targetSdkVersion = 36
+            aabSha256 = (Get-FileHash -LiteralPath $aab -Algorithm SHA256).Hash.ToLowerInvariant()
+            apkSha256 = (Get-FileHash -LiteralPath $apk -Algorithm SHA256).Hash.ToLowerInvariant()
+            uploadedToPlay = $false
+          }
+          $receipt | ConvertTo-Json | Set-Content release-out/build-verified.json -Encoding utf8
+          "Built HK Census $env:VERSION_NAME ($env:VERSION_CODE) for review. No Play upload was requested." >> $env:GITHUB_STEP_SUMMARY
 
       - name: Save signed builds and sanitized Play receipts
         if: always()

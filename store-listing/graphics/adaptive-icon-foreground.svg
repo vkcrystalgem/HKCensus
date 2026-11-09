@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+<title id="title">HK Census adaptive icon foreground: transparent skyline and trend mark</title>
+<polygon points="287.15999999999997,687.1999999999999 287.15999999999997,570.4 368.92,570.4 368.92,513.46 440.46,513.46 440.46,436.08 503.24,368.91999999999996 566.02,436.08 566.02,687.1999999999999" fill="#FFF8EE"/>
+<polygon points="633.1800000000001,687.1999999999999 633.1800000000001,358.7 672.6,319.28 731.0,319.28 731.0,687.1999999999999" fill="#FFF8EE"/>
+<polyline points="701.8,319.28 701.8,284.24" fill="none" stroke="#FFF8EE" stroke-width="14.6" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="440.46,441.91999999999996 566.02,566.02 440.46,687.1999999999999" fill="none" stroke="#0F766E" stroke-width="13.14" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="662.38,406.88 662.38,641.94" fill="none" stroke="#0F766E" stroke-width="11.68" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="275.48,726.62 742.68,726.62" fill="none" stroke="#FFF8EE" stroke-width="20.439999999999998" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="276.94,652.16 357.24,609.8199999999999 437.54,630.26 517.8399999999999,567.48 579.1600000000001,580.62 656.54,494.47999999999996 729.54,457.97999999999996" fill="none" stroke="#0F766E" stroke-width="36.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="276.94,652.16 357.24,609.8199999999999 437.54,630.26 517.8399999999999,567.48 579.1600000000001,580.62 656.54,494.47999999999996 729.54,457.97999999999996" fill="none" stroke="#FFF8EE" stroke-width="24.82" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="276.94,652.16 357.24,609.8199999999999 437.54,630.26 517.8399999999999,567.48 579.1600000000001,580.62 656.54,494.47999999999996 729.54,457.97999999999996" fill="none" stroke="#A16207" stroke-width="14.6" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="729.54" cy="457.97999999999996" r="32.12" fill="#0F766E"/>
+<circle cx="729.54" cy="457.97999999999996" r="24.82" fill="#FFF8EE"/>
+<circle cx="729.54" cy="457.97999999999996" r="16.06" fill="#E7BD78"/>
+</svg>

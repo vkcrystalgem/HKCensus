@@ -1,0 +1,44 @@
+[
+  {
+    "file": "app-icon-512.png",
+    "width": 512,
+    "height": 512,
+    "format": "PNG",
+    "mode": "RGBA",
+    "opaque": true,
+    "colorProfile": "sRGB",
+    "bytes": 31045,
+    "sha256": "e13f1ffdee57d2533fe0da33509003f769e7aafc51ea5c5c086b606cd619ad0f"
+  },
+  {
+    "file": "feature-graphic-1024x500.png",
+    "width": 1024,
+    "height": 500,
+    "format": "PNG",
+    "mode": "RGB",
+    "opaque": true,
+    "colorProfile": "sRGB",
+    "bytes": 58952,
+    "sha256": "9541a080a815035937dcd14a0231b03acae2ca90a4faac556b1390572b3bc550"
+  },
+  {
+    "file": "adaptive-icon-foreground.png",
+    "width": 1024,
+    "height": 1024,
+    "format": "PNG",
+    "mode": "RGBA",
+    "opaque": false,
+    "colorProfile": "sRGB",
+    "alphaBounds": [
+      256,
+      281,
+      764,
+      740
+    ],
+    "maximumVisibleRadiusPx": 328.17,
+    "safeCircleRadiusPx": 337.92,
+    "backgroundColor": "#0F766E",
+    "bytes": 60548,
+    "sha256": "77cfa1f34aadb29088e86ed9227ca845960b90046d2248c9e64067d170d4c6b5"
+  }
+]

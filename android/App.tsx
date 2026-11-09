@@ -17,12 +17,12 @@ export default function App() {
         <ExpoStatusBar style="dark" />
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <View style={styles.hero}>
-            <Text style={styles.eyebrow}>Hong Kong C&SD Historical Monitor</Text>
-            <Text style={styles.title}>HK Census, reworked for touch interaction.</Text>
+            <Text style={styles.eyebrow}>Public statistics, historical context</Text>
+            <Text style={styles.title}>HK Census</Text>
             <Text style={styles.description}>
-              This mobile app follows the same ten-section analysis as the local web report. Each section leads with an interactive
-              historical chart and then adds smaller supporting graphics for context.
+              Explore Hong Kong's population, households and economy with interactive historical charts and official source links.
             </Text>
+            <Text style={styles.independence}>Independent app. Not affiliated with the Hong Kong Government.</Text>
 
             <Pressable
               accessibilityRole="link"
@@ -44,16 +44,6 @@ export default function App() {
               </View>
             </View>
 
-            <View style={styles.summaryRow}>
-              <View style={styles.summaryCard}>
-                <Text style={styles.summaryLabel}>Generated</Text>
-                <Text style={styles.summaryValueSmall}>{payload.generated_at}</Text>
-              </View>
-              <View style={styles.summaryCard}>
-                <Text style={styles.summaryLabel}>Namespace</Text>
-                <Text style={styles.summaryValueSmall}>com.vkcrystalgem.hkcensus</Text>
-              </View>
-            </View>
           </View>
 
           {payload.sections.map((section, index) => (
@@ -101,6 +91,12 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: palette.muted,
   },
+  independence: {
+    marginTop: 10,
+    fontSize: 12,
+    lineHeight: 17,
+    color: palette.muted,
+  },
   privacyLink: {
     alignSelf: "flex-start",
     justifyContent: "center",
@@ -136,12 +132,6 @@ const styles = StyleSheet.create({
   summaryValue: {
     fontSize: 22,
     lineHeight: 24,
-    fontWeight: "700",
-    color: palette.ink,
-  },
-  summaryValueSmall: {
-    fontSize: 14,
-    lineHeight: 18,
     fontWeight: "700",
     color: palette.ink,
   },

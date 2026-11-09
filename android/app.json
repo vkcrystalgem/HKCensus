@@ -3,6 +3,7 @@
     "name": "HK Census",
     "slug": "hk-census",
     "version": "1.0.1",
+    "icon": "../store-listing/graphics/app-icon-512.png",
     "newArchEnabled": false,
     "orientation": "portrait",
     "scheme": "hkcensus",
@@ -19,7 +20,8 @@
         "android.permission.WRITE_EXTERNAL_STORAGE"
       ],
       "adaptiveIcon": {
-        "backgroundColor": "#F4EFE6"
+        "foregroundImage": "../store-listing/graphics/adaptive-icon-foreground.png",
+        "backgroundColor": "#0F766E"
       }
     },
     "plugins": [

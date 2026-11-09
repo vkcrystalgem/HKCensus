@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+<title id="title">HK Census app icon: abstract Hong Kong skyline and rising data line</title>
+<rect width="512" height="512" fill="#0F766E"/>
+<polygon points="102,364 102,284 158,284 158,245 207,245 207,192 250,146 293,192 293,364" fill="#FFF8EE"/>
+<polygon points="339,364 339,139 366,112 406,112 406,364" fill="#FFF8EE"/>
+<polyline points="386,112 386,88" fill="none" stroke="#FFF8EE" stroke-width="10" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="207,196 293,281 207,364" fill="none" stroke="#0F766E" stroke-width="9" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="359,172 359,333" fill="none" stroke="#0F766E" stroke-width="8" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="94,391 414,391" fill="none" stroke="#FFF8EE" stroke-width="14" stroke-linecap="butt" stroke-linejoin="round"/>
+<polyline points="95,340 150,311 205,325 260,282 302,291 355,232 405,207" fill="none" stroke="#0F766E" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="95,340 150,311 205,325 260,282 302,291 355,232 405,207" fill="none" stroke="#FFF8EE" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="95,340 150,311 205,325 260,282 302,291 355,232 405,207" fill="none" stroke="#A16207" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="405" cy="207" r="22" fill="#0F766E"/>
+<circle cx="405" cy="207" r="17" fill="#FFF8EE"/>
+<circle cx="405" cy="207" r="11" fill="#E7BD78"/>
+</svg>
